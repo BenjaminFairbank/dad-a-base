@@ -23,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     fontWeight: 'bold',
     '&:hover': {
-      color: theme.palette.secondary.main,
+      color: theme.palette.tertiary.main,
     },
     '&:focus': {
       color: 'white',
     },
+    textDecoration: 'none',
   },
   midSpace: {
     flexGrow: 1,

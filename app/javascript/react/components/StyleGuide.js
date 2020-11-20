@@ -20,6 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from '../styles/styleGuideStyle'
 import clsx from 'clsx';
+import HoverRating from './HoverRating'
 
 const StyleGuide = props => {
   const classes = useStyles()
@@ -62,13 +63,13 @@ const StyleGuide = props => {
             disableTypography
             avatar={
               <Avatar aria-label="profile-pic" className={classes.avatar}>
-                <img src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
               </Avatar>
             }
             action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
+              <div className={classes.rating}>
+                <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
+              </div>
             }
             title={<Typography variant='subtitle1'>OneBadDad</Typography>}
             subheader={
@@ -108,9 +109,7 @@ const StyleGuide = props => {
             <IconButton aria-label="share">
               <ShareIcon />
             </IconButton>
-            <div className={classes.rating}>
-              <Rating name="half-rating-read" defaultValue={4.5} precision={0.5} readOnly />
-            </div>
+            <HoverRating />
             <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
               View comments
             </Typography>
@@ -127,7 +126,60 @@ const StyleGuide = props => {
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>...The Comments Section</Typography>
+              <Card className={classes.commentCard}>
+                <CardHeader
+                  className={classes.commentHeader}
+                  disableTypography
+                  avatar={
+                    <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
+                      <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                    </Avatar>
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title={<Typography variant='subtitle2'>OneBadDad</Typography>}
+                  subheader={
+                    <Typography variant='subtitle2' color="textSecondary">
+                      September 14, 2016
+                    </Typography>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    No one? It's so quiet in here!
+                  </Typography>
+                </CardContent>
+              </Card>
+              <Card className={classes.commentCard}>
+                <CardHeader
+                  className={classes.commentHeader}
+                  disableTypography
+                  avatar={
+                    <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
+                      <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                    </Avatar>
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title={<Typography variant='subtitle2'>OneBadDad</Typography>}
+                  subheader={
+                    <Typography variant='subtitle2' color="textSecondary">
+                      September 14, 2016
+                    </Typography>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    CAN ANYONE HEAR ME!
+                  </Typography>
+                </CardContent>
+              </Card>
             </CardContent>
           </Collapse>
         </Card>
