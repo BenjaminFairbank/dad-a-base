@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 5,
   },
   rating: {
-    marginLeft: 5,
+    padding: 16,
     display: 'flex',
     flexDirection: 'column',
     '& > * + *': {
@@ -144,6 +144,20 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 50,
     width: 50,
+  },
+  commentHeader: {
+
+  },
+  commentAvatar: {
+    height: 40,
+    width: 40,
+  },
+  commentCard: {
+    marginBottom: 10,
+    background: theme.palette.quaternary.main
+  },
+  image: {
+    maxWidth: '100%'
   },
 }))
 
