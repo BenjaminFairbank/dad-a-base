@@ -63,7 +63,7 @@ const StyleGuide = props => {
             disableTypography
             avatar={
               <Avatar aria-label="profile-pic" className={classes.avatar}>
-                <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
               </Avatar>
             }
             action={
@@ -109,9 +109,12 @@ const StyleGuide = props => {
             <IconButton aria-label="share">
               <ShareIcon />
             </IconButton>
+            <Typography className={classes.rateText} variant='subtitle1'>
+              Rate:
+            </Typography>
             <HoverRating />
             <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
-              View comments
+              View comments:
             </Typography>
             <IconButton
               className={clsx(classes.expand, {
@@ -132,7 +135,7 @@ const StyleGuide = props => {
                   disableTypography
                   avatar={
                     <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
-                      <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                      <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
                     </Avatar>
                   }
                   action={
@@ -159,7 +162,7 @@ const StyleGuide = props => {
                   disableTypography
                   avatar={
                     <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
-                      <img className={classes.image} src='https://www.dailymoss.com/wp-content/uploads/2019/08/funny-profile-pic59.jpg' />
+                      <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
                     </Avatar>
                   }
                   action={
