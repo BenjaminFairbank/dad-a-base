@@ -99,23 +99,24 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0,
   },
   formContainer: {
-    padding: '5px 10px 0 10px',
+    padding: '5px 16px 0 16px',
   },
   form: {
     '& .MuiTextField-root': {
       width: '100%',
-      '& .MuiInputBase-root': {
-        '& .MuiInputBase-input': {
-          height: 0,
-          minHeight: 0,
-          boxShadow: 'none',
-          '&:focus': {
-            height: 19,
-            border: 0,
-            background: 'none',
-          }
-        },
-      },
+    // to overide foundation css:
+    //   '& .MuiInputBase-root': {
+    //     '& .MuiInputBase-input': {
+    //       height: 0,
+    //       minHeight: 0,
+    //       boxShadow: 'none',
+    //       '&:focus': {
+    //         height: 19,
+    //         border: 0,
+    //         background: 'none',
+    //       }
+    //     },
+    //   },
     },
   },
   expand: {

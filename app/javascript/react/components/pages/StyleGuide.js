@@ -21,6 +21,18 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from '../../styles/styleGuideStyle'
 import clsx from 'clsx';
 import HoverRating from '../ui/HoverRating'
+import { withStyles } from '@material-ui/core/styles'
+
+const CssTextField = withStyles((theme) => ({
+  root: {
+    '& label.Mui-focused': {
+      color: theme.palette.quaternary.main,
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: theme.palette.quaternary.main,
+    },
+  },
+}))(TextField);
 
 const StyleGuide = props => {
   const classes = useStyles()
@@ -91,14 +103,13 @@ const StyleGuide = props => {
           />
           <div className={classes.formContainer}>
             <form className={classes.form} noValidate autoComplete="off">
-              <TextField
-                id="standard-textarea"
+              <CssTextField
+                id="custom-css-standard-input"
                 label="Leave a Comment"
                 placeholder="Your comment"
                 multiline
                 value={comment}
                 onChange={handleChange}
-                color='secondary'
               />
             </form>
           </div>
