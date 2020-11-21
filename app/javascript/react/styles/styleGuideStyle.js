@@ -159,6 +159,9 @@ const useStyles = makeStyles((theme) => ({
   image: {
     maxWidth: '100%'
   },
+  rateText: {
+    margin: '0 10px'
+  }
 }))
 
 export default useStyles
