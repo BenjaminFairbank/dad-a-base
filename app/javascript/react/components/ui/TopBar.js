@@ -90,8 +90,8 @@ const TopBar = (props) => {
               <Box variant="h6" className={classes.midSpace}></Box>
               <AcUnit />
               <Switch
-                checked={props.coolTheme}
-                onChange={()=>{ props.setCoolTheme(!props.coolTheme) }}
+                checked={props.hotTheme}
+                onChange={()=>{ props.setHotTheme(!props.hotTheme) }}
                 color="secondary"
                 inputProps={{ "aria-label": "secondary checkbox" }}
               />

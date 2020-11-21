@@ -5,14 +5,14 @@ import Box from '@material-ui/core/Box';
 
 const labels = {
   0.5: 'True Dad Joke',
-  1: 'Mildy Mirthful',
+  1: 'Mirthful',
   1.5: 'Mirthful',
   2: 'Knee-Slapper',
-  2.5: 'Knee-Slapper+',
+  2.5: 'Knee-Slapper',
   3: 'Side-Splitter',
-  3.5: 'Side-Splitter+',
+  3.5: 'Side-Splitter',
   4: 'Humdinger',
-  4.5: 'Humdinger+',
+  4.5: 'Humdinger',
   5: 'The Bee\'s Knees',
 };
 
