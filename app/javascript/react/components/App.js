@@ -4,12 +4,12 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core'
 
-import StyleGuide from './components/StyleGuide'
-import TopBar from './components/TopBar'
-import ScrollUpButton from './components/ScrollUpButton'
+import StyleGuide from './pages/StyleGuide'
+import TopBar from './ui/TopBar'
+import ScrollUpButton from './ui/ScrollUpButton'
 
-import coolPalette from './palettes/coolPalette'
-import hotPalette from './palettes/hotPalette'
+import coolPalette from '../palettes/coolPalette'
+import hotPalette from '../palettes/hotPalette'
 
 const App = props => {
 
@@ -37,13 +37,14 @@ const App = props => {
       <BrowserRouter>
         <TopBar
           theme={theme}
-          coolTheme={hotTheme}
-          setCoolTheme={setHotTheme}
+          hotTheme={hotTheme}
+          setHotTheme={setHotTheme}
         />
         <Switch>
+          <Route exact path='/' component={StyleGuide} />
+          <Route exact path='/styleguide' component={StyleGuide} />
         </Switch>
       </BrowserRouter>
-      <StyleGuide />
       <ScrollUpButton />
     </ThemeProvider>  
   )
