@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme) => ({
     width: 40,
   },
   commentCard: {
-    marginBottom: 10,
+    marginTop: 10,
     background: theme.palette.quaternary.main
   },
   image: {
@@ -162,7 +162,10 @@ const useStyles = makeStyles((theme) => ({
   },
   rateText: {
     margin: '0 10px'
-  }
+  },
+  commentsSection: {
+    paddingTop: 0,
+  },
 }))
 
 export default useStyles

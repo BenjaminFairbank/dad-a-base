@@ -26,7 +26,7 @@ import { withStyles } from '@material-ui/core/styles'
 const CssTextField = withStyles((theme) => ({
   root: {
     '& label.Mui-focused': {
-      color: theme.palette.quaternary.main,
+      color: theme.palette.secondary.main,
     },
     '& .MuiInput-underline:after': {
       borderBottomColor: theme.palette.quaternary.main,
@@ -139,7 +139,7 @@ const StyleGuide = props => {
             </IconButton>
           </CardActions>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+            <CardContent className={classes.commentsSection}>
               <Card className={classes.commentCard}>
                 <CardHeader
                   className={classes.commentHeader}

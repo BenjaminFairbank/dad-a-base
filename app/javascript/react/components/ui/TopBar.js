@@ -68,9 +68,8 @@ function ElevationScroll(props) {
 
 const TopBar = (props) => {
   const classes = useStyles()
-  // const largeScreen = useMediaQuery(props.theme.breakpoints.up("md"));
-  // const title = largeScreen ? 'The Dad-a-Base' : 'DAD-A-BASE'
-  // const titleVariant = largeScreen ? 'h3' : 'h4'
+  const largeScreen = useMediaQuery(props.theme.breakpoints.up("md"));
+  const title = largeScreen ? 'The Dad-a-Base' : 'DB'
 
   return (
     <>
@@ -81,10 +80,10 @@ const TopBar = (props) => {
               <Typography
                 component={Link}
                 to='/'
-                variant='h4'
+                variant='h3'
                 className={classes.title}
               >
-                The Dad-a-Base
+                {title}
               </Typography>
 
               <Box variant="h6" className={classes.midSpace}></Box>
@@ -98,15 +97,17 @@ const TopBar = (props) => {
               <Whatshot />
               <Button className={classes.button} color="inherit">Login</Button>
             </Toolbar>
-            <Box className={classes.subtitleBox}>
+            {largeScreen &&
+            (<Box className={classes.subtitleBox}>
               <Typography variant='subtitle1' className={classes.subtitleText}>
                 Finally, a place to share all your worst dad jokes and memes!
               </Typography>
-            </Box>
+            </Box>)}
           </AppBar>
         </ElevationScroll>
       </div>
-      <Box className={classes.subtitleBox}></Box>
+      {largeScreen &&
+      (<Box className={classes.subtitleBox}></Box>)}
       <Toolbar id="back-to-top-anchor" />
     </>
   )
