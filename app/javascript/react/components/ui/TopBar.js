@@ -85,7 +85,6 @@ const TopBar = (props) => {
               >
                 {title}
               </Typography>
-
               <Box variant="h6" className={classes.midSpace}></Box>
               <AcUnit />
               <Switch
@@ -95,7 +94,13 @@ const TopBar = (props) => {
                 inputProps={{ "aria-label": "secondary checkbox" }}
               />
               <Whatshot />
-              <Button className={classes.button} color="inherit">Login</Button>
+              <Button
+                className={classes.button}
+                color="inherit"
+                href="/users/sign_in"
+              >
+                Login
+              </Button>
             </Toolbar>
             {largeScreen &&
             (<Box className={classes.subtitleBox}>

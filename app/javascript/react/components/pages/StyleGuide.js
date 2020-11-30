@@ -49,8 +49,7 @@ const StyleGuide = props => {
   };
 
   return (
-    <div className={classes.background}>
-
+    <>
       <div className={classes.styleGuide}>
         <Typography variant="h5">
           Style Guide
@@ -260,8 +259,7 @@ const StyleGuide = props => {
           </div>
         </div>
       </div>
-
-    </div>
+    </>
   )
 }
 

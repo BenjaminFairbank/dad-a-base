@@ -34,19 +34,19 @@ const App = props => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
-        <TopBar
-          theme={theme}
-          hotTheme={hotTheme}
-          setHotTheme={setHotTheme}
-        />
-        <Switch>
-          <Route exact path='/' component={StyleGuide} />
-          <Route exact path='/styleguide' component={StyleGuide} />
-        </Switch>
-      </BrowserRouter>
+        <BrowserRouter>
+          <TopBar
+            theme={theme}
+            hotTheme={hotTheme}
+            setHotTheme={setHotTheme}
+          />
+          <Switch>
+            <Route exact path='/' component={StyleGuide} />
+            <Route exact path='/styleguide' component={StyleGuide} />
+          </Switch>
+        </BrowserRouter>
       <ScrollUpButton />
-    </ThemeProvider>  
+    </ThemeProvider>
   )
 }
 
