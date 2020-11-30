@@ -77,10 +77,6 @@ const useStyles = makeStyles((theme) => ({
   colorThemes: {
     textAlign: 'center',
   },
-  background: {
-    background: theme.palette.secondary.main,
-    paddingBottom: 300,
-  },
   card: {
     borderRadius: 8,
     marginBottom: 25,

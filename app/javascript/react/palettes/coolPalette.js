@@ -15,6 +15,9 @@ const coolPalette = {
   quinary: {
     main: '#AAABB8'
   },
+  background: {
+    default: '#25274D'
+  },
   // hot palette included for StyleGuide and testing only:
   primary2: {
     main: '#C96567'
