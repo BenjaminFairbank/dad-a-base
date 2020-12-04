@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core'
 
+import Home from './pages/Home'
 import StyleGuide from './pages/StyleGuide'
 import TopBar from './ui/TopBar'
 import ScrollUpButton from './ui/ScrollUpButton'
@@ -42,6 +43,7 @@ const App = props => {
           />
           <Switch>
             <Route exact path='/' component={StyleGuide} />
+            <Route exact path='/home' component={Home} />
             <Route exact path='/styleguide' component={StyleGuide} />
           </Switch>
         </BrowserRouter>
