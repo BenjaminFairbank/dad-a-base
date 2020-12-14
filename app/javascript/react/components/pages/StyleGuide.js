@@ -20,7 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from '../../styles/styleGuideStyle'
 import clsx from 'clsx';
-import HoverRating from '../ui/HoverRating'
 import { withStyles } from '@material-ui/core/styles'
 
 const CssTextField = withStyles((theme) => ({
@@ -122,7 +121,6 @@ const StyleGuide = props => {
             <Typography className={classes.rateText} variant='subtitle1'>
               Rate:
             </Typography>
-            <HoverRating />
             <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
               View comments:
             </Typography>
