@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { Container } from '@material-ui/core'
+import JokeCard from '../ui/JokeCard'
 
-const Home = props => {
+const JokesIndex = props => {
 
   const [jokes, setJokes] = useState([])
   const [currentUser, setCurrentUser] = useState({})
@@ -18,17 +20,29 @@ const Home = props => {
     })
     .then(response => response.json() )
     .then(data => {
-      setJokes(data.jokes)
       setCurrentUser(data.currentUser)
+      setJokes(data.jokes)
     })
     .catch(error => {
       console.error(`Error in fetch: ${error.message}`)
     })
   }, [])
 
+  const jokeCards = jokes.map((joke) => {
+    return (
+      <JokeCard
+        key={joke.id}
+        joke={joke}
+        currentUser={currentUser}
+      />
+    )
+  })
+
   return (
-    <p>Hi from Home</p>
+    <Container>
+      {jokeCards}
+    </Container>
   )
 }
 
-export default Home
+export default JokesIndex

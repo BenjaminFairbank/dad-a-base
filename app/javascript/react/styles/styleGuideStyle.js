@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   colorThemes: {
     textAlign: 'center',
   },
-  card: {
+  jokeCard: {
     borderRadius: 8,
     marginBottom: 25,
     margin: 'auto',
@@ -94,26 +94,31 @@ const useStyles = makeStyles((theme) => ({
   cardHeader: {
     paddingBottom: 0,
   },
-  formContainer: {
-    padding: '5px 16px 0 16px',
+  commentFormBox: {
+    padding: '8px 8px 0 16px',
   },
-  form: {
-    '& .MuiTextField-root': {
-      width: '100%',
+  commentForm: {
+    display: 'flex'
     // to overide foundation css:
-    //   '& .MuiInputBase-root': {
-    //     '& .MuiInputBase-input': {
-    //       height: 0,
-    //       minHeight: 0,
-    //       boxShadow: 'none',
-    //       '&:focus': {
-    //         height: 19,
-    //         border: 0,
-    //         background: 'none',
-    //       }
-    //     },
+    // '& .MuiInputBase-root': {
+    //   '& .MuiInputBase-input': {
+    //     height: 0,
+    //     minHeight: 0,
+    //     boxShadow: 'none',
+    //     '&:focus': {
+    //       height: 19,
+    //       border: 0,
+    //       background: 'none',
+    //     }
     //   },
-    },
+    // },
+  },
+  commentFormField: {
+    display: 'inline-flex',
+    flex: 1,
+  },
+  postCommentButton: {
+    display: 'inline-flex',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -125,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   cardActions: {
-    paddingTop: 5,
+    paddingTop: 0
   },
   rating: {
     padding: 16,
@@ -161,6 +166,11 @@ const useStyles = makeStyles((theme) => ({
   },
   commentsSection: {
     paddingTop: 0,
+  },
+  hoverRating: {
+    width: 240,
+    display: 'flex',
+    alignItems: 'center',
   },
 }))
 

@@ -16,4 +16,4 @@ Comment.create(user_id: 1, joke_id: 1, body: "Hilarious! (If I don't say so myse
 Comment.create(user_id: 1, joke_id: 1, body: "I really crack myself up")
 Rating.create(user_id: 1, joke_id: 1, value: 10)
 Rating.create(user_id: 2, joke_id: 1, value: 3)
-Rating.create(user_id: 1, joke_id: 1, value: 4)
+Rating.create(user_id: 3, joke_id: 1, value: 4)
