@@ -132,13 +132,29 @@ const useStyles = makeStyles((theme) => ({
   cardActions: {
     paddingTop: 0
   },
-  rating: {
-    padding: 16,
+  ratingBox: {
+    padding: '8px 8px 0 0',
     display: 'flex',
     flexDirection: 'column',
     '& > * + *': {
       marginTop: theme.spacing(1),
     },
+  },
+  ratingInnerBox: {
+    display: 'flex',
+  },
+  rating: {
+    marginTop: 6,
+    display: 'inline-flex',
+  },
+  ratingCount: {
+    paddingLeft: 8,
+    display: 'inline-flex',
+    fontSize: 22,
+  },
+  ratingLabel: {
+    marginTop: 0,
+    textAlign: 'right',
   },
   commentsSectionIndicator: {
     marginLeft: 'auto',

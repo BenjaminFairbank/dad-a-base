@@ -152,6 +152,7 @@ const JokeCard = props => {
       const comment = body
       setRecentComments([...recentComments, comment])
       setExpanded(true)
+      setCommentFormData('')
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -184,8 +185,22 @@ const JokeCard = props => {
           </Avatar>
         }
         action={
-          <Box className={classes.rating}>
-            <Rating name="half-rating-read" value={ratingEvaluator(props.joke, props.currentUser.ratings, hRValue, userRated, ratedRecently)} precision={0.5} readOnly />
+          <Box className={classes.ratingBox}>
+            <Box className={classes.ratingInnerBox}>
+              <Rating
+                name="half-rating-read"
+                value={ratingEvaluator(props.joke, props.currentUser.ratings, hRValue, userRated, ratedRecently)}
+                precision={0.5}
+                readOnly
+                className={classes.rating}
+              />
+              <Typography variant='subtitle1' className={classes.ratingCount}>
+                ({!userRated && ratedRecently ? props.joke.ratings.length + 1 : props.joke.ratings.length})
+              </Typography>
+            </Box>
+            <Typography variant='subtitle1' className={classes.ratingLabel}>
+              {ratingLabels[ratingEvaluator(props.joke, props.currentUser.ratings, hRValue, userRated, ratedRecently)]}
+            </Typography>
           </Box>
         }
         title={<Typography variant='subtitle1'>{props.joke.user.email}</Typography>}
