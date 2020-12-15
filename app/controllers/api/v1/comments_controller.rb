@@ -11,19 +11,20 @@ class Api::V1::CommentsController < ApplicationController
     end
   end
 
-  # def update
-  #   comment = Comment.find(params[:id])
-  #   user = comment.user
-  #   if user.id == current_user.id
-  #     if comment.update(comment_params)
-  #       render json: comment
-  #     else
-  #       render json: {error: comment.errors.full_messages.to_sentence}
-  #     end
-  #   else
-  #     render json: {error: 'You are not authorized to edit this comment!'}
-  #   end
-  # end
+  def update
+    comment = Comment.find(params[:id])
+    user = comment.user
+    joke = comment.joke
+    if user.id == current_user.id
+      if comment.update(comment_params)
+        render json: joke.comments
+      else
+        render json: {error: comment.errors.full_messages.to_sentence}
+      end
+    else
+      render json: {error: 'You are not authorized to edit this comment!'}
+    end
+  end
 
   def destroy
     comment = Comment.find(params[:id])

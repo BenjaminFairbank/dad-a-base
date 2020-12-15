@@ -188,6 +188,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  commentUpdateForm: {
+    display: 'flex',
+  },
+  commentUpdateField: {
+    paddingTop: 10,
+    display: 'inline-flex',
+    flex: 1,
+  },
+  commentUpdateButton: {
+    display: 'inline-flex',
+  },
+  commentBody: {
+    paddingTop: 11,
+    paddingBottom: 9,
+  },
 }))
 
 export default useStyles
