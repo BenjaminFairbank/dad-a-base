@@ -301,6 +301,8 @@ const JokeCard = props => {
             value={commentFormData}
             onChange={handleCommentFormChange}
             className={classes.commentFormField}
+            multiline
+            rowsMax={4}
           />
           <IconButton
             aria-label="Post Comment"

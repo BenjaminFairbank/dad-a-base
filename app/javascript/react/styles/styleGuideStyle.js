@@ -118,7 +118,8 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   postCommentButton: {
-    display: 'inline-flex',
+    height: 59,
+    width: 59,
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -195,13 +196,26 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     display: 'inline-flex',
     flex: 1,
+    '& .MuiInputBase-root': {
+      '& .MuiInputBase-input': {
+        lineHeight: 1.5
+      }
+    }
   },
   commentUpdateButton: {
-    display: 'inline-flex',
+    height: 44,
+    width: 44,
   },
   commentBody: {
-    paddingTop: 11,
-    paddingBottom: 9,
+    paddingTop: 13,
+    paddingBottom: 7,
+    whiteSpace: 'pre-line',
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    hyphens: 'auto',
+  },
+  commentCardContent: {
+    paddingTop: 0
   },
 }))
 
