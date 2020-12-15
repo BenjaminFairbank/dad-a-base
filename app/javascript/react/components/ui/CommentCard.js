@@ -80,6 +80,7 @@ const CommentCard = props => {
           onChange={handleUpdateCommentFormChange}
           className={classes.commentUpdateField}
           size='small'
+          multiline
         />
         <IconButton aria-label="update" type='submit' title="Update Comment" className={classes.commentUpdateButton}>
           <UpdateIcon fontSize='small'/>
@@ -106,7 +107,7 @@ const CommentCard = props => {
           </Typography>
         }
       />
-      <CardContent>
+      <CardContent className={classes.commentCardContent}>
         {commentCardContent}
       </CardContent>
     </Card>
