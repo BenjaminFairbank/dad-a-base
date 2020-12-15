@@ -49,14 +49,14 @@ const JokeCard = props => {
   const [hRHover, setHRHover] = useState(-1)
   const [ratedRecently, setRatedRecently] = useState(false)
   const [ratingID, setRatingID] = useState(userRated ? userRating.id : null)
-  const [recentComments, setRecentComments] = useState([])
+  const [updatedComments, setUpdatedComments] = useState(null)
 
   const ratingLabels = {
     0.5: 'True Dad Joke',
-    1: 'Mirthful',
-    1.5: 'Mirthful',
-    2: 'Knee-Slapper',
-    2.5: 'Knee-Slapper',
+    1: 'Knee-Slapper',
+    1.5: 'Knee-Slapper',
+    2: 'Belly-Buster',
+    2.5: 'Belly-Buster',
     3: 'Side-Splitter',
     3.5: 'Side-Splitter',
     4: 'Humdinger',
@@ -64,7 +64,7 @@ const JokeCard = props => {
     5: 'The Bee\'s Knees',
   };
 
-  const postRating = (value) => {
+  const postRating = value => {
     fetch('/api/v1/ratings', {
       credentials: 'same-origin',
       method: 'POST',
@@ -95,7 +95,7 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const updateRating = (value) => {
+  const updateRating = value => {
     fetch(`/api/v1/ratings/${ratingID}`, {
       credentials: 'same-origin',
       method: 'PUT',
@@ -125,7 +125,7 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const postComment = (body) => {
+  const postComment = body => {
     fetch('/api/v1/comments', {
       credentials: 'same-origin',
       method: 'POST',
@@ -149,29 +149,66 @@ const JokeCard = props => {
     })
     .then(response => response.json())
     .then(body => {
-      const comment = body
-      setRecentComments([...recentComments, comment])
+      let updatedCommentsList = body
+      setUpdatedComments(updatedCommentsList)
       setExpanded(true)
       setCommentFormData('')
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const handleCommentFormChange = (event) => {
+  const deleteComment = id => {
+    fetch(`/api/v1/comments/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let updatedCommentsList = body
+      setUpdatedComments(updatedCommentsList)
+      if (updatedCommentsList.length === 0) { setExpanded(false) }
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const handleCommentFormChange = event => {
     setCommentFormData(event.target.value)
   }
 
-  const handleCommentFormSubmit = (event) => {
+  const handleCommentFormSubmit = event => {
     event.preventDefault()
-    postComment(commentFormData)
+    if (commentFormData !== '') { postComment(commentFormData) }
   }
 
   const handleExpandCommentsClick = () => setExpanded(!expanded)
 
-  let commentCards = props.joke.comments.concat(recentComments).reverse().map(comment => <CommentCard key={comment.id} comment={comment} />)
+  let commentsList = updatedComments === null ? props.joke.comments : updatedComments
+  let commentCards = commentsList.map(comment => {
+    return (
+      <CommentCard
+        key={comment.id}
+        comment={comment}
+        currentUser={props.currentUser}
+        deleteComment={deleteComment}
+      />
+    )
+  })
 
-  if (props.joke.comments.length === 0 && recentComments.length === 0) {
-    commentCards = <Typography variant='body2'>No comments yet</Typography>
+  if (props.joke.comments.length === 0 && (updatedComments === null || updatedComments.length === 0)) {
+    commentCards = <Typography variant='body2'>No comments</Typography>
   }
 
   return (
@@ -219,7 +256,7 @@ const JokeCard = props => {
         component="img"
         className={classes.media}
         image={props.joke.image}
-        title="meme"
+        title="Meme"
       />
       <Box className={classes.commentFormBox}>
         <form
@@ -235,7 +272,12 @@ const JokeCard = props => {
             onChange={handleCommentFormChange}
             className={classes.commentFormField}
           />
-          <IconButton aria-label="add to favorites" type='submit' className={classes.postCommentButton}>
+          <IconButton
+            aria-label="Post Comment"
+            title="Post Comment"
+            type='submit'
+            className={classes.postCommentButton}
+          >
             <PostAddIcon fontSize="large" />
           </IconButton>
         </form>
@@ -278,9 +320,10 @@ const JokeCard = props => {
           })}
           onClick={handleExpandCommentsClick}
           aria-expanded={expanded}
-          aria-label="show more"
+          aria-label="Show/Hide Comments"
+          title="Show/Hide Comments"
         >
-          <ExpandMoreIcon />
+          <ExpandMoreIcon fontSize="large" />
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>

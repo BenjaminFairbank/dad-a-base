@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Box,
   Typography,
   Card,
   CardHeader,
@@ -7,11 +8,28 @@ import {
   CardContent,
   IconButton
 } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import useStyles from '../../styles/styleGuideStyle'
 
 const CommentCard = props => {
   const classes = useStyles()
+
+  const handleDeleteCommentClick = event => props.deleteComment(props.comment.id)
+
+  let actions = ''
+  if (props.comment.user.id === props.currentUser.id) {
+    actions = (
+      <Box>
+        {/* <IconButton aria-label="edit">
+          <EditOutlinedIcon />
+        </IconButton> */}
+        <IconButton aria-label="delete" onClick={handleDeleteCommentClick} title="Delete Comment">
+          <DeleteOutlinedIcon />
+        </IconButton>
+      </Box>
+    )
+  }
 
   return (
     <Card className={classes.commentCard}>
@@ -23,11 +41,7 @@ const CommentCard = props => {
             <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+        action={actions}
         title={<Typography variant='subtitle2'>{props.comment.user.email}</Typography>}
         subheader={
           <Typography variant='subtitle2' color="textSecondary">
