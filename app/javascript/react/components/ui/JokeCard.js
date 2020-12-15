@@ -157,6 +157,36 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const updateComment = (id, body) => {
+    fetch(`/api/v1/comments/${id}`, {
+      credentials: 'same-origin',
+      method: 'PUT',
+      body: JSON.stringify({
+        joke_id: props.joke.id,
+        body: body
+      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let updatedCommentsList = body
+      setUpdatedComments(updatedCommentsList)
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
   const deleteComment = id => {
     fetch(`/api/v1/comments/${id}`, {
       credentials: 'same-origin',
@@ -202,11 +232,11 @@ const JokeCard = props => {
         key={comment.id}
         comment={comment}
         currentUser={props.currentUser}
+        updateComment={updateComment}
         deleteComment={deleteComment}
       />
     )
   })
-
   if (props.joke.comments.length === 0 && (updatedComments === null || updatedComments.length === 0)) {
     commentCards = <Typography variant='body2'>No comments</Typography>
   }
