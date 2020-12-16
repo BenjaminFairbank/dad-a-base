@@ -22,7 +22,6 @@ const CommentCard = props => {
 
   const fieldID = 'commentForm' + props.comment.id.toString()
 
-
   const handleEditCommentClick = event => {
     setCommentEditingMode(!commentEditingMode)
     if (!commentEditingMode) {
@@ -37,7 +36,9 @@ const CommentCard = props => {
 
   const handleUpdateCommentFormSubmit = event => {
     event.preventDefault()
-    if (updateCommentFormData !== '') {
+    if (updateCommentFormData === props.comment.body) {
+      setCommentEditingMode(false)
+    } else if (updateCommentFormData !== '') {
       props.updateComment(props.comment.id, updateCommentFormData)
       setCommentEditingMode(false)
     } else {
