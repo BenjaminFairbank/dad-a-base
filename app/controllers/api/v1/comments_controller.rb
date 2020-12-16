@@ -5,7 +5,7 @@ class Api::V1::CommentsController < ApplicationController
     comment.user = current_user
     if comment.save
       joke = comment.joke
-      render json: joke.comments
+      render json: joke.comments.by_created
     else
       render json: {error: comment.errors.full_messages.to_sentence}
     end
@@ -17,7 +17,7 @@ class Api::V1::CommentsController < ApplicationController
     joke = comment.joke
     if user.id == current_user.id
       if comment.update(comment_params)
-        render json: joke.comments
+        render json: joke.comments.by_created
       else
         render json: {error: comment.errors.full_messages.to_sentence}
       end
@@ -32,7 +32,7 @@ class Api::V1::CommentsController < ApplicationController
     joke = comment.joke
     if user.id == current_user.id
       comment.destroy
-      render json: joke.comments
+      render json: joke.comments.by_created
     else
       render json: {error: 'You are not authorized to delete this comment!'}
     end
