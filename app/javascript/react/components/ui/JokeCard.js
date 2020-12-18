@@ -246,9 +246,9 @@ const JokeCard = props => {
       <CardHeader
         className={classes.cardHeader}
         disableTypography
-        avatar={
+        avatar={props.joke.user.profile_photo.url &&
           <Avatar aria-label="profile-pic" className={classes.avatar}>
-            <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
+            <img className={classes.image} src={props.joke.user.profile_photo.url} />
           </Avatar>
         }
         action={
@@ -277,17 +277,21 @@ const JokeCard = props => {
           </Typography>
         }
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {props.joke.body}
-        </Typography>
-      </CardContent>
-      <CardMedia
-        component="img"
-        className={classes.media}
-        image={props.joke.image}
-        title="Meme"
-      />
+      {props.joke.body !== '' && (
+        <CardContent className={classes.jokeCardContent}>
+          <Typography variant="body1" color="textSecondary" component="p">
+            {props.joke.body}
+          </Typography>
+        </CardContent>
+      )}
+      {props.joke.image.url && (
+        <CardMedia
+          component="img"
+          className={classes.media}
+          image={props.joke.image.url}
+          title="Meme"
+        />
+      )}
       <Box className={classes.commentFormBox}>
         <form
           className={classes.commentForm}

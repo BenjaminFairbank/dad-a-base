@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :jokes, only: [:index]
+      resources :jokes, only: [:index, :create]
       resources :comments, only: [:create, :update, :destroy]
       resources :ratings, only: [:create, :update]
     end
