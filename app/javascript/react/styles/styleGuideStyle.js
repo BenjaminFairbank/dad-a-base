@@ -77,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
   colorThemes: {
     textAlign: 'center',
   },
+
+  
   jokeCard: {
     borderRadius: 8,
     marginBottom: 10,

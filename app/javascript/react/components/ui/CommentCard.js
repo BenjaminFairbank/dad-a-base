@@ -95,9 +95,9 @@ const CommentCard = props => {
       <CardHeader
         className={classes.commentHeader}
         disableTypography
-        avatar={
+        avatar={props.comment.user.profile_photo.url &&
           <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
-            <img className={classes.image} src='https://i.imgur.com/dOx2wRl.jpg' />
+            <img className={classes.image} src={props.comment.user.profile_photo.url} />
           </Avatar>
         }
         action={actions}
