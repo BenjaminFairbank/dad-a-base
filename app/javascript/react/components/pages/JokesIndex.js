@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '@material-ui/core'
-import JokeCard from '../ui/JokeCard'
+import NewJokeForm from '../ui/NewJokeForm'
+import JokesIndexDisplay from '../ui/JokesIndexDisplay'
 
 const JokesIndex = props => {
 
@@ -28,19 +29,17 @@ const JokesIndex = props => {
     })
   }, [])
 
-  const jokeCards = jokes.map((joke) => {
-    return (
-      <JokeCard
-        key={joke.id}
-        joke={joke}
-        currentUser={currentUser}
-      />
-    )
-  })
-
   return (
     <Container>
-      {jokeCards}
+      <NewJokeForm
+        setJokes={setJokes}
+        jokes={jokes}
+        currentUser={currentUser}
+      />
+      <JokesIndexDisplay
+        jokes={jokes}
+        currentUser={currentUser}
+      />
     </Container>
   )
 }

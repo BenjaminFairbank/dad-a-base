@@ -79,13 +79,13 @@ const useStyles = makeStyles((theme) => ({
   },
   jokeCard: {
     borderRadius: 8,
-    marginBottom: 25,
+    marginBottom: 10,
     margin: 'auto',
     width: '100%',
     background: theme.palette.tertiary.main,
   },
   media: {
-
+    padding: '8px 0'
   },
   styleGuide: {
     textAlign: 'center',
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0,
   },
   commentFormBox: {
-    padding: '8px 8px 0 16px',
+    padding: '0 8px 0 16px',
   },
   commentForm: {
     display: 'flex'
@@ -217,6 +217,38 @@ const useStyles = makeStyles((theme) => ({
   commentCardContent: {
     paddingTop: 0
   },
+  jokeCardContent: {
+    padding: '8px 16px 0 16px'
+  },
+  newJokeFormCard: {
+    background: theme.palette.tertiary.main,
+    margin: '10px 0'
+  },
+  newJokeForm: {
+    padding: '4px 8px 16px 16px'
+  },
+  newJokeFormBodyBox: {
+    display: 'flex',
+  },
+  newJokeFormField: {
+    display: 'inline-flex',
+    flex: 1,
+  },
+  postJokeButton: {
+    height: 59,
+    width: 59,
+  },
+  dropzone: {
+    textAlign: 'center',
+    borderStyle: 'dashed',
+    borderColor: theme.palette.quaternary.main,
+    marginRight: 8,
+    padding: '10px 0'
+  },
+  dropzoneText: {
+    color: theme.palette.secondary.main,
+    fontWeight: 'bold'
+  }
 }))
 
 export default useStyles

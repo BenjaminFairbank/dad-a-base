@@ -7,4 +7,6 @@ class User < ApplicationRecord
   has_many :jokes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :ratings, dependent: :destroy
+
+  mount_uploader :profile_photo, ImageUploader
 end
