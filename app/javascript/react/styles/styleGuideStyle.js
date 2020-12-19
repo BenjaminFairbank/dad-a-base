@@ -165,20 +165,21 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     height: 50,
     width: 50,
-  },
-  commentHeader: {
-
+    objectFit: 'cover',
+    objectPosition: 'center',
   },
   commentAvatar: {
     height: 40,
     width: 40,
+    objectFit: 'cover',
+    objectPosition: 'center',
+  },
+  commentHeader: {
+
   },
   commentCard: {
     marginTop: 10,
     background: theme.palette.quaternary.main
-  },
-  image: {
-    maxWidth: '100%'
   },
   rateText: {
     margin: '0 10px'
