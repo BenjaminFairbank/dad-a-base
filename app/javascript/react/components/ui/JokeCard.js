@@ -13,12 +13,15 @@ import {
   Collapse
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
+import clsx from 'clsx';
+
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+
 import useStyles from '../../styles/styleGuideStyle'
-import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
@@ -214,6 +217,32 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const deleteJoke = id => {
+    fetch(`/api/v1/jokes/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let jokes = body
+      props.setJokes(body)
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
   const handleCommentFormChange = event => {
     setCommentFormData(event.target.value)
   }
@@ -224,6 +253,10 @@ const JokeCard = props => {
   }
 
   const handleExpandCommentsClick = () => setExpanded(!expanded)
+
+  const handleDeleteJokeClick = () => {
+    if (props.currentUser.id === props.joke.user.id) {deleteJoke(props.joke.id)}
+  }
 
   let commentsList = updatedComments === null ? props.joke.comments : updatedComments
   let commentCards = commentsList.map(comment => {
@@ -327,6 +360,11 @@ const JokeCard = props => {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        {props.currentUser.id === props.joke.user.id &&
+          <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
+            <DeleteOutlinedIcon />
+          </IconButton>
+        }
         <Typography className={classes.rateText} variant='subtitle1'>
           Rate:
         </Typography>

@@ -118,16 +118,4 @@ const TopBar = (props) => {
   )
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     darkMode: state.app.darkMode
-//   }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     toggleDarkMode: () => dispatch(toggleDarkMode())
-//   }
-// }
-
 export default TopBar
