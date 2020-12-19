@@ -246,11 +246,16 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: 'dashed',
     borderColor: theme.palette.quaternary.main,
     marginRight: 8,
-    padding: '10px 0'
+  },
+  dropzoneDiv: {
+    '&:focus': {
+      outline: 'none',
+    }
   },
   dropzoneText: {
     color: theme.palette.secondary.main,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    padding: '10px 0',
   }
 }))
 
