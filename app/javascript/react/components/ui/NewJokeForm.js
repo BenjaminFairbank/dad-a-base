@@ -120,7 +120,7 @@ const NewJokeForm = props => {
         <Dropzone onDrop={handleFileUpload}>
           {({getRootProps, getInputProps}) => (
             <section className={classes.dropzone}>
-              <div {...getRootProps()}>
+              <div {...getRootProps()} className={classes.dropzoneDiv}>
                 <input {...getInputProps()} />
                 <Typography variant='body2' className={classes.dropzoneText}>
                   Drop a dad joke meme here or click to upload!
