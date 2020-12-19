@@ -37,6 +37,7 @@ const JokesIndex = props => {
         currentUser={currentUser}
       />
       <JokesIndexDisplay
+        setJokes={setJokes}
         jokes={jokes}
         currentUser={currentUser}
       />

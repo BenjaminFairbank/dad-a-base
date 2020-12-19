@@ -18,6 +18,18 @@ class Api::V1::JokesController < ApplicationController
     end
   end
 
+  def destroy
+    joke = Joke.find(params[:id])
+    user = joke.user
+    id = joke.id
+    if user.id == current_user.id
+      joke.destroy
+      render json: Joke.all
+    else
+      render json: {error: 'You are not authorized to delete this Joke!'}
+    end
+  end
+
   protected
 
   def serialized_data(data, serializer)

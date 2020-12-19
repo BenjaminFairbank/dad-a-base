@@ -9,6 +9,7 @@ const JokesIndexDisplay = props => {
         key={joke.id}
         joke={joke}
         currentUser={props.currentUser}
+        setJokes={props.setJokes}
       />
     )
   })
