@@ -96,9 +96,11 @@ const CommentCard = props => {
         className={classes.commentHeader}
         disableTypography
         avatar={props.comment.user.profile_photo.url &&
-          <Avatar aria-label="profile-pic" className={classes.commentAvatar}>
-            <img className={classes.image} src={props.comment.user.profile_photo.url} />
-          </Avatar>
+          <Avatar
+            aria-label="profile-pic"
+            className={classes.commentAvatar}
+            src={props.comment.user.profile_photo.url}
+          />
         }
         action={actions}
         title={<Typography variant='subtitle2'>{props.comment.user.email}</Typography>}

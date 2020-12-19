@@ -247,9 +247,11 @@ const JokeCard = props => {
         className={classes.cardHeader}
         disableTypography
         avatar={props.joke.user.profile_photo.url &&
-          <Avatar aria-label="profile-pic" className={classes.avatar}>
-            <img className={classes.image} src={props.joke.user.profile_photo.url} />
-          </Avatar>
+          <Avatar
+            aria-label="profile-pic"
+            className={classes.avatar}
+            src={props.joke.user.profile_photo.url}
+          />
         }
         action={
           <Box className={classes.ratingBox}>
