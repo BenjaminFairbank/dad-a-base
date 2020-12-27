@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Provider, connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -12,44 +13,53 @@ import ScrollUpButton from './ui/ScrollUpButton'
 import coolPalette from '../palettes/coolPalette'
 import hotPalette from '../palettes/hotPalette'
 
-const App = props => {
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-  const [hotTheme, setHotTheme] = useState(true)
+  render() {
+    const stalinistFont = { fontFamily: 'Stalinist One, cursive' }
+    const goldmanFont = { fontFamily: 'Goldman, cursive' }
+    const theme = createMuiTheme({
+      palette: this.props.hotTheme ? hotPalette : coolPalette,
+      typography: {
+        h1: stalinistFont,
+        h2: stalinistFont,
+        h3: stalinistFont,
+        h4: stalinistFont,
+        h5: stalinistFont,
+        h6: stalinistFont,
+        subtitle1: goldmanFont,
+        subtitle2: goldmanFont,
+      },
+    });
 
-  const stalinistFont = { fontFamily: 'Stalinist One, cursive' }
-  const goldmanFont = { fontFamily: 'Goldman, cursive' }
-  const theme = createMuiTheme({
-    palette: hotTheme ? hotPalette : coolPalette,
-    typography: {
-      h1: stalinistFont,
-      h2: stalinistFont,
-      h3: stalinistFont,
-      h4: stalinistFont,
-      h5: stalinistFont,
-      h6: stalinistFont,
-      subtitle1: goldmanFont,
-      subtitle2: goldmanFont,
-    },
-  });
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-        <BrowserRouter>
-          <TopBar
-            theme={theme}
-            hotTheme={hotTheme}
-            setHotTheme={setHotTheme}
-          />
-          <Switch>
-            <Route exact path='/' component={JokesIndex} />
-            <Route exact path='/home' component={JokesIndex} />
-            <Route exact path='/styleguide' component={StyleGuide} />
-          </Switch>
-        </BrowserRouter>
-      <ScrollUpButton />
-    </ThemeProvider>
-  )
+    return (
+      <Provider store={this.props.store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+            <BrowserRouter>
+              <TopBar theme={theme} />
+              <Switch>
+                <Route exact path='/' component={JokesIndex} />
+                <Route exact path='/home' component={JokesIndex} />
+                <Route exact path='/styleguide' component={StyleGuide} />
+              </Switch>
+            </BrowserRouter>
+          <ScrollUpButton />
+        </ThemeProvider>
+      </Provider>
+    )
+  }
+}
+const mapStateToProps = (state) => {
+  return {
+    hotTheme: state.app.hotTheme,
+  }
 }
 
-export default App
+export default connect(
+  mapStateToProps,
+  null
+)(App)

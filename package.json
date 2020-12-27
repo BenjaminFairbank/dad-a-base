@@ -21,8 +21,11 @@
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
     "react-dropzone": "^11.2.4",
+    "react-redux": "5.0.7",
     "react-router-dom": "5.0.0",
-    "redbox-react": "1.6.0"
+    "redbox-react": "1.6.0",
+    "redux": "4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
