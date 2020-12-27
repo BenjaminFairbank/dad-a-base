@@ -1,5 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { toggleHotTheme } from '../../modules/app'
 
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -89,7 +92,7 @@ const TopBar = (props) => {
               <AcUnit />
               <Switch
                 checked={props.hotTheme}
-                onChange={()=>{ props.setHotTheme(!props.hotTheme) }}
+                onChange={()=>{ props.toggleHotTheme() }}
                 color="secondary"
                 inputProps={{ "aria-label": "secondary checkbox" }}
               />
@@ -118,4 +121,19 @@ const TopBar = (props) => {
   )
 }
 
-export default TopBar
+const mapStateToProps = (state) => {
+  return {
+    hotTheme: state.app.hotTheme
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleHotTheme: () => dispatch(toggleHotTheme())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TopBar)
