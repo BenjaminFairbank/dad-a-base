@@ -1,4 +1,4 @@
-const evaluateRating = (joke, currentUserRatings, selectedValue, ratingRecordExists, ratedRecently) => {
+const evaluateRating = (joke, currentUser, selectedValue, ratingRecordExists, ratedRecently) => {
 
   let sum = 0
 
@@ -10,8 +10,10 @@ const evaluateRating = (joke, currentUserRatings, selectedValue, ratingRecordExi
     sum += selectedValue*2
     var average = sum/(joke.ratings.length + 1)
   } else if (ratingRecordExists && ratedRecently) {   // the user is assigning a new rating
-    const userRating = currentUserRatings.find(rating => rating.joke.id === joke.id)
-    sum -= userRating.value
+    if (currentUser !== null) {
+      const userRating = currentUser.ratings.find(rating => rating.joke.id === joke.id)
+      sum -= userRating.value
+    }
     sum += selectedValue*2
     var average = sum/joke.ratings.length
   } else {                                            // initial page load

@@ -2,12 +2,16 @@ class Api::V1::CommentsController < ApplicationController
 
   def create
     comment = Comment.new(comment_params)
-    comment.user = current_user
-    if comment.save
-      joke = comment.joke
-      render json: joke.comments.by_created
+    if current_user
+      comment.user = current_user
+      if comment.save
+        joke = comment.joke
+        render json: joke.comments.by_created
+      else
+        render json: {error: comment.errors.full_messages.to_sentence}
+      end
     else
-      render json: {error: comment.errors.full_messages.to_sentence}
+      render json: {error: "Log-in or sign-up to post comments"}
     end
   end
 

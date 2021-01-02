@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import {
   Typography,
   Box,
   Card,
   TextField,
-  IconButton
+  IconButton,
+  Button
 } from '@material-ui/core'
-import SendIcon from '@material-ui/icons/Send';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import useStyles from '../../styles/styleGuideStyle'
 import { withStyles } from '@material-ui/core/styles'
+
+import { displayAlertMessage } from '../../modules/alertMessage'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -37,15 +41,12 @@ const NewJokeForm = props => {
     formPayload.append('joke[body]', newJokeFormData.body)
     formPayload.append('joke[image]', newJokeFormData.image)
 
-    const csrfToken = $('meta[name="csrf-token"]').attr('content')
-
     fetch('api/v1/jokes', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
         'Accept': 'application/json',
-        'Accept': 'image/jpeg',
-        'X-CSRF-Token': csrfToken
+        'Accept': 'image/jpeg'
       },
       body: formPayload
     })
@@ -61,7 +62,11 @@ const NewJokeForm = props => {
     .then(response => response.json())
     .then(body => {
       let joke = body
-      props.setJokes([...props.jokes, joke])
+      if (joke.error) {
+        props.displayAlertMessage(joke.error)
+      } else {
+        props.setJokes([...props.jokes, joke])
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -113,19 +118,19 @@ const NewJokeForm = props => {
             type='submit'
             className={classes.postJokeButton}
           >
-            <SendIcon fontSize="large" />
+            <PostAddIcon fontSize="large" />
           </IconButton>
         </Box>
 
         <Dropzone onDrop={handleFileUpload}>
           {({getRootProps, getInputProps}) => (
             <section className={classes.dropzone}>
-              <div {...getRootProps()} className={classes.dropzoneDiv}>
+              <Button {...getRootProps()} className={classes.dropzoneButton}>
                 <input {...getInputProps()} />
                 <Typography variant='body2' className={classes.dropzoneText}>
-                  Drop a dad joke meme here or click to upload!
+                  Click or drag 'n' drop a 'dad meme' here to upload!
                 </Typography>
-              </div>
+              </Button>
             </section>
           )}
         </Dropzone>
@@ -135,4 +140,13 @@ const NewJokeForm = props => {
   )
 }
 
-export default NewJokeForm
+const mapDispatchToProps = (dispatch) => {
+  return {
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewJokeForm)

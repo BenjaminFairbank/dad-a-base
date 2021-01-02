@@ -8,7 +8,6 @@ const JokesIndexDisplay = props => {
       <JokeCard
         key={joke.id}
         joke={joke}
-        currentUser={props.currentUser}
         setJokes={props.setJokes}
       />
     )

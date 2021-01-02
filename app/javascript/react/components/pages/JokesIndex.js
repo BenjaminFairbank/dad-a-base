@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Container } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { Container, Box } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import NewJokeForm from '../ui/NewJokeForm'
 import JokesIndexDisplay from '../ui/JokesIndexDisplay'
 
+const useStyles = makeStyles((theme) => ({
+  spacerBox: {
+    height: 10
+  }
+}))
+
 const JokesIndex = props => {
+  const classes = useStyles()
 
   const [jokes, setJokes] = useState([])
-  const [currentUser, setCurrentUser] = useState({})
 
   useEffect(() => {
     fetch('/api/v1/jokes.json')
@@ -21,28 +29,33 @@ const JokesIndex = props => {
     })
     .then(response => response.json() )
     .then(data => {
-      setCurrentUser(data.currentUser)
-      setJokes(data.jokes)
+      setJokes(data)
     })
     .catch(error => {
       console.error(`Error in fetch: ${error.message}`)
     })
   }, [])
 
+  let formAccess = <Box className={classes.spacerBox}></Box>
+  if (props.currentUser !== null) {
+    formAccess = <NewJokeForm setJokes={setJokes} jokes={jokes} />
+  }
+
   return (
     <Container>
-      <NewJokeForm
-        setJokes={setJokes}
-        jokes={jokes}
-        currentUser={currentUser}
-      />
-      <JokesIndexDisplay
-        setJokes={setJokes}
-        jokes={jokes}
-        currentUser={currentUser}
-      />
+      {formAccess}
+      <JokesIndexDisplay setJokes={setJokes} jokes={jokes} />
     </Container>
   )
 }
 
-export default JokesIndex
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(JokesIndex)
