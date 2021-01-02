@@ -95,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeader: {
     paddingBottom: 0,
+    height: 82
   },
   commentFormBox: {
     padding: '0 8px 0 16px',
@@ -245,18 +246,20 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     borderStyle: 'dashed',
     borderColor: theme.palette.quaternary.main,
+    borderRadius: 5,
     marginRight: 8,
   },
-  dropzoneDiv: {
+  dropzoneButton: {
     '&:focus': {
       outline: 'none',
-    }
+    },
+    width: '100%'
   },
   dropzoneText: {
     color: theme.palette.secondary.main,
     fontWeight: 'bold',
     padding: '10px 0',
-  }
+  },
 }))
 
 export default useStyles

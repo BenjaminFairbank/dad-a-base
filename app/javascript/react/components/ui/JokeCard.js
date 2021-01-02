@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import {
   Typography,
   Box,
@@ -13,13 +14,13 @@ import {
   Collapse
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
-import clsx from 'clsx';
+import clsx from 'clsx'
 
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
+// import FavoriteIcon from '@material-ui/icons/Favorite'
+// import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import PostAddIcon from '@material-ui/icons/PostAdd'
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 
 import useStyles from '../../styles/styleGuideStyle'
 import { withStyles } from '@material-ui/core/styles'
@@ -41,7 +42,10 @@ const CssTextField = withStyles((theme) => ({
 const JokeCard = props => {
   const classes = useStyles()
 
-  const userRated = props.currentUser.ratings.map(rating => rating.joke.id).includes(props.joke.id)
+  let userRated = false
+  if (props.currentUser !== null) {
+    userRated = props.currentUser.ratings.map(rating => rating.joke.id).includes(props.joke.id)
+  }
   if (userRated) {
     var userRating = props.currentUser.ratings.find(rating => rating.joke.id === props.joke.id)
   }
@@ -264,7 +268,6 @@ const JokeCard = props => {
       <CommentCard
         key={comment.id}
         comment={comment}
-        currentUser={props.currentUser}
         updateComment={updateComment}
         deleteComment={deleteComment}
       />
@@ -273,6 +276,8 @@ const JokeCard = props => {
   if (props.joke.comments.length === 0 && (updatedComments === null || updatedComments.length === 0)) {
     commentCards = <Typography variant='body2'>No comments</Typography>
   }
+
+  const jokeRating = ratingEvaluator(props.joke, props.currentUser, hRValue, userRated, ratedRecently)
 
   return (
     <Card elevation={3} className={classes.jokeCard}>
@@ -291,7 +296,7 @@ const JokeCard = props => {
             <Box className={classes.ratingInnerBox}>
               <Rating
                 name="half-rating-read"
-                value={ratingEvaluator(props.joke, props.currentUser.ratings, hRValue, userRated, ratedRecently)}
+                value={jokeRating}
                 precision={0.5}
                 readOnly
                 className={classes.rating}
@@ -301,7 +306,7 @@ const JokeCard = props => {
               </Typography>
             </Box>
             <Typography variant='subtitle1' className={classes.ratingLabel}>
-              {ratingLabels[ratingEvaluator(props.joke, props.currentUser.ratings, hRValue, userRated, ratedRecently)]}
+              {ratingLabels[jokeRating]}
             </Typography>
           </Box>
         }
@@ -314,7 +319,7 @@ const JokeCard = props => {
       />
       {props.joke.body !== '' && (
         <CardContent className={classes.jokeCardContent}>
-          <Typography variant="body1" color="textSecondary" component="p">
+          <Typography variant="body1" color="textSecondary">
             {props.joke.body}
           </Typography>
         </CardContent>
@@ -327,6 +332,7 @@ const JokeCard = props => {
           title="Meme"
         />
       )}
+      {props.currentUser !== null &&
       <Box className={classes.commentFormBox}>
         <form
           className={classes.commentForm}
@@ -352,14 +358,10 @@ const JokeCard = props => {
             <PostAddIcon fontSize="large" />
           </IconButton>
         </form>
-      </Box>
+      </Box>}
       <CardActions disableSpacing className={classes.cardActions}>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        {props.currentUser !== null && <>
+
         {props.currentUser.id === props.joke.user.id &&
           <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
             <DeleteOutlinedIcon />
@@ -386,7 +388,7 @@ const JokeCard = props => {
             }}
           />
           {hRValue !== null && <Box ml={2}>{ratingLabels[hRHover !== -1 ? hRHover : hRValue]}</Box>}
-        </Box>
+        </Box></>}
         <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
           View comments:
         </Typography>
@@ -411,4 +413,23 @@ const JokeCard = props => {
   )
 }
 
-export default JokeCard
+/*
+  to be added back into CardActions when sharing and favoriting functional
+      <IconButton aria-label="add to favorites">
+        <FavoriteIcon />
+      </IconButton>
+      <IconButton aria-label="share">
+        <ShareIcon />
+      </IconButton>
+*/
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(JokeCard)

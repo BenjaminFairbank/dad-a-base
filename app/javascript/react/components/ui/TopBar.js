@@ -18,6 +18,9 @@ import {
 
 import { AcUnit, Whatshot } from '@material-ui/icons'
 
+import { assignCurrentUser } from '../../modules/user'
+import { displayAlertMessage } from '../../modules/alertMessage'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -71,8 +74,56 @@ function ElevationScroll(props) {
 
 const TopBar = (props) => {
   const classes = useStyles()
-  const largeScreen = useMediaQuery(props.theme.breakpoints.up("md"));
-  const title = largeScreen ? 'The Dad-a-Base' : 'DB'
+  const smallScreen = useMediaQuery(props.theme.breakpoints.down("xs"));
+  const title = smallScreen ? 'DB' : 'The Dad-a-Base'
+
+  const logout = () => {
+    fetch('/api/v1/users/sign_out_user', {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(userData => {
+      props.assignCurrentUser(userData)
+      props.displayAlertMessage('You are no longer signed in.')
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const logOutClickHandler = (event) => {
+    logout(props.currentUser.id)
+  }
+
+  let loginButton = (
+    <Button
+      className={classes.button}
+      color="inherit"
+      component={Link}
+      to="/login"
+    >Login</Button>
+  )
+  if (props.currentUser !== null) {
+    loginButton = (
+      <Button
+        className={classes.button}
+        color="inherit"
+        onClick={logOutClickHandler}
+      >Logout</Button>
+    )
+  }
 
   return (
     <>
@@ -83,7 +134,7 @@ const TopBar = (props) => {
               <Typography
                 component={Link}
                 to='/'
-                variant='h3'
+                variant='h4'
                 className={classes.title}
               >
                 {title}
@@ -97,15 +148,9 @@ const TopBar = (props) => {
                 inputProps={{ "aria-label": "secondary checkbox" }}
               />
               <Whatshot />
-              <Button
-                className={classes.button}
-                color="inherit"
-                href="/users/sign_in"
-              >
-                Login
-              </Button>
+              {loginButton}
             </Toolbar>
-            {largeScreen &&
+            {!smallScreen &&
             (<Box className={classes.subtitleBox}>
               <Typography variant='subtitle1' className={classes.subtitleText}>
                 Finally, a place to share all your worst dad jokes and memes!
@@ -114,7 +159,7 @@ const TopBar = (props) => {
           </AppBar>
         </ElevationScroll>
       </div>
-      {largeScreen &&
+      {!smallScreen &&
       (<Box className={classes.subtitleBox}></Box>)}
       <Toolbar id="back-to-top-anchor" />
     </>
@@ -123,13 +168,16 @@ const TopBar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    hotTheme: state.app.hotTheme
+    hotTheme: state.app.hotTheme,
+    currentUser: state.user.currentUser
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggleHotTheme: () => dispatch(toggleHotTheme())
+    toggleHotTheme: () => dispatch(toggleHotTheme()),
+    assignCurrentUser: (userData) => dispatch(assignCurrentUser(userData)),
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import {
   Box,
   Typography,
@@ -26,7 +27,12 @@ const CommentCard = props => {
     setCommentEditingMode(!commentEditingMode)
     if (!commentEditingMode) {
       setUpdateCommentFormData(props.comment.body)
-      setTimeout(() => { document.getElementById(fieldID).focus() }, 10);
+      setTimeout(() => {
+        const editCommentField = document.getElementById(fieldID)
+        var strLength = editCommentField.value.length*2
+        editCommentField.focus()
+        editCommentField.setSelectionRange(strLength, strLength)
+      }, 10);
     }
   }
 
@@ -54,7 +60,7 @@ const CommentCard = props => {
   const handleDeleteCommentClick = event => props.deleteComment(props.comment.id)
 
   let actions = ''
-  if (props.comment.user.id === props.currentUser.id) {
+  if (props.currentUser !== null && props.comment.user.id === props.currentUser.id) {
     actions = (
       <Box>
         <IconButton aria-label="edit" onClick={handleEditCommentClick} title="Edit Comment">
@@ -117,4 +123,13 @@ const CommentCard = props => {
   )
 }
 
-export default CommentCard
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(CommentCard)
