@@ -13,7 +13,7 @@ import {
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import UpdateIcon from '@material-ui/icons/Update';
-import useStyles from '../../styles/styleGuideStyle'
+import useStyles from '../../styles/commentCardStyles'
 
 const CommentCard = props => {
   const classes = useStyles()
@@ -99,7 +99,6 @@ const CommentCard = props => {
   return (
     <Card className={classes.commentCard}>
       <CardHeader
-        className={classes.commentHeader}
         disableTypography
         avatar={props.comment.user.profile_photo.url &&
           <Avatar
