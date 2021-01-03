@@ -7,7 +7,8 @@ import {
   Card,
   TextField,
   IconButton,
-  Button
+  Button,
+  Grid
 } from '@material-ui/core'
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import useStyles from '../../styles/styleGuideStyle'
@@ -127,9 +128,20 @@ const NewJokeForm = props => {
             <section className={classes.dropzone}>
               <Button {...getRootProps()} className={classes.dropzoneButton}>
                 <input {...getInputProps()} />
-                <Typography variant='body2' className={classes.dropzoneText}>
-                  Click or drag 'n' drop a 'dad meme' here to upload!
-                </Typography>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography variant='body2' className={classes.dropzoneText}>
+                      Click or drag 'n' drop a 'dad meme' here to upload!
+                    </Typography>
+                  </Grid>
+                  {newJokeFormData.image !== '' &&
+                    <Grid item xs={12}>
+                      <Typography variant='subtitle2'>
+                        Upload: {newJokeFormData.image.name}
+                      </Typography>
+                    </Grid>
+                  }
+                </Grid>
               </Button>
             </section>
           )}
