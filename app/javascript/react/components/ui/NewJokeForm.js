@@ -66,6 +66,8 @@ const NewJokeForm = props => {
       if (joke.error) {
         props.displayAlertMessage(joke.error)
       } else {
+        clearForm()
+        props.displayAlertMessage('')
         props.setJokes([...props.jokes, joke])
       }
     })
@@ -94,7 +96,7 @@ const NewJokeForm = props => {
     event.preventDefault()
     if (validForSubmission()) {
       postJoke()
-      clearForm()
+      props.displayAlertMessage('Posting...')
     }
   }
 
