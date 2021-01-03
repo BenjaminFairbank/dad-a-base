@@ -11,7 +11,7 @@ import {
   Grid
 } from '@material-ui/core'
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import useStyles from '../../styles/styleGuideStyle'
+import useStyles from '../../styles/newJokeFormStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import { displayAlertMessage } from '../../modules/alertMessage'

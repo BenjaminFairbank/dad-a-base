@@ -16,13 +16,11 @@ import {
 import Rating from '@material-ui/lab/Rating'
 import clsx from 'clsx'
 
-// import FavoriteIcon from '@material-ui/icons/Favorite'
-// import ShareIcon from '@material-ui/icons/Share'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 
-import useStyles from '../../styles/styleGuideStyle'
+import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
@@ -317,78 +315,81 @@ const JokeCard = props => {
           </Typography>
         }
       />
-      {props.joke.body !== '' && (
+      {props.joke.body !== '' && 
         <CardContent className={classes.jokeCardContent}>
           <Typography variant="body1" color="textSecondary">
             {props.joke.body}
           </Typography>
         </CardContent>
-      )}
-      {props.joke.image.url && (
+      }
+      {props.joke.image.url && 
         <CardMedia
           component="img"
           className={classes.media}
           image={props.joke.image.url}
           title="Meme"
         />
-      )}
+      }
       {props.currentUser !== null &&
-      <Box className={classes.commentFormBox}>
-        <form
-          className={classes.commentForm}
-          noValidate
-          autoComplete="off"
-          onSubmit={handleCommentFormSubmit}
-        >
-          <CssTextField
-            label="Leave a Comment"
-            placeholder="Your comment"
-            value={commentFormData}
-            onChange={handleCommentFormChange}
-            className={classes.commentFormField}
-            multiline
-            rowsMax={4}
-          />
-          <IconButton
-            aria-label="Post Comment"
-            title="Post Comment"
-            type='submit'
-            className={classes.postCommentButton}
+        <Box className={classes.commentFormBox}>
+          <form
+            className={classes.commentForm}
+            noValidate
+            autoComplete="off"
+            onSubmit={handleCommentFormSubmit}
           >
-            <PostAddIcon fontSize="large" />
-          </IconButton>
-        </form>
-      </Box>}
+            <CssTextField
+              label="Leave a Comment"
+              placeholder="Your comment"
+              value={commentFormData}
+              onChange={handleCommentFormChange}
+              className={classes.commentFormField}
+              multiline
+              rowsMax={4}
+            />
+            <IconButton
+              aria-label="Post Comment"
+              title="Post Comment"
+              type='submit'
+              className={classes.postCommentButton}
+            >
+              <PostAddIcon fontSize="large" />
+            </IconButton>
+          </form>
+        </Box>
+      }
       <CardActions disableSpacing className={classes.cardActions}>
-        {props.currentUser !== null && <>
-
-        {props.currentUser.id === props.joke.user.id &&
-          <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
-            <DeleteOutlinedIcon />
-          </IconButton>
+        {props.currentUser !== null &&
+          <>
+            {props.currentUser.id === props.joke.user.id &&
+              <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
+                <DeleteOutlinedIcon />
+              </IconButton>
+            }
+            <Typography className={classes.rateText} variant='subtitle1'>
+              Rate:
+            </Typography>
+            <Box className={classes.hoverRating}>
+              <Rating
+                name={`hover-feedback-${props.joke.id}`}
+                value={hRValue}
+                precision={0.5}
+                onChange={(event, newHRValue) => {
+                  setRatedRecently(true)
+                  if (ratingID === null) {
+                    postRating(newHRValue)
+                  } else {
+                    updateRating(newHRValue)
+                  }
+                }}
+                onChangeActive={(event, newHRHover) => {
+                  setHRHover(newHRHover)
+                }}
+              />
+              {hRValue !== null && <Box ml={2}>{ratingLabels[hRHover !== -1 ? hRHover : hRValue]}</Box>}
+            </Box>
+          </>
         }
-        <Typography className={classes.rateText} variant='subtitle1'>
-          Rate:
-        </Typography>
-        <Box className={classes.hoverRating}>
-          <Rating
-            name={`hover-feedback-${props.joke.id}`}
-            value={hRValue}
-            precision={0.5}
-            onChange={(event, newHRValue) => {
-              setRatedRecently(true)
-              if (ratingID === null) {
-                postRating(newHRValue)
-              } else {
-                updateRating(newHRValue)
-              }
-            }}
-            onChangeActive={(event, newHRHover) => {
-              setHRHover(newHRHover)
-            }}
-          />
-          {hRValue !== null && <Box ml={2}>{ratingLabels[hRHover !== -1 ? hRHover : hRValue]}</Box>}
-        </Box></>}
         <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
           View comments:
         </Typography>
@@ -412,16 +413,6 @@ const JokeCard = props => {
     </Card>
   )
 }
-
-/*
-  to be added back into CardActions when sharing and favoriting functional
-      <IconButton aria-label="add to favorites">
-        <FavoriteIcon />
-      </IconButton>
-      <IconButton aria-label="share">
-        <ShareIcon />
-      </IconButton>
-*/
 
 const mapStateToProps = (state) => {
   return {
