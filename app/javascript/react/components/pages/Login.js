@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.tertiary.main,
     padding: 10,
     width: 300,
-    height: 225,
   },
   signUpFormCard: {
     margin: '10px auto',
@@ -49,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.tertiary.main,
     padding: 10,
     width: 300,
-    height: 375,
   },
   button: {
     marginTop: 18,
@@ -62,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
       color: theme.palette.primary.main,
     },
+    marginBottom: 15,
   },
   dropzone: {
     textAlign: 'center',
@@ -74,7 +73,8 @@ const useStyles = makeStyles((theme) => ({
     '&:focus': {
       outline: 'none',
     },
-    width: '100%'
+    width: '100%',
+    overflow: 'hidden',
   },
   dropzoneText: {
     color: theme.palette.secondary.main,
@@ -279,9 +279,23 @@ const Login = props => {
                 <section className={classes.dropzone}>
                   <Button {...getRootProps()} className={classes.dropzoneButton}>
                     <input {...getInputProps()} />
-                    <Typography variant='body2' className={classes.dropzoneText}>
-                      Click or drag 'n' drop your profile photo here
-                    </Typography>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Typography variant='body2' className={classes.dropzoneText}>
+                          Click or drag 'n' drop your profile photo here
+                        </Typography>
+                      </Grid>
+                      {signUpFormData.profile_photo !== '' &&
+                        <>
+                          <Grid item xs={12}>
+                            <Typography variant='subtitle2'>Upload:</Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <Typography variant='subtitle2'>{signUpFormData.profile_photo.name}</Typography>
+                          </Grid>
+                        </>
+                      }
+                    </Grid>
                   </Button>
                 </section>
               )}
