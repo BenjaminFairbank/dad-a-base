@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     padding: '10px 0',
   },
+  fileName: {
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    hyphens: 'auto',
+  }
 }))
 
 const SignUpCard = props => {
@@ -193,7 +198,9 @@ const SignUpCard = props => {
                           <Typography variant='subtitle2'>Upload:</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                          <Typography variant='subtitle2'>{signUpFormData.profile_photo.name}</Typography>
+                          <Typography variant='subtitle2' className={classes.fileName}>
+                            {signUpFormData.profile_photo.name}
+                          </Typography>
                         </Grid>
                       </>
                     }
