@@ -7,16 +7,20 @@ import {
   Box,
   TextField,
   Button,
-  Grid
+  Grid,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone'
+import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
 
 const CssTextField = withStyles((theme) => ({
   root: {
-    width: 250,
+    marginTop: 5,
+    width: '100%',
     '& label.Mui-focused': {
       color: theme.palette.secondary.main,
     },
@@ -32,10 +36,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   signUpFormCard: {
+    borderRadius: 8,
     margin: '10px auto',
     textAlign: 'center',
     background: theme.palette.tertiary.main,
-    padding: 10,
+    padding: '10px 25px',
     width: 300,
   },
   button: {
@@ -56,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: 'dashed',
     borderColor: theme.palette.quaternary.main,
     borderRadius: 5,
-    margin: '25px 20px 0px 20px',
+    marginTop: 25,
   },
   dropzoneButton: {
     '&:focus': {
@@ -74,7 +79,23 @@ const useStyles = makeStyles((theme) => ({
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
     hyphens: 'auto',
-  }
+  },
+  passwordBox: {
+    display: 'flex',
+  },
+  passwordField: {
+    display: 'inline-flex',
+    flex: 1,
+  },
+  passwordVisButton: {
+    padding: 0,
+    marginTop: 20,
+    height: 30,
+    width: 30,
+  },
+  icon: {
+    marginTop: 1,
+  },
 }))
 
 const SignUpCard = props => {
@@ -88,6 +109,8 @@ const SignUpCard = props => {
   }
 
   const [signUpFormData, setSignUpFormData] = useState(defaultSignUpFormData)
+  const [passwordVisibility, setpasswordVisibility] = useState(false)
+  const [passwordConfirmationVisibility, setpasswordConfirmationVisibility] = useState(false)
 
   const handleSignUpFormChange = (event) => {
     event.preventDefault()
@@ -149,7 +172,7 @@ const SignUpCard = props => {
 
   return (
     <Grid item xs={12} sm={6}>
-      <Card className={classes.signUpFormCard}>
+      <Card elevation={3} className={classes.signUpFormCard}>
         <Box className={classes.titleBox}>
           <Typography variant='h6'>Sign Up</Typography>
         </Box>
@@ -163,23 +186,39 @@ const SignUpCard = props => {
               value={signUpFormData.email}
             />
           </Box>
-          <Box>
+          <Box className={classes.passwordBox}>
             <CssTextField
+              className={classes.passwordField}
               label="Password"
-              type="password"
+              type={passwordVisibility ? "text" : "password"}
               name="password"
               onChange={handleSignUpFormChange}
               value={signUpFormData.password}
             />
+            <IconButton
+              className={classes.passwordVisButton}
+              onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
+            >
+              {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+              {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+            </IconButton>
           </Box>
-          <Box>
+          <Box className={classes.passwordBox}>
             <CssTextField
+              className={classes.passwordField}
               label="Password Confirmation"
-              type="password"
+              type={passwordConfirmationVisibility ? "text" : "password"}
               name="password_confirmation"
               onChange={handleSignUpFormChange}
               value={signUpFormData.password_confirmation}
             />
+            <IconButton
+              className={classes.passwordVisButton}
+              onClick={()=>{setpasswordConfirmationVisibility(!passwordConfirmationVisibility)}}
+            >
+              {passwordConfirmationVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+              {!passwordConfirmationVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+            </IconButton>
           </Box>
           <Dropzone onDrop={handleFileUpload}>
             {({getRootProps, getInputProps}) => (
