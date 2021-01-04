@@ -101,7 +101,7 @@ const NewJokeForm = props => {
   }
 
   return (
-    <Card className={classes.newJokeFormCard}>
+    <Card elevation={3} className={classes.newJokeFormCard}>
       <form onSubmit={handleJokeFormSubmit} className={classes.newJokeForm}>
 
         <Box className={classes.newJokeFormBodyBox}>

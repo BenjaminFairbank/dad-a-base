@@ -6,16 +6,20 @@ import {
   Box,
   TextField,
   Button,
-  Grid
+  Grid,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone'
+import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
 
 const CssTextField = withStyles((theme) => ({
   root: {
-    width: 250,
+    marginTop: 5,
+    width: '100%',
     '& label.Mui-focused': {
       color: theme.palette.secondary.main,
     },
@@ -31,10 +35,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   signInFormCard: {
+    borderRadius: 8,
     margin: '10px auto',
     textAlign: 'center',
     background: theme.palette.tertiary.main,
-    padding: 10,
+    padding: '10px 25px',
     width: 300,
   },
   button: {
@@ -50,6 +55,22 @@ const useStyles = makeStyles((theme) => ({
     },
     marginBottom: 15,
   },
+  passwordBox: {
+    display: 'flex',
+  },
+  passwordField: {
+    display: 'inline-flex',
+    flex: 1,
+  },
+  passwordVisButton: {
+    padding: 0,
+    marginTop: 20,
+    height: 30,
+    width: 30,
+  },
+  icon: {
+    marginTop: 1,
+  },
 }))
 
 const SignInCard = props => {
@@ -61,6 +82,7 @@ const SignInCard = props => {
   }
 
   const [signInFormData, setSignInFormData] = useState(defaultSignInFormData)
+  const [passwordVisibility, setpasswordVisibility] = useState(false)
 
   const handleSignInFormChange = (event) => {
     event.preventDefault()
@@ -108,7 +130,7 @@ const SignInCard = props => {
 
   return (
     <Grid item xs={12} sm={6}>
-      <Card className={classes.signInFormCard}>
+      <Card elevation={3} className={classes.signInFormCard}>
         <Box className={classes.titleBox}>
           <Typography variant='h6'>Sign In</Typography>
         </Box>
@@ -122,14 +144,22 @@ const SignInCard = props => {
               value={signInFormData.email}
             />
           </Box>
-          <Box>
+          <Box className={classes.passwordBox}>
             <CssTextField
+              className={classes.passwordField}
               label="Password"
-              type="password"
+              type={passwordVisibility ? "text" : "password"}
               name="password"
               onChange={handleSignInFormChange}
               value={signInFormData.password}
             />
+            <IconButton
+              className={classes.passwordVisButton}
+              onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
+            >
+              {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+              {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+            </IconButton>
           </Box>
           <Box>
             <Button

@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   newJokeFormCard: {
+    borderRadius: 8,
     background: theme.palette.tertiary.main,
     margin: '10px 0'
   },
