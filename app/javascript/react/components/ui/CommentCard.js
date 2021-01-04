@@ -14,6 +14,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import UpdateIcon from '@material-ui/icons/Update';
 import useStyles from '../../styles/commentCardStyles'
+import timestampConverter from '../../functions/timestampConverter';
 
 const CommentCard = props => {
   const classes = useStyles()
@@ -111,7 +112,7 @@ const CommentCard = props => {
         title={<Typography variant='subtitle2'>{props.comment.user.email}</Typography>}
         subheader={
           <Typography variant='subtitle2' color="textSecondary">
-            {props.comment.created_at}
+            {timestampConverter(props.comment.created_at)}
           </Typography>
         }
       />

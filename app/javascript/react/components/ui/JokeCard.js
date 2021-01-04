@@ -25,6 +25,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
 import ratingEvaluator from '../../functions/ratingEvaluator'
+import timestampConverter from '../../functions/timestampConverter'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -311,7 +312,7 @@ const JokeCard = props => {
         title={<Typography variant='subtitle1'>{props.joke.user.email}</Typography>}
         subheader={
           <Typography variant='subtitle1' color="textSecondary">
-            {props.joke.created_at}
+            {timestampConverter(props.joke.created_at)}
           </Typography>
         }
       />
