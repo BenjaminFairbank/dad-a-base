@@ -171,95 +171,93 @@ const SignUpCard = props => {
   }
 
   return (
-    <Grid item xs={12} sm={6}>
-      <Card elevation={3} className={classes.signUpFormCard}>
-        <Box className={classes.titleBox}>
-          <Typography variant='h6'>Sign Up</Typography>
+    <Card elevation={3} className={classes.signUpFormCard}>
+      <Box className={classes.titleBox}>
+        <Typography variant='h6'>Sign Up</Typography>
+      </Box>
+      <form onSubmit={signUpFormSubmitHandler}>
+        <Box>
+          <CssTextField
+            label="Email"
+            type="text"
+            name="email"
+            onChange={handleSignUpFormChange}
+            value={signUpFormData.email}
+          />
         </Box>
-        <form onSubmit={signUpFormSubmitHandler}>
-          <Box>
-            <CssTextField
-              label="Email"
-              type="text"
-              name="email"
-              onChange={handleSignUpFormChange}
-              value={signUpFormData.email}
-            />
-          </Box>
-          <Box className={classes.passwordBox}>
-            <CssTextField
-              className={classes.passwordField}
-              label="Password"
-              type={passwordVisibility ? "text" : "password"}
-              name="password"
-              onChange={handleSignUpFormChange}
-              value={signUpFormData.password}
-            />
-            <IconButton
-              className={classes.passwordVisButton}
-              onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
-            >
-              {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
-              {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
-            </IconButton>
-          </Box>
-          <Box className={classes.passwordBox}>
-            <CssTextField
-              className={classes.passwordField}
-              label="Password Confirmation"
-              type={passwordConfirmationVisibility ? "text" : "password"}
-              name="password_confirmation"
-              onChange={handleSignUpFormChange}
-              value={signUpFormData.password_confirmation}
-            />
-            <IconButton
-              className={classes.passwordVisButton}
-              onClick={()=>{setpasswordConfirmationVisibility(!passwordConfirmationVisibility)}}
-            >
-              {passwordConfirmationVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
-              {!passwordConfirmationVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
-            </IconButton>
-          </Box>
-          <Dropzone onDrop={handleFileUpload}>
-            {({getRootProps, getInputProps}) => (
-              <section className={classes.dropzone}>
-                <Button {...getRootProps()} className={classes.dropzoneButton}>
-                  <input {...getInputProps()} />
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Typography variant='body2' className={classes.dropzoneText}>
-                        Click or drag 'n' drop your profile photo here
-                      </Typography>
-                    </Grid>
-                    {signUpFormData.profile_photo !== '' &&
-                      <>
-                        <Grid item xs={12}>
-                          <Typography variant='subtitle2'>Upload:</Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Typography variant='subtitle2' className={classes.fileName}>
-                            {signUpFormData.profile_photo.name}
-                          </Typography>
-                        </Grid>
-                      </>
-                    }
+        <Box className={classes.passwordBox}>
+          <CssTextField
+            className={classes.passwordField}
+            label="Password"
+            type={passwordVisibility ? "text" : "password"}
+            name="password"
+            onChange={handleSignUpFormChange}
+            value={signUpFormData.password}
+          />
+          <IconButton
+            className={classes.passwordVisButton}
+            onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
+          >
+            {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+            {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+          </IconButton>
+        </Box>
+        <Box className={classes.passwordBox}>
+          <CssTextField
+            className={classes.passwordField}
+            label="Password Confirmation"
+            type={passwordConfirmationVisibility ? "text" : "password"}
+            name="password_confirmation"
+            onChange={handleSignUpFormChange}
+            value={signUpFormData.password_confirmation}
+          />
+          <IconButton
+            className={classes.passwordVisButton}
+            onClick={()=>{setpasswordConfirmationVisibility(!passwordConfirmationVisibility)}}
+          >
+            {passwordConfirmationVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+            {!passwordConfirmationVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+          </IconButton>
+        </Box>
+        <Dropzone onDrop={handleFileUpload}>
+          {({getRootProps, getInputProps}) => (
+            <section className={classes.dropzone}>
+              <Button {...getRootProps()} className={classes.dropzoneButton}>
+                <input {...getInputProps()} />
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography variant='body2' className={classes.dropzoneText}>
+                      Click or drag 'n' drop your profile photo here
+                    </Typography>
                   </Grid>
-                </Button>
-              </section>
-            )}
-          </Dropzone>
-          <Box>
-            <Button
-              className={classes.button}
-              color="inherit"
-              type="submit"
-            >
-              Sign Up
-            </Button>
-          </Box>
-        </form>
-      </Card>
-    </Grid>
+                  {signUpFormData.profile_photo !== '' &&
+                    <>
+                      <Grid item xs={12}>
+                        <Typography variant='subtitle2'>Upload:</Typography>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography variant='subtitle2' className={classes.fileName}>
+                          {signUpFormData.profile_photo.name}
+                        </Typography>
+                      </Grid>
+                    </>
+                  }
+                </Grid>
+              </Button>
+            </section>
+          )}
+        </Dropzone>
+        <Box>
+          <Button
+            className={classes.button}
+            color="inherit"
+            type="submit"
+          >
+            Sign Up
+          </Button>
+        </Box>
+      </form>
+    </Card>
   )
 }
 

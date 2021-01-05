@@ -6,7 +6,6 @@ import {
   Box,
   TextField,
   Button,
-  Grid,
   IconButton
 } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
@@ -129,50 +128,48 @@ const SignInCard = props => {
   }
 
   return (
-    <Grid item xs={12} sm={6}>
-      <Card elevation={3} className={classes.signInFormCard}>
-        <Box className={classes.titleBox}>
-          <Typography variant='h6'>Sign In</Typography>
+    <Card elevation={3} className={classes.signInFormCard}>
+      <Box className={classes.titleBox}>
+        <Typography variant='h6'>Sign In</Typography>
+      </Box>
+      <form onSubmit={signInFormSubmitHandler}>
+        <Box>
+          <CssTextField
+            label="Email"
+            type="text"
+            name="email"
+            onChange={handleSignInFormChange}
+            value={signInFormData.email}
+          />
         </Box>
-        <form onSubmit={signInFormSubmitHandler}>
-          <Box>
-            <CssTextField
-              label="Email"
-              type="text"
-              name="email"
-              onChange={handleSignInFormChange}
-              value={signInFormData.email}
-            />
-          </Box>
-          <Box className={classes.passwordBox}>
-            <CssTextField
-              className={classes.passwordField}
-              label="Password"
-              type={passwordVisibility ? "text" : "password"}
-              name="password"
-              onChange={handleSignInFormChange}
-              value={signInFormData.password}
-            />
-            <IconButton
-              className={classes.passwordVisButton}
-              onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
-            >
-              {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
-              {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
-            </IconButton>
-          </Box>
-          <Box>
-            <Button
-              className={classes.button}
-              color="inherit"
-              type="submit"
-            >
-              Sign In
-            </Button>
-          </Box>
-        </form>
-      </Card>
-    </Grid>
+        <Box className={classes.passwordBox}>
+          <CssTextField
+            className={classes.passwordField}
+            label="Password"
+            type={passwordVisibility ? "text" : "password"}
+            name="password"
+            onChange={handleSignInFormChange}
+            value={signInFormData.password}
+          />
+          <IconButton
+            className={classes.passwordVisButton}
+            onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
+          >
+            {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+            {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+          </IconButton>
+        </Box>
+        <Box>
+          <Button
+            className={classes.button}
+            color="inherit"
+            type="submit"
+          >
+            Sign In
+          </Button>
+        </Box>
+      </form>
+    </Card>
   )
 }
 
