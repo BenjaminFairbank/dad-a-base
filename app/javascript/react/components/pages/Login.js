@@ -1,18 +1,40 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Grid } from '@material-ui/core'
+import { Container, Typography, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import SignInCard from '../ui/SignInCard'
 import SignUpCard from '../ui/SignUpCard'
 
+const useStyles = makeStyles((theme) => ({
+  warning: {
+    textAlign: 'center',
+    color: theme.palette.primary.main,
+  }
+}))
+
 const Login = props => {
+  const classes = useStyles()
 
   let page = (
-    <Grid container>
-      <SignInCard />
-      <SignUpCard />
-    </Grid>
+    <>
+      <Container>
+        <Typography variant='h6' className={classes.warning}>
+          Warning!
+        </Typography>
+        <Typography variant='subtitle1' className={classes.warning}>
+          At the moment, this login portal does NOT utilize encrpytion.<br />
+          For your own protection, DO NOT use an email-password<br />
+          combination that may protect your sensitive data elsewhere.<br />
+          Feel free to use unconfirmable credentials as this application will not email you.
+        </Typography>
+      </Container>
+      <Grid container>
+        <Grid item xs={12} sm={6}><SignInCard /></Grid>
+        <Grid item xs={12} sm={6}><SignUpCard /></Grid>
+      </Grid>
+    </>
   )
 
   if (props.currentUser !== null) {
