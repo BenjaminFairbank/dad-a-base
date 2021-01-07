@@ -18,6 +18,23 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     objectPosition: 'center',
   },
+  email: {
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+    },
+  },
+  timestamp: {
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+    },
+  },
+  notYetRated: {
+    padding: '8px 8px 0 0',
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+      padding: '0 16px',
+    },
+  },
   ratingBox: {
     padding: '8px 8px 0 0',
     display: 'flex',
@@ -25,12 +42,15 @@ const useStyles = makeStyles((theme) => ({
     '& > * + *': {
       marginTop: theme.spacing(1),
     },
+    [theme.breakpoints.only('xs')]: {
+      padding: '0 16px'
+    },
   },
   ratingInnerBox: {
     display: 'flex',
   },
   rating: {
-    marginTop: 6,
+    paddingTop: 6,
     display: 'inline-flex',
   },
   ratingCount: {
@@ -41,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
   ratingLabel: {
     marginTop: 0,
     textAlign: 'right',
+    [theme.breakpoints.only('xs')]: {
+      paddingTop: 6
+    },
   },
   jokeCardContent: {
     padding: '8px 16px 0 16px'

@@ -11,7 +11,8 @@ import {
   CardMedia,
   CardActions,
   TextField,
-  Collapse
+  Collapse,
+  Grid
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
 import clsx from 'clsx'
@@ -22,6 +23,7 @@ import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 
 import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
+import withWidth from '@material-ui/core/withWidth'
 
 import CommentCard from './CommentCard'
 import ratingEvaluator from '../../functions/ratingEvaluator'
@@ -278,6 +280,36 @@ const JokeCard = props => {
 
   const jokeRating = ratingEvaluator(props.joke, props.currentUser, hRValue, userRated, ratedRecently)
 
+  const ratingLabel = (
+    <Typography variant='subtitle1' className={classes.ratingLabel}>
+      "{ratingLabels[jokeRating]}"
+    </Typography>
+  )
+
+  let ratingBox = <Typography variant='subtitle2' className={classes.notYetRated}>Not yet rated</Typography>
+  if (!isNaN(jokeRating)) {
+    ratingBox = (
+      <Box className={classes.ratingBox}>
+          <Grid container>
+            <Grid item xs={6} sm={12} className={classes.ratingInnerBox}>
+              <Rating
+                name="half-rating-read"
+                value={jokeRating}
+                precision={0.5}
+                readOnly
+                className={classes.rating}
+              />
+              <Typography variant='subtitle1' className={classes.ratingCount}>
+                ({!userRated && ratedRecently ? props.joke.ratings.length + 1 : props.joke.ratings.length})
+              </Typography>
+            </Grid>
+            {props.width === 'xs' && <Grid item xs={6} sm={12}>{ratingLabel}</Grid>}
+          </Grid>
+        {props.width !== 'xs' && ratingLabel}
+      </Box>
+    )
+  }
+
   return (
     <Card elevation={3} className={classes.jokeCard}>
       <CardHeader
@@ -290,32 +322,18 @@ const JokeCard = props => {
             src={props.joke.user.profile_photo.url}
           />
         }
-        action={
-          <Box className={classes.ratingBox}>
-            <Box className={classes.ratingInnerBox}>
-              <Rating
-                name="half-rating-read"
-                value={jokeRating}
-                precision={0.5}
-                readOnly
-                className={classes.rating}
-              />
-              <Typography variant='subtitle1' className={classes.ratingCount}>
-                ({!userRated && ratedRecently ? props.joke.ratings.length + 1 : props.joke.ratings.length})
-              </Typography>
-            </Box>
-            <Typography variant='subtitle1' className={classes.ratingLabel}>
-              {ratingLabels[jokeRating]}
-            </Typography>
-          </Box>
-        }
-        title={<Typography variant='subtitle1'>{props.joke.user.email}</Typography>}
+        title={
+          <Typography variant='subtitle1' className={classes.email}>
+            {props.joke.user.email}
+          </Typography>}
         subheader={
-          <Typography variant='subtitle1' color="textSecondary">
+          <Typography variant='subtitle1' color="textSecondary" className={classes.timestamp}>
             {timestampConverter(props.joke.created_at)}
           </Typography>
         }
+        action={props.width !== 'xs' && ratingBox}
       />
+      {props.width === 'xs' && ratingBox}
       {props.joke.body !== '' && 
         <CardContent className={classes.jokeCardContent}>
           <Typography variant="body1" color="textSecondary">
@@ -421,7 +439,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(JokeCard)
+export default withWidth()(
+  connect(
+    mapStateToProps,
+    null
+  )(JokeCard)
+)

@@ -54,8 +54,8 @@ class App extends React.Component {
       breakpoints: {
         values: {
           xs: 0,
-          sm: 750,
-          md: 960,
+          sm: 650,
+          md: 750,
           lg: 1280,
           xl: 1920,
         },

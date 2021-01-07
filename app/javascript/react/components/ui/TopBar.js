@@ -74,7 +74,7 @@ function ElevationScroll(props) {
 
 const TopBar = (props) => {
   const classes = useStyles()
-  const smallScreen = useMediaQuery(props.theme.breakpoints.down("xs"));
+  const smallScreen = useMediaQuery(props.theme.breakpoints.down('sm'));
   const title = smallScreen ? 'DB' : 'The Dad-a-Base'
 
   const logout = () => {
