@@ -310,6 +310,31 @@ const JokeCard = props => {
     )
   }
 
+  const viewComments = (
+    <>
+      <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
+        View comments:
+      </Typography>
+      <IconButton
+        className={clsx(classes.expand, {
+          [classes.expandOpen]: expanded,
+        })}
+        onClick={handleExpandCommentsClick}
+        aria-expanded={expanded}
+        aria-label="Show/Hide Comments"
+        title="Show/Hide Comments"
+      >
+        <ExpandMoreIcon fontSize="large" />
+      </IconButton>
+    </>
+  )
+
+  const deleteJokeButton = (
+    <IconButton aria-label="delete" onClick={handleDeleteJokeClick} className={classes.deleteJokeButton}>
+      <DeleteOutlinedIcon />
+    </IconButton>
+  )
+
   return (
     <Card elevation={3} className={classes.jokeCard}>
       <CardHeader
@@ -380,10 +405,8 @@ const JokeCard = props => {
       <CardActions disableSpacing className={classes.cardActions}>
         {props.currentUser !== null &&
           <>
-            {props.currentUser.id === props.joke.user.id &&
-              <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
-                <DeleteOutlinedIcon />
-              </IconButton>
+            {props.currentUser.id === props.joke.user.id && props.width !== 'xs' &&
+              deleteJokeButton
             }
             <Typography className={classes.rateText} variant='subtitle1'>
               Rate:
@@ -409,21 +432,14 @@ const JokeCard = props => {
             </Box>
           </>
         }
-        <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
-          View comments:
-        </Typography>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandCommentsClick}
-          aria-expanded={expanded}
-          aria-label="Show/Hide Comments"
-          title="Show/Hide Comments"
-        >
-          <ExpandMoreIcon fontSize="large" />
-        </IconButton>
+        {props.width !== 'xs' && viewComments}
       </CardActions>
+      {props.width === 'xs' &&
+        <CardActions className={classes.cardActions2}>
+          {props.currentUser.id === props.joke.user.id && deleteJokeButton}
+          {viewComments}
+        </CardActions>
+      }
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent className={classes.commentsSection}>
           {commentCards}

@@ -99,7 +99,14 @@ const useStyles = makeStyles((theme) => ({
     width: 59,
   },
   cardActions: {
-    paddingTop: 0
+    paddingTop: 0,
+    [theme.breakpoints.only('xs')]: {
+      paddingBottom: 0
+    },
+  },
+  cardActions2: {
+    paddingTop: 0,
+
   },
   rateText: {
     margin: '0 10px'
@@ -108,6 +115,11 @@ const useStyles = makeStyles((theme) => ({
     width: 240,
     display: 'flex',
     alignItems: 'center',
+  },
+  deleteJokeButton: {
+    [theme.breakpoints.only('xs')]: {
+      marginRight: 'auto'
+    },
   },
   commentsSectionIndicator: {
     marginLeft: 'auto',
