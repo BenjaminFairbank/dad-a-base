@@ -436,7 +436,7 @@ const JokeCard = props => {
       </CardActions>
       {props.width === 'xs' &&
         <CardActions className={classes.cardActions2}>
-          {props.currentUser.id === props.joke.user.id && deleteJokeButton}
+          {props.currentUser !== null && props.currentUser.id === props.joke.user.id && deleteJokeButton}
           {viewComments}
         </CardActions>
       }
