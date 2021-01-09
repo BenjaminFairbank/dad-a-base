@@ -420,7 +420,7 @@ const JokeCard = props => {
                   setRatedRecently(true)
                   if (ratingID === null) {
                     postRating(newHRValue)
-                  } else {
+                  } else if (newHRValue !== null) {
                     updateRating(newHRValue)
                   }
                 }}
