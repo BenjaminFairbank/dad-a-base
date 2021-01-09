@@ -5,11 +5,31 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     background: theme.palette.quaternary.main
   },
+  commentCardHeader: {
+    paddingBottom: 0,
+  },
   commentAvatar: {
     height: 40,
     width: 40,
     objectFit: 'cover',
     objectPosition: 'center',
+  },
+  commentEmail: {
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+    },
+  },
+  commentTimestamp: {
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+    },
+  },
+  commentActionsBox: {
+    padding: '8px 8px 0 0',
+    [theme.breakpoints.only('xs')]: {
+      textAlign: 'right',
+      paddingRight: '0 16px 0 0'
+    },
   },
   commentUpdateForm: {
     display: 'flex',

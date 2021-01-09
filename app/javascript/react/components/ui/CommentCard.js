@@ -8,7 +8,8 @@ import {
   Avatar,
   CardContent,
   IconButton,
-  TextField
+  TextField,
+  withWidth
 } from '@material-ui/core'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
@@ -63,7 +64,7 @@ const CommentCard = props => {
   let actions = ''
   if (props.currentUser !== null && props.comment.user.id === props.currentUser.id) {
     actions = (
-      <Box>
+      <Box className={classes.commentActionsBox}>
         <IconButton aria-label="edit" onClick={handleEditCommentClick} title="Edit Comment">
           <EditOutlinedIcon />
         </IconButton>
@@ -100,6 +101,7 @@ const CommentCard = props => {
   return (
     <Card className={classes.commentCard}>
       <CardHeader
+        className={classes.commentCardHeader}
         disableTypography
         avatar={props.comment.user.profile_photo.url &&
           <Avatar
@@ -108,14 +110,26 @@ const CommentCard = props => {
             src={props.comment.user.profile_photo.url}
           />
         }
-        action={actions}
-        title={<Typography variant='subtitle2'>{props.comment.user.email}</Typography>}
+        title={
+          <Typography
+            variant='subtitle2'
+            className={classes.commentEmail}
+          >
+            {props.comment.user.email}
+          </Typography>
+        }
         subheader={
-          <Typography variant='subtitle2' color="textSecondary">
+          <Typography
+            variant='subtitle2'
+            color="textSecondary"
+            className={classes.commentTimestamp}
+          >
             {timestampConverter(props.comment.created_at)}
           </Typography>
         }
+        action={props.width !== 'xs' && actions}
       />
+      {props.width === 'xs' && actions}
       <CardContent className={classes.commentCardContent}>
         {commentCardContent}
       </CardContent>
@@ -129,7 +143,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(CommentCard)
+export default withWidth()(
+  connect(
+    mapStateToProps,
+    null
+  )(CommentCard)
+)
