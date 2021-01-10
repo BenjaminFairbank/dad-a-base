@@ -26,6 +26,7 @@ import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
+
 import ratingEvaluator from '../../functions/ratingEvaluator'
 import timestampConverter from '../../functions/timestampConverter'
 
@@ -50,14 +51,15 @@ const JokeCard = props => {
   if (userRated) {
     var userRating = props.currentUser.ratings.find(rating => rating.joke.id === props.joke.id)
   }
+  
+  const [hRHover, setHRHover] = useState(-1)
+  const [hRValue, setHRValue] = useState(userRated ? userRating.value/2 : null)
+  const [userRatingID, setUserRatingID] = useState(userRated ? userRating.id : null)
+  const [updatedRatings, setUpdatedRatings] = useState(null)
 
   const [commentFormData, setCommentFormData] = useState('')
-  const [expanded, setExpanded] = useState(false)
-  const [hRValue, setHRValue] = useState(userRated ? userRating.value/2 : 0)
-  const [hRHover, setHRHover] = useState(-1)
-  const [ratedRecently, setRatedRecently] = useState(false)
-  const [ratingID, setRatingID] = useState(userRated ? userRating.id : null)
   const [updatedComments, setUpdatedComments] = useState(null)
+  const [expanded, setExpanded] = useState(false)
 
   const ratingLabels = {
     0.5: 'True Dad Joke',
@@ -96,15 +98,17 @@ const JokeCard = props => {
     })
     .then(response => response.json())
     .then(body => {
-      let rating = body
+      let rating = body.rating
+      let ratings = body.ratings
       setHRValue(rating.value/2)
-      setRatingID(rating.id)
+      setUserRatingID(rating.id)
+      setUpdatedRatings(ratings)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
   const updateRating = value => {
-    fetch(`/api/v1/ratings/${ratingID}`, {
+    fetch(`/api/v1/ratings/${userRatingID}`, {
       credentials: 'same-origin',
       method: 'PUT',
       body: JSON.stringify({
@@ -127,8 +131,39 @@ const JokeCard = props => {
     })
     .then(response => response.json())
     .then(body => {
-      const rating = body
+      let rating = body.rating
+      let ratings = body.ratings
       setHRValue(rating.value/2)
+      setUserRatingID(rating.id)
+      setUpdatedRatings(ratings)
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const deleteRating = id => {
+    fetch(`/api/v1/ratings/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let ratings = body
+      setHRValue(null)
+      setUserRatingID(null)
+      setUpdatedRatings(ratings)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -278,7 +313,7 @@ const JokeCard = props => {
     commentCards = <Typography variant='body2'>No comments</Typography>
   }
 
-  const jokeRating = ratingEvaluator(props.joke, props.currentUser, hRValue, userRated, ratedRecently)
+  const jokeRating = ratingEvaluator(updatedRatings === null ? props.joke.ratings : updatedRatings)
 
   const ratingLabel = (
     <Typography variant='subtitle1' className={classes.ratingLabel}>
@@ -300,7 +335,7 @@ const JokeCard = props => {
                 className={classes.rating}
               />
               <Typography variant='subtitle1' className={classes.ratingCount}>
-                ({!userRated && ratedRecently ? props.joke.ratings.length + 1 : props.joke.ratings.length})
+                ({updatedRatings === null ? props.joke.ratings.length : updatedRatings.length})
               </Typography>
             </Grid>
             {props.width === 'xs' && <Grid item xs={6} sm={12}>{ratingLabel}</Grid>}
@@ -313,7 +348,7 @@ const JokeCard = props => {
   const viewComments = (
     <>
       <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
-        View comments:
+        View comments ({updatedComments === null ? props.joke.comments.length : updatedComments.length}) :
       </Typography>
       <IconButton
         className={clsx(classes.expand, {
@@ -405,9 +440,7 @@ const JokeCard = props => {
       <CardActions disableSpacing className={classes.cardActions}>
         {props.currentUser !== null &&
           <>
-            {props.currentUser.id === props.joke.user.id && props.width !== 'xs' &&
-              deleteJokeButton
-            }
+            {props.currentUser.id === props.joke.user.id && props.width !== 'xs' && deleteJokeButton}
             <Typography className={classes.rateText} variant='subtitle1'>
               Rate:
             </Typography>
@@ -417,10 +450,11 @@ const JokeCard = props => {
                 value={hRValue}
                 precision={0.5}
                 onChange={(event, newHRValue) => {
-                  setRatedRecently(true)
-                  if (ratingID === null) {
+                  if (userRatingID === null) {
                     postRating(newHRValue)
-                  } else if (newHRValue !== null) {
+                  } else if (newHRValue === null) {
+                    deleteRating(userRatingID)
+                  } else {
                     updateRating(newHRValue)
                   }
                 }}

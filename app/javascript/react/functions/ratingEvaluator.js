@@ -1,26 +1,14 @@
-const evaluateRating = (joke, currentUser, selectedValue, ratingRecordExists, ratedRecently) => {
+const RatingEvaluator = (ratings) => {
 
   let sum = 0
 
-  joke.ratings.forEach((rating) => {
+  ratings.forEach((rating) => {
     sum += rating.value
   })
 
-  if (!ratingRecordExists && selectedValue !==0) {    // the user is submitting their first rating
-    sum += selectedValue*2
-    var average = sum/(joke.ratings.length + 1)
-  } else if (ratingRecordExists && ratedRecently) {   // the user is assigning a new rating
-    if (currentUser !== null) {
-      const userRating = currentUser.ratings.find(rating => rating.joke.id === joke.id)
-      sum -= userRating.value
-    }
-    sum += selectedValue*2
-    var average = sum/joke.ratings.length
-  } else {                                            // initial page load
-    var average = sum/joke.ratings.length
-  }
-
+  let average = sum/ratings.length
+  
   return Math.round(average)/2
 }
 
-export default evaluateRating
+export default RatingEvaluator

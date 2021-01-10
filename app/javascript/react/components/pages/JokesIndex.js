@@ -42,7 +42,7 @@ const JokesIndex = props => {
   }
 
   return (
-    <Container>
+    <Container maxWidth='md'>
       {formAccess}
       <JokesIndexDisplay setJokes={setJokes} jokes={jokes} />
     </Container>

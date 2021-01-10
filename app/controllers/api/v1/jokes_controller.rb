@@ -27,7 +27,7 @@ class Api::V1::JokesController < ApplicationController
       joke.destroy
       render json: Joke.all
     else
-      render json: {error: 'You are not authorized to delete this Joke!'}
+      render json: {error: 'You are not authorized to delete this joke!'}
     end
   end
 

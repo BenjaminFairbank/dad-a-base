@@ -4,8 +4,13 @@ class Api::V1::RatingsController < ApplicationController
     rating = Rating.new(rating_params)
     if current_user
       rating.user = current_user
+      joke = rating.joke
+      ratings = joke.ratings
       if rating.save
-        render json: rating
+        render json: { 
+          rating: serialized_data(rating, RatingSerializer),
+          ratings: serialized_data(ratings, RatingSerializer)
+        }
       else
         render json: {error: rating.errors.full_messages.to_sentence}
       end
@@ -18,8 +23,13 @@ class Api::V1::RatingsController < ApplicationController
     rating = Rating.find(params[:id])
     user = rating.user
     if user.id == current_user.id
+      joke = rating.joke
+      ratings = joke.ratings
       if rating.update(rating_params)
-        render json: rating
+        render json: { 
+          rating: serialized_data(rating, RatingSerializer),
+          ratings: serialized_data(ratings, RatingSerializer)
+        }
       else 
         render json: {error: rating.errors.full_messages.to_sentence}
       end
@@ -28,10 +38,26 @@ class Api::V1::RatingsController < ApplicationController
     end
   end
 
+  def destroy
+    rating = Rating.find(params[:id])
+    user = rating.user
+    joke = rating.joke
+    if user.id == current_user.id
+      rating.destroy
+      render json: joke.ratings
+    else
+      render json: {error: 'You are not authorized to delete this rating!'}
+    end
+  end
+
   protected
 
   def rating_params
     params.require(:rating).permit(:joke_id, :value)
+  end
+
+  def serialized_data(data, serializer)
+    ActiveModelSerializers::SerializableResource.new(data, each_serializer: serializer)
   end
 
 end
