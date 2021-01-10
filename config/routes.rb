@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       delete "users/sign_out_user", to: "/api/v1/users#sign_out_user"
       resources :jokes, only: [:index, :create, :destroy]
       resources :comments, only: [:create, :update, :destroy]
-      resources :ratings, only: [:create, :update]
+      resources :ratings, only: [:create, :update, :destroy]
     end
   end
 end
