@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
   rateText: {
-    margin: '0 10px'
+    margin: '0 8px'
   },
   hoverRating: {
     width: 240,
@@ -123,14 +123,17 @@ const useStyles = makeStyles((theme) => ({
   },
   commentsSectionIndicator: {
     marginLeft: 'auto',
+    paddingRight: 5,
   },
   expand: {
+    padding: 6,
     transform: 'rotate(0deg)',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
   },
   expandOpen: {
+    padding: 6,
     transform: 'rotate(180deg)',
   },
   commentsSection: {
