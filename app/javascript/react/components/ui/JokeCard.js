@@ -348,7 +348,7 @@ const JokeCard = props => {
   const viewComments = (
     <>
       <Typography className={classes.commentsSectionIndicator} variant='subtitle1'>
-        View comments ({updatedComments === null ? props.joke.comments.length : updatedComments.length}) :
+        View comments ({updatedComments === null ? props.joke.comments.length : updatedComments.length})
       </Typography>
       <IconButton
         className={clsx(classes.expand, {
@@ -359,7 +359,7 @@ const JokeCard = props => {
         aria-label="Show/Hide Comments"
         title="Show/Hide Comments"
       >
-        <ExpandMoreIcon fontSize="large" />
+        <ExpandMoreIcon fontSize='large' />
       </IconButton>
     </>
   )
