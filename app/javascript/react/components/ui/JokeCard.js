@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import {
   Typography,
   Box,
@@ -383,8 +384,16 @@ const JokeCard = props => {
           />
         }
         title={
-          <Typography variant='subtitle1' className={classes.email}>
-            {props.joke.user.email}
+
+          <Typography className={classes.userNameTextWrapper}>
+            <Typography
+              variant='subtitle1'
+              className={classes.userName}
+              component={Link}
+              to={`/users/${props.joke.user.id}`}
+            >
+              {props.joke.user.user_name}
+            </Typography>
           </Typography>}
         subheader={
           <Typography variant='subtitle1' color="textSecondary" className={classes.timestamp}>

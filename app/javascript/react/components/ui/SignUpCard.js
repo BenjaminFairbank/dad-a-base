@@ -103,9 +103,11 @@ const SignUpCard = props => {
 
   const defaultSignUpFormData = {
     email: '',
+    user_name: '',
     password: '',
     password_confirmation: '',
-    profile_photo: ''
+    profile_photo: '',
+    about_me: '',
   }
 
   const [signUpFormData, setSignUpFormData] = useState(defaultSignUpFormData)
@@ -130,9 +132,11 @@ const SignUpCard = props => {
   const signUp = () => {
     let formPayload = new FormData()
     formPayload.append('user[email]', signUpFormData.email)
+    formPayload.append('user[user_name]', signUpFormData.user_name)
     formPayload.append('user[password]', signUpFormData.password)
     formPayload.append('user[password_confirmation]', signUpFormData.password_confirmation)
     formPayload.append('user[profile_photo]', signUpFormData.profile_photo)
+    formPayload.append('user[about_me]', signUpFormData.about_me)
 
     fetch('api/v1/users', {
       method: 'POST',
@@ -183,6 +187,15 @@ const SignUpCard = props => {
             name="email"
             onChange={handleSignUpFormChange}
             value={signUpFormData.email}
+          />
+        </Box>
+        <Box>
+          <CssTextField
+            label="User Name"
+            type="text"
+            name="user_name"
+            onChange={handleSignUpFormChange}
+            value={signUpFormData.user_name}
           />
         </Box>
         <Box className={classes.passwordBox}>
@@ -247,6 +260,17 @@ const SignUpCard = props => {
             </section>
           )}
         </Dropzone>
+        <Box>
+          <CssTextField
+            label="About Me"
+            type="text"
+            name="about_me"
+            onChange={handleSignUpFormChange}
+            value={signUpFormData.about_me}
+            multiline
+            rowsMax={4}
+          />
+        </Box>
         <Box>
           <Button
             className={classes.button}

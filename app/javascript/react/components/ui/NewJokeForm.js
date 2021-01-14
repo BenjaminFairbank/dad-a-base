@@ -42,7 +42,7 @@ const NewJokeForm = props => {
     formPayload.append('joke[body]', newJokeFormData.body)
     formPayload.append('joke[image]', newJokeFormData.image)
 
-    fetch('api/v1/jokes', {
+    fetch('/api/v1/jokes', {
       method: 'POST',
       credentials: 'same-origin',
       headers: {

@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   warning: {
     textAlign: 'center',
     color: theme.palette.primary.main,
+    padding: '5px 16px',
   }
 }))
 
@@ -19,14 +20,14 @@ const Login = props => {
 
   let page = (
     <>
-      <Container>
+      <Container maxWidth='md'>
         <Typography variant='h6' className={classes.warning}>
           Warning!
         </Typography>
         <Typography variant='subtitle1' className={classes.warning}>
-          At the moment, this login portal does NOT utilize encrpytion.<br />
-          For your own protection, DO NOT use an email-password<br />
-          combination that may protect your sensitive data elsewhere.<br />
+          At the moment, this login portal does NOT utilize encrpytion.
+          For your own protection, DO NOT use an email-password
+          combination that may protect your sensitive data elsewhere.
           Feel free to use unconfirmable credentials as this application will not email you.
         </Typography>
       </Container>
