@@ -36,7 +36,7 @@ const UserShow = props => {
     .then(response => response.json() )
     .then(data => {
       if (!data.error) {
-        setUser(data)
+        setUser(data.user)
         setJokes(data.jokes)
       } else {
         props.displayAlertMessage(data.error)

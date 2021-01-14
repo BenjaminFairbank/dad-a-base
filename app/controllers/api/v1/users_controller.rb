@@ -6,7 +6,10 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    render json: user
+    render json: {
+      user: serialized_data(user, UserSerializer),
+      jokes: serialized_data(user.jokes, JokeSerializer)
+    }
   end
 
   def create
@@ -56,4 +59,7 @@ class Api::V1::UsersController < ApplicationController
     render json: { error: "No user with ID #{exception.id} found." }
   end
 
+  def serialized_data(data, serializer)
+    ActiveModelSerializers::SerializableResource.new(data, each_serializer: serializer)
+  end
 end
