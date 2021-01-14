@@ -47,10 +47,10 @@ const JokeCard = props => {
 
   let userRated = false
   if (props.currentUser !== null) {
-    userRated = props.currentUser.ratings.map(rating => rating.joke.id).includes(props.joke.id)
+    userRated = props.joke.ratings.map(rating => rating.user.id).includes(props.currentUser.id)
   }
   if (userRated) {
-    var userRating = props.currentUser.ratings.find(rating => rating.joke.id === props.joke.id)
+    var userRating = props.joke.ratings.find(rating => rating.user.id === props.currentUser.id)
   }
   
   const [hRHover, setHRHover] = useState(-1)
