@@ -1,7 +1,7 @@
 import React from 'react'
-import JokeCard from '../ui/JokeCard'
+import JokeCard from './JokeCard'
 
-const JokesIndexDisplay = props => {
+const JokesDisplay = props => {
 
   const jokeCards = props.jokes.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1).map(joke => {
     return (
@@ -16,4 +16,4 @@ const JokesIndexDisplay = props => {
   return <>{jokeCards}</>
 }
 
-export default JokesIndexDisplay
+export default JokesDisplay

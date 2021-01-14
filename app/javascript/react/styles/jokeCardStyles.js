@@ -18,10 +18,22 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     objectPosition: 'center',
   },
-  email: {
+  userNameTextWrapper: {
     [theme.breakpoints.only('xs')]: {
-      textAlign: 'right',
+      textAlign: 'right'
     },
+    overflow: 'hidden',
+    height: 28
+  },
+  userName: {
+    color: 'white',
+    '&:hover': {
+      color: theme.palette.secondary.main,
+    },
+    '&:focus': {
+      color: 'white',
+    },
+    textDecoration: 'none',
   },
   timestamp: {
     [theme.breakpoints.only('xs')]: {

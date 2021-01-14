@@ -7,7 +7,9 @@ import { CssBaseline } from '@material-ui/core'
 
 import JokesIndex from './pages/JokesIndex'
 import Login from './pages/Login'
+import UserShow from './pages/UserShow';
 import StyleGuide from './pages/StyleGuide'
+
 import TopBar from './ui/TopBar'
 import ScrollUpButton from './ui/ScrollUpButton'
 import AlertMessage from './ui/AlertMessage'
@@ -73,6 +75,7 @@ class App extends React.Component {
                 <Route exact path='/' component={JokesIndex} />
                 <Route exact path='/home' component={JokesIndex} />
                 <Route exact path='/login' component={Login} />
+                <Route exact path='/users/:id' component={UserShow} />
                 <Route exact path='/styleguide' component={StyleGuide} />
               </Switch>
             </BrowserRouter>

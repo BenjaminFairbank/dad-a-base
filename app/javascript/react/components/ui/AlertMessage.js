@@ -18,7 +18,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50%',
   },
   text: {
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
+    paddingRight: 10
+  },
+  buttonText: {
+    color: theme.palette.primary.main,
   }
 }))
 
@@ -31,9 +35,8 @@ const AlertMessage = props => {
         <Typography variant='subtitle1' className={classes.text}>
           {props.message}
         </Typography>
-        &nbsp;&nbsp;
         <Button onClick={props.closeAlertMessage} className={classes.button}>
-          <Typography variant='subtitle1' className={classes.text}>&times;</Typography>
+          <Typography variant='subtitle1' className={classes.buttonText}>&times;</Typography>
         </Button>
       </Box>
     </Box>

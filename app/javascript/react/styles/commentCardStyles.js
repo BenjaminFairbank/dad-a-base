@@ -14,10 +14,20 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'cover',
     objectPosition: 'center',
   },
-  commentEmail: {
+  commentUserNameTextWrapper: {
     [theme.breakpoints.only('xs')]: {
       textAlign: 'right',
     },
+  },
+  commentUserName: {
+    color: 'white',
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
+    '&:focus': {
+      color: 'white',
+    },
+    textDecoration: 'none',
   },
   commentTimestamp: {
     [theme.breakpoints.only('xs')]: {

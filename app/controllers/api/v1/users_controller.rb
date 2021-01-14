@@ -2,6 +2,13 @@ class Api::V1::UsersController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:create]
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :no_record_handler
+
+  def show
+    user = User.find(params[:id])
+    render json: user
+  end
+
   def create
     user = User.new(user_params)
     if user.save
@@ -42,7 +49,11 @@ class Api::V1::UsersController < ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :profile_photo)
+    params.require(:user).permit(:email, :user_name, :password, :password_confirmation, :profile_photo, :about_me)
+  end
+
+  def no_record_handler(exception)  
+    render json: { error: "No user with ID #{exception.id} found." }
   end
 
 end

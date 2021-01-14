@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   Box,
@@ -111,11 +112,15 @@ const CommentCard = props => {
           />
         }
         title={
-          <Typography
-            variant='subtitle2'
-            className={classes.commentEmail}
-          >
-            {props.comment.user.email}
+          <Typography className={classes.commentUserNameTextWrapper}>
+            <Typography
+              variant='subtitle2'
+              className={classes.commentUserName}
+              component={Link}
+              to={`/users/${props.comment.user.id}`}
+            >
+              {props.comment.user.user_name}
+            </Typography>
           </Typography>
         }
         subheader={
