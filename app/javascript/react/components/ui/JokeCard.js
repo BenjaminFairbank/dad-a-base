@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
@@ -55,18 +55,10 @@ const JokeCard = props => {
     body: props.joke.body,
     image: ''
   }
-
-  let userRated = false
-  if (props.currentUser !== null) {
-    userRated = props.joke.ratings.map(rating => rating.user.id).includes(props.currentUser.id)
-  }
-  if (userRated) {
-    var userRating = props.joke.ratings.find(rating => rating.user.id === props.currentUser.id)
-  }
   
   const [hRHover, setHRHover] = useState(-1)
-  const [hRValue, setHRValue] = useState(userRated ? userRating.value/2 : null)
-  const [userRatingID, setUserRatingID] = useState(userRated ? userRating.id : null)
+  const [hRValue, setHRValue] = useState(null)
+  const [userRatingID, setUserRatingID] = useState(null)
   const [updatedRatings, setUpdatedRatings] = useState(null)
 
   const [commentFormData, setCommentFormData] = useState('')
@@ -79,6 +71,18 @@ const JokeCard = props => {
 
   const [dropzoneHeight, setDropzoneHeight] = useState('100px')
   const [updating, setUpdating] = useState(false)
+
+  useEffect(() => {
+    let userRated = false
+    if (props.currentUser !== null) {
+      userRated = props.joke.ratings.map(rating => rating.user.id).includes(props.currentUser.id)
+    }
+    if (userRated) {
+      const userRating = props.joke.ratings.find(rating => rating.user.id === props.currentUser.id)
+      setHRValue(userRating.value/2)
+      setUserRatingID(userRating.id)
+    }
+  },[])
 
   const ratingLabels = {
     0.5: 'True Dad Joke',
