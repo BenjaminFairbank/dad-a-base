@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Dropzone from 'react-dropzone'
 import {
   Typography,
   Box,
@@ -14,6 +15,7 @@ import {
   TextField,
   Collapse,
   Grid,
+  Button,
   withWidth
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
@@ -21,6 +23,8 @@ import clsx from 'clsx'
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import PostAddIcon from '@material-ui/icons/PostAdd'
+import UpdateIcon from '@material-ui/icons/Update'
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 
 import useStyles from '../../styles/jokeCardStyles'
@@ -30,6 +34,8 @@ import CommentCard from './CommentCard'
 
 import ratingEvaluator from '../../functions/ratingEvaluator'
 import timestampConverter from '../../functions/timestampConverter'
+
+import { displayAlertMessage } from '../../modules/alertMessage'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -44,6 +50,11 @@ const CssTextField = withStyles((theme) => ({
 
 const JokeCard = props => {
   const classes = useStyles()
+
+  const defaultFormData = {
+    body: props.joke.body,
+    image: ''
+  }
 
   let userRated = false
   if (props.currentUser !== null) {
@@ -61,6 +72,13 @@ const JokeCard = props => {
   const [commentFormData, setCommentFormData] = useState('')
   const [updatedComments, setUpdatedComments] = useState(null)
   const [expanded, setExpanded] = useState(false)
+
+  const [jokeEditingMode, setJokeEditingMode] = useState(false)
+  const [updateJokeFormData, setUpdateJokeFormData] = useState(defaultFormData)
+  const [newFileUploaded, setNewFileUploaded] = useState(false)
+
+  const [dropzoneHeight, setDropzoneHeight] = useState('100px')
+  const [updating, setUpdating] = useState(false)
 
   const ratingLabels = {
     0.5: 'True Dad Joke',
@@ -258,6 +276,46 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const editJoke = () => {
+    let formPayload = new FormData()
+    formPayload.append('joke[body]', updateJokeFormData.body)
+    if (newFileUploaded) {
+      formPayload.append('joke[image]', updateJokeFormData.image)
+    }
+
+    fetch(`/api/v1/jokes/${props.joke.id}`, {
+      credentials: 'same-origin',
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Accept': 'image/jpeg'
+      },
+      body: formPayload
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      let jokes = body
+      if (jokes.error) {
+        props.displayAlertMessage(joke.error)
+      } else {
+        setNewFileUploaded(false)
+        setUpdating(false)
+        props.displayAlertMessage('')
+        props.setJokes(jokes)
+      }
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
   const deleteJoke = id => {
     fetch(`/api/v1/jokes/${id}`, {
       credentials: 'same-origin',
@@ -279,7 +337,7 @@ const JokeCard = props => {
     .then(response => response.json())
     .then(body => {
       let jokes = body
-      props.setJokes(body)
+      props.setJokes(jokes)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -297,6 +355,54 @@ const JokeCard = props => {
 
   const handleDeleteJokeClick = () => {
     if (props.currentUser.id === props.joke.user.id) {deleteJoke(props.joke.id)}
+  }
+
+  const fieldID = 'jokeUpdateForm' + props.joke.id.toString()
+
+  const handleEditJokeClick = () => {
+    if (props.joke.image.url !== null && !jokeEditingMode) {
+      setDropzoneHeight(document.getElementById(`image${props.joke.id}`).clientHeight)
+    }
+    setJokeEditingMode(!jokeEditingMode)
+    if (!jokeEditingMode) {
+      setUpdateJokeFormData({
+        ...updateJokeFormData,
+        body: props.joke.body
+      })
+      setTimeout(() => {
+        const editJokeField = document.getElementById(fieldID)
+        var strLength = editJokeField.value.length*2
+        editJokeField.focus()
+        editJokeField.setSelectionRange(strLength, strLength)
+      }, 10);
+    }
+  }
+
+  const handleJokeUpdateFormChange = event => {
+    setUpdateJokeFormData({
+      ...updateJokeFormData,
+      body: event.target.value
+    })
+  }
+
+  const handleFileUpload = acceptedFiles => {
+    setNewFileUploaded(true)
+    setUpdateJokeFormData({
+      ...updateJokeFormData,
+      image: acceptedFiles[0]
+    })
+  }
+
+  const validForSubmission = () => updateJokeFormData.body !== props.joke.body || updateJokeFormData.image !== ''
+
+  const handleJokeUpdateFormSubmit = event => {
+    event.preventDefault()
+    if (validForSubmission()) {
+      editJoke()
+      setJokeEditingMode(false)
+      setUpdating(true)
+      props.displayAlertMessage('Updating...')
+    }
   }
 
   let commentsList = updatedComments === null ? props.joke.comments : updatedComments
@@ -365,11 +471,114 @@ const JokeCard = props => {
     </>
   )
 
-  const deleteJokeButton = (
-    <IconButton aria-label="delete" onClick={handleDeleteJokeClick} className={classes.deleteJokeButton}>
-      <DeleteOutlinedIcon />
-    </IconButton>
+  const editDeleteJokeButtons = (
+    <Box className={classes.editDeleteJokeButtonBox}>
+      {updating && 
+        <Typography variant='subtitle2'> Updating...</Typography>
+      }
+      {jokeEditingMode && (updateJokeFormData.body !== props.joke.body || updateJokeFormData.image !== '') &&
+        <IconButton aria-label="update" type='submit'>
+          <UpdateIcon />
+        </IconButton>
+      }
+      <IconButton aria-label="edit" onClick={handleEditJokeClick}>
+        <EditOutlinedIcon />
+      </IconButton>
+      <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
+        <DeleteOutlinedIcon />
+      </IconButton>
+    </Box>
   )
+
+  let body
+  if (props.joke.body !== '' && !jokeEditingMode) {
+    body = (
+      <CardContent className={classes.jokeCardContent}>
+        <Typography variant="body1" color="textSecondary" className={classes.jokeBody}>
+          {props.joke.body}
+        </Typography>
+      </CardContent>
+    )
+  } else if (jokeEditingMode) {
+    body = (
+      <form onSubmit={handleJokeUpdateFormSubmit}>
+        {props.currentUser && props.joke.user.id === props.currentUser.id && editDeleteJokeButtons}
+        <CardContent className={classes.jokeCardContent}>
+          <TextField
+            placeholder='Add a caption to you post'
+            id={fieldID}
+            value={updateJokeFormData.body}
+            onChange={handleJokeUpdateFormChange}
+            className={classes.jokeUpdateField}
+            size='small'
+            multiline
+          />
+        </CardContent>
+        {props.joke.image.url === null && 
+          <Dropzone onDrop={handleFileUpload}>
+            {({getRootProps, getInputProps}) => (
+              <section className={classes.dropzone}>
+                <Button {...getRootProps()} className={classes.dropzoneButton}>
+                  <input {...getInputProps()} />
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <Typography variant='body2' className={classes.dropzoneText}>
+                        Click or drag 'n' drop an image here to add to your post!
+                      </Typography>
+                    </Grid>
+                    {updateJokeFormData.image !== '' &&
+                      <Grid item xs={12}>
+                        <Typography variant='subtitle2'>
+                          Upload: {updateJokeFormData.image.name}
+                        </Typography>
+                      </Grid>
+                    }
+                  </Grid>
+                </Button>
+              </section>
+            )}
+          </Dropzone>
+        }
+        {props.joke.image.url !== null && 
+          <>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography variant='subtitle2' className={classes.dropzoneTextWithImage}>
+                  Click the image or drag 'n' drop a new image below to add to your post!
+                </Typography>
+              </Grid>
+              {updateJokeFormData.image !== '' &&
+                <Grid item xs={12}>
+                  <Typography variant='subtitle2' className={classes.dropzoneUploadTextWithImage}>
+                    Upload: {updateJokeFormData.image.name}
+                  </Typography>
+                </Grid>
+              }
+            </Grid>
+            <Dropzone onDrop={handleFileUpload}>
+              {({getRootProps, getInputProps}) => (
+                <div className={classes.dropzoneWithImage}>
+                  <Button
+                    {...getRootProps()}
+                    className={classes.dropzoneButtonWithImage}
+                    style={{
+                      backgroundImage: `url(${props.joke.image.url})`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'cover',
+                      width: '100%',
+                      height: dropzoneHeight,
+                    }}
+                  >
+                    <input {...getInputProps()} />
+                  </Button>
+                </div>
+              )}
+            </Dropzone>
+          </>
+        }
+      </form>
+    )
+  }
 
   return (
     <Card elevation={3} className={classes.jokeCard}>
@@ -384,7 +593,6 @@ const JokeCard = props => {
           />
         }
         title={
-
           <Typography className={classes.userNameTextWrapper}>
             <Typography
               variant='subtitle1'
@@ -394,7 +602,8 @@ const JokeCard = props => {
             >
               {props.joke.user.user_name}
             </Typography>
-          </Typography>}
+          </Typography>
+        }
         subheader={
           <Typography variant='subtitle1' color="textSecondary" className={classes.timestamp}>
             {timestampConverter(props.joke.created_at)}
@@ -403,15 +612,11 @@ const JokeCard = props => {
         action={props.width !== 'xs' && ratingBox}
       />
       {props.width === 'xs' && ratingBox}
-      {props.joke.body !== '' && 
-        <CardContent className={classes.jokeCardContent}>
-          <Typography variant="body1" color="textSecondary">
-            {props.joke.body}
-          </Typography>
-        </CardContent>
-      }
-      {props.joke.image.url && 
+      {props.currentUser && props.joke.user.id === props.currentUser.id && !jokeEditingMode && editDeleteJokeButtons}
+      {body}
+      {props.joke.image.url && !jokeEditingMode &&
         <CardMedia
+          id={`image${props.joke.id}`}
           component="img"
           className={classes.media}
           image={props.joke.image.url}
@@ -449,7 +654,6 @@ const JokeCard = props => {
       <CardActions disableSpacing className={classes.cardActions}>
         {props.currentUser !== null &&
           <>
-            {props.currentUser.id === props.joke.user.id && props.width !== 'xs' && deleteJokeButton}
             <Typography className={classes.rateText} variant='subtitle1'>
               Rate:
             </Typography>
@@ -479,7 +683,6 @@ const JokeCard = props => {
       </CardActions>
       {props.width === 'xs' &&
         <CardActions className={classes.cardActions2}>
-          {props.currentUser !== null && props.currentUser.id === props.joke.user.id && deleteJokeButton}
           {viewComments}
         </CardActions>
       }
@@ -498,9 +701,15 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
+  }
+}
+
 export default withWidth()(
   connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
   )(JokeCard)
 )

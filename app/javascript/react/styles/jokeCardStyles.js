@@ -80,6 +80,49 @@ const useStyles = makeStyles((theme) => ({
   jokeCardContent: {
     padding: '8px 16px 0 16px'
   },
+  jokeBody: {
+    paddingTop: 3,
+    whiteSpace: 'pre-line',
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    hyphens: 'auto',
+  },
+  jokeUpdateField: {
+    width: '100%',
+    '& .MuiInputBase-root': {
+      '& .MuiInputBase-input': {
+        lineHeight: 1.5
+      }
+    }
+  },
+  dropzone: {
+    textAlign: 'center',
+    borderStyle: 'dashed',
+    borderColor: theme.palette.quaternary.main,
+    borderRadius: 5,
+    margin: '8px 16px 0 16px'
+  },
+  dropzoneButton: {
+    '&:focus': {
+      outline: 'none',
+    },
+    width: '100%'
+  },
+  dropzoneText: {
+    color: theme.palette.secondary.main,
+    fontWeight: 'bold',
+    padding: '10px 0',
+  },
+  dropzoneTextWithImage: {
+    textAlign: 'center',
+    color: theme.palette.secondary.main
+  },
+  dropzoneUploadTextWithImage: {
+    textAlign: 'center',
+  },
+  dropzoneButtonWithImage: {
+    borderRadius: 0
+  },
   media: {
     padding: '8px 0'
   },
@@ -118,7 +161,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActions2: {
     paddingTop: 0,
-
   },
   rateText: {
     margin: '0 8px'
@@ -128,10 +170,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  deleteJokeButton: {
-    [theme.breakpoints.only('xs')]: {
-      marginRight: 'auto'
-    },
+  editDeleteJokeButtonBox: {
+    textAlign: 'right',
+    paddingRight: 8,
   },
   commentsSectionIndicator: {
     marginLeft: 'auto',
