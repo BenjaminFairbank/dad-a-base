@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       post "/users/sign_in_user", to: "/api/v1/users#sign_in_user"
       delete "users/sign_out_user", to: "/api/v1/users#sign_out_user"
       resources :users, only: [:show, :create]
-      resources :jokes, only: [:index, :create, :destroy]
+      resources :jokes, only: [:index, :create, :update, :destroy]
       resources :comments, only: [:create, :update, :destroy]
       resources :ratings, only: [:create, :update, :destroy]
     end

@@ -1,5 +1,5 @@
 class Api::V1::JokesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def index
     render json: Joke.all
@@ -19,10 +19,23 @@ class Api::V1::JokesController < ApplicationController
     end
   end
 
+  def update
+    joke = Joke.find(params[:id])
+    user = joke.user
+    if user.id == current_user.id
+      if joke.update(joke_params)
+        render json: Joke.all
+      else
+        render json: {error: joke.errors.full_messages.to_sentence}
+      end
+    else
+      render json: {error: 'You are not authorized to edit this joke!'}
+    end
+  end
+
   def destroy
     joke = Joke.find(params[:id])
     user = joke.user
-    id = joke.id
     if user.id == current_user.id
       joke.destroy
       render json: Joke.all
