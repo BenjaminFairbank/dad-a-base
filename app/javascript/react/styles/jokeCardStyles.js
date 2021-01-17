@@ -174,6 +174,16 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'right',
     paddingRight: 8,
   },
+  updatingText: {
+    display: 'inline-flex',
+    marginRight: 16,
+    marginLeft: 10
+  },
+  spinner: {
+    marginLeft: 22,
+    marginTop: 8,
+    float: 'left'
+  },
   commentsSectionIndicator: {
     marginLeft: 'auto',
     paddingRight: 5,

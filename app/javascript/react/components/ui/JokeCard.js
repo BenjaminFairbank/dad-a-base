@@ -16,6 +16,7 @@ import {
   Collapse,
   Grid,
   Button,
+  CircularProgress,
   withWidth
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
@@ -369,10 +370,7 @@ const JokeCard = props => {
     }
     setJokeEditingMode(!jokeEditingMode)
     if (!jokeEditingMode) {
-      setUpdateJokeFormData({
-        ...updateJokeFormData,
-        body: props.joke.body
-      })
+      setUpdateJokeFormData(defaultFormData)
       setTimeout(() => {
         const editJokeField = document.getElementById(fieldID)
         var strLength = editJokeField.value.length*2
@@ -477,18 +475,28 @@ const JokeCard = props => {
 
   const editDeleteJokeButtons = (
     <Box className={classes.editDeleteJokeButtonBox}>
-      {updating && 
-        <Typography variant='subtitle2'> Updating...</Typography>
+      {updating &&
+        <>
+          <CircularProgress
+            className={classes.spinner}
+            color= 'secondary'
+            size={35}
+            thickness={3}
+          />
+          <Typography variant='subtitle2' className={classes.updatingText}>
+            Updating...
+          </Typography>
+        </>
       }
       {jokeEditingMode && (updateJokeFormData.body !== props.joke.body || updateJokeFormData.image !== '') &&
-        <IconButton aria-label="update" type='submit'>
+        <IconButton aria-label="update" type='submit' title='Update Post'>
           <UpdateIcon />
         </IconButton>
       }
-      <IconButton aria-label="edit" onClick={handleEditJokeClick}>
+      <IconButton aria-label="edit" onClick={handleEditJokeClick} title='Edit Post'>
         <EditOutlinedIcon />
       </IconButton>
-      <IconButton aria-label="delete" onClick={handleDeleteJokeClick}>
+      <IconButton aria-label="delete" onClick={handleDeleteJokeClick} title='Delete Post'>
         <DeleteOutlinedIcon />
       </IconButton>
     </Box>
