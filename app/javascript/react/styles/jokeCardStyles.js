@@ -81,6 +81,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '8px 16px 0 16px'
   },
   jokeBody: {
+    color: 'white',
+    fontWeight: 'bold',
     paddingTop: 3,
     whiteSpace: 'pre-line',
     overflowWrap: 'break-word',
@@ -91,7 +93,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     '& .MuiInputBase-root': {
       '& .MuiInputBase-input': {
-        lineHeight: 1.5
+        lineHeight: 1.5,
+        fontWeight: 'bold',
       }
     }
   },
@@ -131,19 +134,6 @@ const useStyles = makeStyles((theme) => ({
   },
   commentForm: {
     display: 'flex'
-    // to overide foundation css:
-    // '& .MuiInputBase-root': {
-    //   '& .MuiInputBase-input': {
-    //     height: 0,
-    //     minHeight: 0,
-    //     boxShadow: 'none',
-    //     '&:focus': {
-    //       height: 19,
-    //       border: 0,
-    //       background: 'none',
-    //     }
-    //   },
-    // },
   },
   commentFormField: {
     display: 'inline-flex',
