@@ -22,7 +22,6 @@ const UserProfile = props => {
         {props.user.profile_photo && props.user.profile_photo.url &&
           <Box className={classes.containerBox}>
             <Avatar
-              elevation={3}
               aria-label="profile-pic"
               className={classes.avatar}
               src={props.user.profile_photo.url}

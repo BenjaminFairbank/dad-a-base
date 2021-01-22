@@ -29,13 +29,18 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     borderRadius: 8,
     width: 300,
-    height: 300,
     objectFit: 'cover',
     objectPosition: 'center',
     marginRight: 16,
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
     [theme.breakpoints.only('xs')]: {
-      margin: 'auto',
+      width: '100%',
+      minWidth: '300px',
+      height: '100%',
       marginBottom: 16,
+    },
+    [theme.breakpoints.up('sm')]: {
+      height: 300,
     },
   },
   infoCard: {
@@ -47,8 +52,9 @@ const useStyles = makeStyles((theme) => ({
       height: 300,
     },
     [theme.breakpoints.only('xs')]: {
-      margin: 'auto',
-      width: 300,
+      width: '100%',
+      minWidth: '300px',
+      height: '100%',
     },
   },
   title: {
