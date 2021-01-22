@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   commentCard: {
+    borderRadius: 8,
     marginTop: 10,
     background: theme.palette.quaternary.main
   },

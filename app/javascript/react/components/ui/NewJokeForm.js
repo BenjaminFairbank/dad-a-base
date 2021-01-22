@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
-import {
-  Typography,
-  Box,
-  Card,
-  TextField,
-  IconButton,
-  Button,
-  Grid
-} from '@material-ui/core'
-import PostAddIcon from '@material-ui/icons/PostAdd';
+
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import Card from '@material-ui/core/Card'
+import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+
+import PostAddIcon from '@material-ui/icons/PostAdd'
 import useStyles from '../../styles/newJokeFormStyles'
 import { withStyles } from '@material-ui/core/styles'
 

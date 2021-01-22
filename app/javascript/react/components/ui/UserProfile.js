@@ -1,10 +1,10 @@
 import React from 'react'
-import {
-  Card,
-  Typography,
-  Avatar,
-  Box,
-} from '@material-ui/core'
+
+import Card from '@material-ui/core/Card'
+import Typography from '@material-ui/core/Typography'
+import Avatar from '@material-ui/core/Avatar'
+import Box from '@material-ui/core/Box'
+
 import useStyles from '../../styles/userProfileStyles'
 
 const UserProfile = props => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Container, Box } from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 import NewJokeForm from '../ui/NewJokeForm'
 import JokesDisplay from '../ui/JokesDisplay'
