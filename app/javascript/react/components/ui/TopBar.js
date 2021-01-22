@@ -5,18 +5,18 @@ import { Link } from 'react-router-dom'
 import { toggleHotTheme } from '../../modules/app'
 
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  useMediaQuery,
-  AppBar,
-  Toolbar,
-  Typography,
-  useScrollTrigger,
-  Switch,
-  Box,
-  Button
-} from '@material-ui/core'
 
-import { AcUnit, Whatshot } from '@material-ui/icons'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import Switch from '@material-ui/core/Switch'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+
+import AcUnitIcon from '@material-ui/icons/AcUnit'
+import WhatshotIcon from '@material-ui/icons/Whatshot'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
@@ -140,14 +140,14 @@ const TopBar = (props) => {
                 {title}
               </Typography>
               <Box variant="h6" className={classes.midSpace}></Box>
-              <AcUnit />
+              <AcUnitIcon />
               <Switch
                 checked={props.hotTheme}
                 onChange={()=>{ props.toggleHotTheme() }}
                 color="secondary"
                 inputProps={{ "aria-label": "secondary checkbox" }}
               />
-              <Whatshot />
+              <WhatshotIcon />
               {loginButton}
             </Toolbar>
             {!smallScreen &&

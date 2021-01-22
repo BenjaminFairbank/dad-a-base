@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Dropzone from 'react-dropzone'
-import {
-  Typography,
-  Box,
-  Card,
-  CardHeader,
-  Avatar,
-  IconButton,
-  CardContent,
-  CardMedia,
-  CardActions,
-  TextField,
-  Collapse,
-  Grid,
-  Button,
-  CircularProgress,
-  withWidth
-} from '@material-ui/core'
+
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardActions from '@material-ui/core/CardActions'
+import TextField from '@material-ui/core/TextField'
+import Collapse from '@material-ui/core/Collapse'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import withWidth from '@material-ui/core/withWidth'
+
 import Rating from '@material-ui/lab/Rating'
 import clsx from 'clsx'
 

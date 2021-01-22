@@ -1,7 +1,9 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Container, Typography, Grid } from '@material-ui/core'
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import SignInCard from '../ui/SignInCard'

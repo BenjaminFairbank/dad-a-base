@@ -1,5 +1,6 @@
 import React from 'react'
-import { Typography, Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 import useStyles from '../../styles/styleGuideStyle'
 
 const StyleGuide = () => {
@@ -7,12 +8,12 @@ const StyleGuide = () => {
 
   return (
     <>
-      <div className={classes.styleGuide}>
+      <Box className={classes.styleGuide}>
         <Typography variant="h5">
           Style Guide
         </Typography>
-      </div>
-      <div className={classes.textStyles}>
+      </Box>
+      <Box className={classes.textStyles}>
         <Typography variant="h4">
           Headers: Stalinist One
         </Typography>
@@ -22,13 +23,13 @@ const StyleGuide = () => {
         <Typography variant="caption">
           Else: Roboto
         </Typography>
-      </div>
-      <div className={classes.colorThemes}>
+      </Box>
+      <Box className={classes.colorThemes}>
         <Typography variant="h4">
           Themes
         </Typography>
-        <div className={classes.tightBox}>
-          <div className={classes.floatLeft}>
+        <Box className={classes.tightBox}>
+          <Box className={classes.floatLeft}>
             <Box className={classes.primary}>
               <Typography variant="caption">
                 primary
@@ -54,8 +55,8 @@ const StyleGuide = () => {
                 quinary
               </Typography>
             </Box>
-          </div>
-          <div className={classes.floatRight}>
+          </Box>
+          <Box className={classes.floatRight}>
             <Box className={classes.primary2}>
               <Typography variant="caption">
                 primary
@@ -81,9 +82,9 @@ const StyleGuide = () => {
                 quinary
               </Typography>
             </Box>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </>
   )
 }

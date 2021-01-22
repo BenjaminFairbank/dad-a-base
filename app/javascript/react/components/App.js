@@ -2,8 +2,8 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 import JokesIndex from './pages/JokesIndex'
 import Login from './pages/Login'
@@ -68,17 +68,17 @@ class App extends React.Component {
       <Provider store={this.props.store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-            <BrowserRouter>
-              <TopBar theme={theme} />
-              {alertMessageDiv}
-              <Switch>
-                <Route exact path='/' component={JokesIndex} />
-                <Route exact path='/home' component={JokesIndex} />
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/users/:id' component={UserShow} />
-                <Route exact path='/styleguide' component={StyleGuide} />
-              </Switch>
-            </BrowserRouter>
+          <BrowserRouter>
+            <TopBar theme={theme} />
+            {alertMessageDiv}
+            <Switch>
+              <Route exact path='/' component={JokesIndex} />
+              <Route exact path='/home' component={JokesIndex} />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/users/:id' component={UserShow} />
+              <Route exact path='/styleguide' component={StyleGuide} />
+            </Switch>
+          </BrowserRouter>
           <ScrollUpButton />
         </ThemeProvider>
       </Provider>
