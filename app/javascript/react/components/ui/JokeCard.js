@@ -70,7 +70,7 @@ const JokeCard = props => {
   const [updateJokeFormData, setUpdateJokeFormData] = useState(defaultFormData)
   const [newFileUploaded, setNewFileUploaded] = useState(false)
 
-  const [dropzoneHeight, setDropzoneHeight] = useState('100px')
+  const [dropzoneHeight, setDropzoneHeight] = useState(100)
   const [updating, setUpdating] = useState(false)
 
   useEffect(() => {
@@ -556,7 +556,7 @@ const JokeCard = props => {
             <Grid container>
               <Grid item xs={12}>
                 <Typography variant='subtitle2' className={classes.dropzoneTextWithImage}>
-                  Click the image or drag 'n' drop a new image below to add to your post!
+                  Click the image or drag 'n' drop a new one below to update the posted image!
                 </Typography>
               </Grid>
               {updateJokeFormData.image !== '' &&

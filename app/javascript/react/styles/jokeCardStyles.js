@@ -118,16 +118,20 @@ const useStyles = makeStyles((theme) => ({
   },
   dropzoneTextWithImage: {
     textAlign: 'center',
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
+    padding: '8px 16px 0 16px'
   },
   dropzoneUploadTextWithImage: {
     textAlign: 'center',
+    padding: '0 16px'
   },
   dropzoneButtonWithImage: {
+    margin: '8px 0',
+    padding: 0,
     borderRadius: 0
   },
   media: {
-    padding: '8px 0'
+    margin: '8px 0'
   },
   commentFormBox: {
     padding: '0 8px 0 16px',
