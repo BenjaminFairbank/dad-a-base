@@ -9,12 +9,19 @@ import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 import PostAddIcon from '@material-ui/icons/PostAdd'
+import CropSharpIcon from '@material-ui/icons/CropSharp';
+
 import useStyles from '../../styles/newJokeFormStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import { displayAlertMessage } from '../../modules/alertMessage'
+
+import ReactCropper from './ReactCropper'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -36,6 +43,15 @@ const NewJokeForm = props => {
   }
 
   const [newJokeFormData, setNewJokeFormData] = useState(defaultFormData)
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const postJoke = () => {
     let formPayload = new FormData()
@@ -125,31 +141,65 @@ const NewJokeForm = props => {
           </IconButton>
         </Box>
 
-        <Dropzone onDrop={handleFileUpload}>
-          {({getRootProps, getInputProps}) => (
-            <section className={classes.dropzone}>
-              <Button {...getRootProps()} className={classes.dropzoneButton}>
-                <input {...getInputProps()} />
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography variant='body2' className={classes.dropzoneText}>
-                      Click or drag 'n' drop a 'dad meme' here to upload!
-                    </Typography>
-                  </Grid>
-                  {newJokeFormData.image !== '' &&
+        <Box className={classes.dropzoneCropperBox}>
+          <Dropzone onDrop={handleFileUpload}>
+            {({getRootProps, getInputProps}) => (
+              <section className={classes.dropzone}>
+                <Button {...getRootProps()} className={classes.dropzoneButton}>
+                  <input {...getInputProps()} />
+                  <Grid container>
                     <Grid item xs={12}>
-                      <Typography variant='subtitle2'>
-                        Upload: {newJokeFormData.image.name}
+                      <Typography variant='body2' className={classes.dropzoneText}>
+                        Click or drag 'n' drop a 'dad meme' here to upload!
                       </Typography>
                     </Grid>
-                  }
-                </Grid>
-              </Button>
-            </section>
-          )}
-        </Dropzone>
+                    {newJokeFormData.image !== '' &&
+                      <Grid item xs={12}>
+                        <Typography variant='subtitle2'>
+                          Upload: {newJokeFormData.image.name}
+                        </Typography>
+                      </Grid>
+                    }
+                  </Grid>
+                </Button>
+              </section>
+            )}
+          </Dropzone>
 
+          {newJokeFormData.image !== '' &&
+            <IconButton
+              aria-label="Crop Upload"
+              title="Crop Upload"
+              className={classes.cropButton}
+              onClick={handleOpen}
+            >
+              <CropSharpIcon />
+            </IconButton>
+          }
+        </Box>
       </form>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box className={classes.paper}>
+            <ReactCropper
+              newJokeFormData={newJokeFormData}
+              setNewJokeFormData={setNewJokeFormData}
+              handleClose={handleClose}
+            />
+          </Box>
+        </Fade>
+      </Modal>
     </Card>
   )
 }
