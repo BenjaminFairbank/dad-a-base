@@ -20,7 +20,12 @@ const useStyles = makeStyles((theme) => ({
     height: 59,
     width: 59,
   },
+  dropzoneCropperBox: {
+    display: 'flex',
+  },
   dropzone: {
+    display: 'inline-flex',
+    flex: 1,
     textAlign: 'center',
     borderStyle: 'dashed',
     borderColor: theme.palette.quaternary.main,
@@ -37,6 +42,25 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     fontWeight: 'bold',
     padding: '10px 0',
+  },
+  cropButton: {
+    height: 48,
+    width: 48,
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    outline: 'none',
+    border: '2px solid',
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[5],
+    borderRadius: 8,
+    padding: theme.spacing(2, 4, 3),
   },
 }))
 
