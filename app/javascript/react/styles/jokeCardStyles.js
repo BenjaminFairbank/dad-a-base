@@ -98,7 +98,12 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
+  updateDropzoneFlexBox: {
+    display: 'flex'
+  },
   dropzone: {
+    display: 'inline-flex',
+    flex: 1,
     textAlign: 'center',
     borderStyle: 'dashed',
     borderColor: theme.palette.quaternary.main,
@@ -129,6 +134,10 @@ const useStyles = makeStyles((theme) => ({
     margin: '8px 0',
     padding: 0,
     borderRadius: 0
+  },
+  cropButton: {
+    height: 48,
+    margin: '8px 16px 0 -8px'
   },
   media: {
     margin: '8px 0'
@@ -195,6 +204,21 @@ const useStyles = makeStyles((theme) => ({
   },
   commentsSection: {
     paddingTop: 0,
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    outline: 'none',
+    border: '2px solid',
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[5],
+    borderRadius: 8,
+    padding: theme.spacing(2, 4, 3),
   },
 }))
 

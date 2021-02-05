@@ -17,6 +17,9 @@ import Collapse from '@material-ui/core/Collapse'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 import withWidth from '@material-ui/core/withWidth'
 
 import Rating from '@material-ui/lab/Rating'
@@ -27,11 +30,13 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import UpdateIcon from '@material-ui/icons/Update'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import CropSharpIcon from '@material-ui/icons/CropSharp';
 
 import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
+import ReactCropper from './ReactCropper'
 
 import ratingEvaluator from '../../functions/ratingEvaluator'
 import timestampConverter from '../../functions/timestampConverter'
@@ -72,6 +77,10 @@ const JokeCard = props => {
 
   const [dropzoneHeight, setDropzoneHeight] = useState(100)
   const [updating, setUpdating] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   useEffect(() => {
     let userRated = false
@@ -526,30 +535,37 @@ const JokeCard = props => {
             multiline
           />
         </CardContent>
-        {props.joke.image.url === null && 
-          <Dropzone onDrop={handleFileUpload}>
-            {({getRootProps, getInputProps}) => (
-              <section className={classes.dropzone}>
-                <Button {...getRootProps()} className={classes.dropzoneButton}>
-                  <input {...getInputProps()} />
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Typography variant='body2' className={classes.dropzoneText}>
-                        Click or drag 'n' drop an image here to add to your post!
-                      </Typography>
-                    </Grid>
-                    {updateJokeFormData.image !== '' &&
+        {props.joke.image.url === null &&
+          <Box className={classes.updateDropzoneFlexBox}>
+            <Dropzone onDrop={handleFileUpload}>
+              {({getRootProps, getInputProps}) => (
+                <section className={classes.dropzone}>
+                  <Button {...getRootProps()} className={classes.dropzoneButton}>
+                    <input {...getInputProps()} />
+                    <Grid container>
                       <Grid item xs={12}>
-                        <Typography variant='subtitle2'>
-                          Upload: {updateJokeFormData.image.name}
+                        <Typography variant='body2' className={classes.dropzoneText}>
+                          Click or drag 'n' drop an image here to add to your post!
                         </Typography>
                       </Grid>
-                    }
-                  </Grid>
-                </Button>
-              </section>
-            )}
-          </Dropzone>
+                      {updateJokeFormData.image !== '' &&
+                        <Grid item xs={12}>
+                          <Typography variant='subtitle2'>
+                            Upload: {updateJokeFormData.image.name}
+                          </Typography>
+                        </Grid>
+                      }
+                    </Grid>
+                  </Button>
+                </section>
+              )}
+            </Dropzone>
+            {updateJokeFormData.image !== '' &&
+              <IconButton onClick={handleOpen} className={classes.cropButton}>
+                <CropSharpIcon />
+              </IconButton>
+            }
+          </Box>
         }
         {props.joke.image.url !== null && 
           <>
@@ -563,6 +579,10 @@ const JokeCard = props => {
                 <Grid item xs={12}>
                   <Typography variant='subtitle2' className={classes.dropzoneUploadTextWithImage}>
                     Upload: {updateJokeFormData.image.name}
+                    &nbsp;&nbsp;&nbsp;
+                    <IconButton size='small' onClick={handleOpen}>
+                      <CropSharpIcon />
+                    </IconButton>
                   </Typography>
                 </Grid>
               }
@@ -703,6 +723,28 @@ const JokeCard = props => {
           {commentCards}
         </CardContent>
       </Collapse>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box className={classes.paper}>
+            <ReactCropper
+              formData={updateJokeFormData}
+              setFormData={setUpdateJokeFormData}
+              handleClose={handleClose}
+            />
+          </Box>
+        </Fade>
+      </Modal>
     </Card>
   )
 }

@@ -43,15 +43,10 @@ const NewJokeForm = props => {
   }
 
   const [newJokeFormData, setNewJokeFormData] = useState(defaultFormData)
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false)
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const postJoke = () => {
     let formPayload = new FormData()
@@ -193,8 +188,8 @@ const NewJokeForm = props => {
         <Fade in={open}>
           <Box className={classes.paper}>
             <ReactCropper
-              newJokeFormData={newJokeFormData}
-              setNewJokeFormData={setNewJokeFormData}
+              formData={newJokeFormData}
+              setFormData={setNewJokeFormData}
               handleClose={handleClose}
             />
           </Box>
