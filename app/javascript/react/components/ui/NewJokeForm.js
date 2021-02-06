@@ -9,12 +9,12 @@ import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
 
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import CropSharpIcon from '@material-ui/icons/CropSharp';
+import CropSharpIcon from '@material-ui/icons/CropSharp'
 
 import useStyles from '../../styles/newJokeFormStyles'
 import { withStyles } from '@material-ui/core/styles'

@@ -2,7 +2,6 @@ import React, { useState }  from 'react'
 import { connect } from 'react-redux'
 
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -20,10 +19,10 @@ const CssTextField = withStyles((theme) => ({
     marginTop: 5,
     width: '100%',
     '& label.Mui-focused': {
-      color: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: theme.palette.quaternary.main,
+      borderBottomColor: theme.palette.primary.main,
     },
   },
 }))(TextField)
@@ -69,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginTop: 1,
+  },
+  alert: {
+    color: theme.palette.primary.main
   },
 }))
 
@@ -128,10 +130,13 @@ const SignInCard = props => {
   }
 
   return (
-    <Card elevation={3} className={classes.signInFormCard}>
+    <>
       <Box className={classes.titleBox}>
         <Typography variant='h6'>Sign In</Typography>
       </Box>
+      {props.alertMessage !== '' &&
+        <Typography variant='body2' className={classes.alert}>{props.alertMessage}</Typography>
+      }
       <form onSubmit={signInFormSubmitHandler}>
         <Box>
           <CssTextField
@@ -169,8 +174,14 @@ const SignInCard = props => {
           </Button>
         </Box>
       </form>
-    </Card>
+    </>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    alertMessage: state.alertMessage.message
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -181,6 +192,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignInCard)

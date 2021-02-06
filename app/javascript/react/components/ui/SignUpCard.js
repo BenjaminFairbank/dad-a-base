@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone'
 import { connect } from 'react-redux'
 
 import Typography from '@material-ui/core/Typography'
-import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -22,10 +21,10 @@ const CssTextField = withStyles((theme) => ({
     marginTop: 5,
     width: '100%',
     '& label.Mui-focused': {
-      color: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: theme.palette.quaternary.main,
+      borderBottomColor: theme.palette.primary.main,
     },
   },
 }))(TextField)
@@ -59,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   dropzone: {
     textAlign: 'center',
     borderStyle: 'dashed',
-    borderColor: theme.palette.quaternary.main,
+    borderColor: theme.palette.tertiary.main,
     borderRadius: 5,
     marginTop: 25,
   },
@@ -71,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   dropzoneText: {
-    color: theme.palette.secondary.main,
     fontWeight: 'bold',
     padding: '10px 0',
   },
@@ -95,6 +93,9 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginTop: 1,
+  },
+  alert: {
+    color: theme.palette.primary.main
   },
 }))
 
@@ -175,10 +176,13 @@ const SignUpCard = props => {
   }
 
   return (
-    <Card elevation={3} className={classes.signUpFormCard}>
+    <>
       <Box className={classes.titleBox}>
         <Typography variant='h6'>Sign Up</Typography>
       </Box>
+      {props.alertMessage !== '' &&
+        <Typography variant='body2' className={classes.alert}>{props.alertMessage}</Typography>
+      }
       <form onSubmit={signUpFormSubmitHandler}>
         <Box>
           <CssTextField
@@ -196,6 +200,7 @@ const SignUpCard = props => {
             name="user_name"
             onChange={handleSignUpFormChange}
             value={signUpFormData.user_name}
+            placeholder='(15 character maximum)'
           />
         </Box>
         <Box className={classes.passwordBox}>
@@ -206,6 +211,7 @@ const SignUpCard = props => {
             name="password"
             onChange={handleSignUpFormChange}
             value={signUpFormData.password}
+            placeholder='(6 character minimum)'
           />
           <IconButton
             className={classes.passwordVisButton}
@@ -223,6 +229,7 @@ const SignUpCard = props => {
             name="password_confirmation"
             onChange={handleSignUpFormChange}
             value={signUpFormData.password_confirmation}
+            placeholder='(6 character minimum)'
           />
           <IconButton
             className={classes.passwordVisButton}
@@ -269,6 +276,7 @@ const SignUpCard = props => {
             value={signUpFormData.about_me}
             multiline
             rowsMax={4}
+            placeholder='(255 character maximum)'
           />
         </Box>
         <Box>
@@ -281,8 +289,14 @@ const SignUpCard = props => {
           </Button>
         </Box>
       </form>
-    </Card>
+    </>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    alertMessage: state.alertMessage.message
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -293,6 +307,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignUpCard)
