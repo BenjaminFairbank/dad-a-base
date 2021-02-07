@@ -6,15 +6,21 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
 
 import { makeStyles, withStyles } from '@material-ui/core/styles'
+
 import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone'
 import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone'
+import CropSharpIcon from '@material-ui/icons/CropSharp'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
+
+import ReactCropper from './ReactCropper'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -60,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: 'dashed',
     borderColor: theme.palette.tertiary.main,
     borderRadius: 5,
-    marginTop: 25,
+    marginTop: 16,
   },
   dropzoneButton: {
     '&:focus': {
@@ -97,6 +103,27 @@ const useStyles = makeStyles((theme) => ({
   alert: {
     color: theme.palette.primary.main
   },
+  aboutMe: {
+    marginTop: 0
+  },
+  cropButton: {
+    marginTop: 8
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    outline: 'none',
+    border: '2px solid',
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[5],
+    borderRadius: 8,
+    padding: theme.spacing(2, 4, 3),
+  },
 }))
 
 const SignUpCard = props => {
@@ -114,6 +141,10 @@ const SignUpCard = props => {
   const [signUpFormData, setSignUpFormData] = useState(defaultSignUpFormData)
   const [passwordVisibility, setpasswordVisibility] = useState(false)
   const [passwordConfirmationVisibility, setpasswordConfirmationVisibility] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const handleSignUpFormChange = (event) => {
     event.preventDefault()
@@ -244,29 +275,29 @@ const SignUpCard = props => {
             <section className={classes.dropzone}>
               <Button {...getRootProps()} className={classes.dropzoneButton}>
                 <input {...getInputProps()} />
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography variant='body2' className={classes.dropzoneText}>
-                      Click or drag 'n' drop your profile photo here
-                    </Typography>
-                  </Grid>
-                  {signUpFormData.profile_photo !== '' &&
-                    <>
-                      <Grid item xs={12}>
-                        <Typography variant='subtitle2'>Upload:</Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography variant='subtitle2' className={classes.fileName}>
-                          {signUpFormData.profile_photo.name}
-                        </Typography>
-                      </Grid>
-                    </>
-                  }
-                </Grid>
+                {signUpFormData.profile_photo === '' &&
+                  <Typography variant='body2' className={classes.dropzoneText}>
+                    Click or drag 'n' drop your profile photo here
+                  </Typography>
+                }
+                {signUpFormData.profile_photo !== '' &&
+                  <Typography variant='subtitle2' className={classes.fileName}>
+                    Upload: {signUpFormData.profile_photo.name}
+                  </Typography>
+                }
               </Button>
             </section>
           )}
         </Dropzone>
+        {signUpFormData.profile_photo !== '' && 
+          <Button
+            onClick={handleOpen}
+            className={classes.cropButton}
+            size='large'
+          >
+            Crop Profile Photo &nbsp;&nbsp;<CropSharpIcon size="small" />
+          </Button>
+        }
         <Box>
           <CssTextField
             label="About Me"
@@ -277,6 +308,7 @@ const SignUpCard = props => {
             multiline
             rowsMax={4}
             placeholder='(255 character maximum)'
+            className={classes.aboutMe}
           />
         </Box>
         <Box>
@@ -288,6 +320,29 @@ const SignUpCard = props => {
             Sign Up
           </Button>
         </Box>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <Box className={classes.paper}>
+              <ReactCropper
+                formData={signUpFormData}
+                setFormData={setSignUpFormData}
+                handleClose={handleClose}
+                userForm={true}
+              />
+            </Box>
+          </Fade>
+        </Modal>
       </form>
     </>
   )

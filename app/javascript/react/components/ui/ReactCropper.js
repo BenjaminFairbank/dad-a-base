@@ -10,12 +10,14 @@ const ReactCropper = props => {
   const [image, setImage] = useState('')
   const [cropper, setCropper] = useState('')
 
+  const imageFormVar = props.userForm ? props.formData.profile_photo : props.formData.image
+
   const provideInitialImage = () => {
     const initialReader = new FileReader()
     initialReader.onload = () => {
       setImage(initialReader.result)
     };
-    initialReader.readAsDataURL(props.formData.image);
+    initialReader.readAsDataURL(imageFormVar);
   }
 
   useEffect(() => { provideInitialImage() }, [])
@@ -43,16 +45,17 @@ const ReactCropper = props => {
     var realData = block[1].split(",")[1]
     var blob = b64toBlob(realData, contentType)
     blob.lastModifiedDate = new Date()
-    var file = new File([blob], '(Cropped)_' + props.formData.image.name)
+    var file = new File([blob], imageFormVar.name)
+    const field = props.userForm ? 'profile_photo' : 'image'
     props.setFormData({
       ...props.formData,
-      image: file
+      [field]: file
     })
     props.handleClose()
   }
 
   return (
-    <div>
+    <>
       <div style={{ width: "100%" }}>
         <Cropper
           style={{ height: '75vh', width: "100%", marginTop: '16px' }}
@@ -85,7 +88,7 @@ const ReactCropper = props => {
           Cancel
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 
