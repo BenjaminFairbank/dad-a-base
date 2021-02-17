@@ -126,14 +126,26 @@ const NewJokeForm = props => {
             className={classes.newJokeFormField}
           />
 
-          <IconButton
-            aria-label="Post Dad Joke"
-            title="Post Dad Joke"
-            type='submit'
-            className={classes.postJokeButton}
-          >
-            <PostAddIcon fontSize="large" />
-          </IconButton>
+          {validForSubmission() && 
+            <IconButton
+              aria-label="Post Dad Joke"
+              title="Post Dad Joke"
+              type='submit'
+              className={classes.postJokeButton}
+            >
+              <PostAddIcon fontSize="large" />
+            </IconButton>
+          }
+          {!validForSubmission() && 
+            <IconButton
+              aria-label="Post Dad Joke"
+              title="Post Dad Joke"
+              className={classes.postJokeButton}
+              disabled
+            >
+              <PostAddIcon fontSize="large" />
+            </IconButton>
+          }
         </Box>
 
         <Box className={classes.dropzoneCropperBox}>

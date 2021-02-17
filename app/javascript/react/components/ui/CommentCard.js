@@ -12,12 +12,12 @@ import IconButton from '@material-ui/core/IconButton'
 import TextField from '@material-ui/core/TextField'
 import withWidth from '@material-ui/core/withWidth'
 
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import UpdateIcon from '@material-ui/icons/Update';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import UpdateIcon from '@material-ui/icons/Update'
 
 import useStyles from '../../styles/commentCardStyles'
-import timestampConverter from '../../functions/timestampConverter';
+import timestampConverter from '../../functions/timestampConverter'
 
 const CommentCard = props => {
   const classes = useStyles()
@@ -93,9 +93,26 @@ const CommentCard = props => {
           size='small'
           multiline
         />
-        <IconButton aria-label="update" type='submit' title="Update Comment" className={classes.commentUpdateButton}>
-          <UpdateIcon fontSize='small'/>
-        </IconButton>
+        {updateCommentFormData !== props.comment.body &&
+          <IconButton
+            aria-label="update"
+            type='submit'
+            title="Update Comment"
+            className={classes.commentUpdateButton}
+          >
+            <UpdateIcon fontSize='small'/>
+          </IconButton>
+        }
+        {updateCommentFormData === props.comment.body &&
+          <IconButton
+            aria-label="update"
+            title="Update Comment"
+            className={classes.commentUpdateButton}
+            disabled
+          >
+            <UpdateIcon fontSize='small'/>
+          </IconButton>
+        }
       </form>
     )
   }
