@@ -17,9 +17,9 @@ import Collapse from '@material-ui/core/Collapse'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
 import withWidth from '@material-ui/core/withWidth'
 
 import Rating from '@material-ui/lab/Rating'
@@ -30,7 +30,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import UpdateIcon from '@material-ui/icons/Update'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
-import CropSharpIcon from '@material-ui/icons/CropSharp';
+import CropSharpIcon from '@material-ui/icons/CropSharp'
 
 import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
@@ -492,9 +492,7 @@ const JokeCard = props => {
             size={35}
             thickness={3}
           />
-          <Typography variant='subtitle2' className={classes.updatingText}>
-            Updating...
-          </Typography>
+          <Typography variant='subtitle2' className={classes.updatingText}>Updating...</Typography>
         </>
       }
       {jokeEditingMode && (updateJokeFormData.body !== props.joke.body || updateJokeFormData.image !== '') &&
@@ -672,14 +670,26 @@ const JokeCard = props => {
               multiline
               rowsMax={4}
             />
-            <IconButton
-              aria-label="Post Comment"
-              title="Post Comment"
-              type='submit'
-              className={classes.postCommentButton}
-            >
-              <PostAddIcon fontSize="large" />
-            </IconButton>
+            {commentFormData !== '' && 
+              <IconButton
+                aria-label="Post Comment"
+                title="Post Comment"
+                type='submit'
+                className={classes.postCommentButton}
+              >
+                <PostAddIcon fontSize="large" />
+              </IconButton>
+            }
+            {commentFormData === '' && 
+              <IconButton
+                aria-label="Post Comment"
+                title="Post Comment"
+                className={classes.postCommentButton}
+                disabled
+              >
+                <PostAddIcon fontSize="large" />
+              </IconButton>
+            }
           </form>
         </Box>
       }

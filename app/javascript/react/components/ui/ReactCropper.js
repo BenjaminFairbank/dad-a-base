@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import Cropper from "react-cropper"
+import React, { useState, useEffect } from 'react'
+import Cropper from 'react-cropper'
 import useStyles from '../../styles/reactCropperStyles'
 
 import Button from '@material-ui/core/Button'
