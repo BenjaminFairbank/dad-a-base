@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { createBrowserHistory } from 'history';
 
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -30,6 +31,8 @@ class App extends React.Component {
   }
 
   render() {
+    const history = createBrowserHistory()
+
     let alertMessageDiv
     if (this.props.alertMessage){
       alertMessageDiv =
@@ -70,7 +73,7 @@ class App extends React.Component {
           <CssBaseline />
           <BrowserRouter>
             <TopBar theme={theme} />
-            {alertMessageDiv}
+            {history.location.pathname !== '/login' && alertMessageDiv}
             <Switch>
               <Route exact path='/' component={JokesIndex} />
               <Route exact path='/home' component={JokesIndex} />
