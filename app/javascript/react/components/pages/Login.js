@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import sensitiveData from '../../../../assets/images/Data.jpg'
 
+import { closeAlertMessage } from '../../modules/alertMessage'
+
 import SignInCard from '../ui/SignInCard'
 import SignUpCard from '../ui/SignUpCard'
 
@@ -77,8 +79,8 @@ const Login = props => {
   const [open, setOpen] = useState(false)
   const [signIn, setSignIn] = useState(true)
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => { props.closeAlertMessage(); setOpen(true) }
+  const handleClose = () => { props.closeAlertMessage(); setOpen(false) }
 
   const handleSignInClick = () => { setSignIn(true); handleOpen() }
   const handleSignUpClick = () => { setSignIn(false); handleOpen() }
@@ -133,7 +135,7 @@ const Login = props => {
     </>
   )
 
-  if (props.currentUser !== null) { page = <Redirect to='/'/> }
+  if (props.currentUser !== null) { page = <Redirect to='/' /> }
 
   return <>{page}</>
 }
@@ -144,7 +146,13 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    closeAlertMessage: () => dispatch(closeAlertMessage())
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Login)
