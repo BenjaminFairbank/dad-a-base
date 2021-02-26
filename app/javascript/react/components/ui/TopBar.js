@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 import { toggleHotTheme } from '../../modules/app'
 
-import { makeStyles } from '@material-ui/core/styles'
-
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -21,44 +19,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot'
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  title: {
-    color: 'white',
-    fontWeight: 'bold',
-    '&:hover': {
-      color: theme.palette.tertiary.main,
-    },
-    '&:focus': {
-      color: 'white',
-    },
-    textDecoration: 'none',
-  },
-  midSpace: {
-    flexGrow: 1,
-  },
-  button: {
-    marginLeft: 15,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.primary.main,
-    },
-    '&:focus': {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.primary.main,
-    },
-  },
-  subtitleBox: {
-    height: 30,
-    width: '100%',
-    background: theme.palette.primary.main,
-  },
-  subtitleText: {
-    paddingLeft: 30,
-  },
-}))
+import useStyles from '../../styles/topBarStyles'
 
 function ElevationScroll(props) {
   const { children } = props
