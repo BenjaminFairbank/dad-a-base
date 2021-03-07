@@ -23,7 +23,7 @@ const CommentCard = props => {
   const classes = useStyles()
 
   const [commentEditingMode, setCommentEditingMode] = useState(false)
-  const [updateCommentFormData, setUpdateCommentFormData] = useState(props.comment.body)
+  const [updateCommentFormData, setUpdateCommentFormData] = useState(props.comment)
 
   const fieldID = 'commentForm' + props.comment.id.toString()
 
@@ -46,9 +46,10 @@ const CommentCard = props => {
 
   const handleUpdateCommentFormSubmit = event => {
     event.preventDefault()
-    if (updateCommentFormData === props.comment.body) {
+    if (updateCommentFormData === props.comment) {
       setCommentEditingMode(false)
-    } else if (updateCommentFormData !== '') {
+    } else if ((updateCommentFormData.body !== props.comment.body || updateCommentFormData.gif_url !== props.comment.gif_url)
+        && (updateCommentFormData.body !== '' && updateCommentFormData.gif_url !== '')) {
       props.updateComment(props.comment.id, updateCommentFormData)
       setCommentEditingMode(false)
     } else {
@@ -78,9 +79,21 @@ const CommentCard = props => {
   }
 
   let commentCardContent = (
-    <Typography variant="body1" color="textSecondary" className={classes.commentBody}>
-      {props.comment.body}
-    </Typography>
+    <>
+      {props.comment.body !== '' &&
+        <Typography variant="body1" color="textSecondary" className={classes.commentBody}>
+          {props.comment.body}
+        </Typography>
+      }
+      {props.comment.gif_url !== '' &&
+        <a href={`https://media.giphy.com/media/${props.comment.gif_url}/giphy.gif`}>
+          <img
+            className={classes.gif}
+            src={`https://media.giphy.com/media/${props.comment.gif_url}/giphy.gif`}
+          ></img>
+        </a>
+      }
+    </>
   )
   if (commentEditingMode) {
     commentCardContent = (

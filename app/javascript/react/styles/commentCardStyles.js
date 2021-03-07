@@ -70,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
   commentCardContent: {
     paddingTop: 0
   },
+  gif: {
+    width: '100%',
+    borderRadius: 8,
+  },
 }))
 
 export default useStyles

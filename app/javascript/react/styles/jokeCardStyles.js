@@ -156,6 +156,15 @@ const useStyles = makeStyles((theme) => ({
     height: 59,
     width: 59,
   },
+  gif: {
+    width: 300,
+    borderRadius: 8,
+  },
+  removeGifButton: {
+    height: 25,
+    minWidth: 25,
+    borderRadius: '50%',
+  },
   cardActions: {
     paddingTop: 0,
     [theme.breakpoints.only('xs')]: {
