@@ -38,7 +38,12 @@ const CommentCard = props => {
 
   const [gifModalOpen, setGifModalOpen] = useState(false)
 
-  const handleGifSearchOpen = () => setGifModalOpen(true)
+  const handleGifSearchOpen = () => {
+    setGifModalOpen(true)
+    setTimeout(() => {
+      document.getElementById('GiphySearch').focus()
+    }, 10);
+  }
   const handleGifSearchClose = () => setGifModalOpen(false)
 
   const fieldID = 'commentForm' + props.comment.id.toString()
@@ -52,6 +57,7 @@ const CommentCard = props => {
         editCommentField.focus()
         editCommentField.setSelectionRange(strLength, strLength)
       }, 10);
+      setUpdateCommentFormData(initialCommentData)
     }
   }
 
@@ -126,7 +132,7 @@ const CommentCard = props => {
             size='small'
             multiline
           />
-          {updateCommentFormData !== props.comment.body &&
+          {(updateCommentFormData.body !== props.comment.body || updateCommentFormData.gif_url !== props.comment.gif_url) &&
             <IconButton
               aria-label="update"
               type='submit'
@@ -136,7 +142,7 @@ const CommentCard = props => {
               <UpdateIcon fontSize='small'/>
             </IconButton>
           }
-          {updateCommentFormData === props.comment.body &&
+          {updateCommentFormData.body === props.comment.body && updateCommentFormData.gif_url === props.comment.gif_url &&
             <IconButton
               aria-label="update"
               title="Update Comment"
@@ -147,7 +153,7 @@ const CommentCard = props => {
             </IconButton>
           }
         </form>
-        {props.comment.gif_url !== '' &&
+        {updateCommentFormData.gif_url !== '' &&
           <>
             <Typography variant='subtitle2' className={classes.gifClickDirections}>
               Click on the GIF below to pick a replacement
@@ -155,12 +161,12 @@ const CommentCard = props => {
             <Button onClick={handleGifSearchOpen} className={classes.gifEditButton}>
               <img
                 className={classes.gif}
-                src={`https://media.giphy.com/media/${props.comment.gif_url}/giphy.gif`}
+                src={`https://media.giphy.com/media/${updateCommentFormData.gif_url === props.comment.gif_url ? props.comment.gif_url : updateCommentFormData.gif_url}/giphy.gif`}
               ></img>
             </Button>
           </>
         }
-        {props.comment.gif_url === '' &&
+        {updateCommentFormData.gif_url === '' &&
           <Box className={classes.addGifButtonWrapper}>
             <Button onClick={handleGifSearchOpen}>
               Add a GIF to your comment

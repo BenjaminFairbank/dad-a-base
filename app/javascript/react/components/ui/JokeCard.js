@@ -91,7 +91,12 @@ const JokeCard = props => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const handleGifSearchOpen = () => setGifModalOpen(true)
+  const handleGifSearchOpen = () => {
+    setGifModalOpen(true)
+    setTimeout(() => {
+      document.getElementById('GiphySearch').focus()
+    }, 10);
+  }
   const handleGifSearchClose = () => setGifModalOpen(false)
 
   useEffect(() => {
@@ -722,8 +727,8 @@ const JokeCard = props => {
             }
           </form>
           {commentFormData.gif_url !== '' &&
-            <>
-              <img
+            <Box className={classes.selectedGifBox}>
+              <img 
                 className={classes.gif}
                 src={`https://media.giphy.com/media/${commentFormData.gif_url}/giphy.gif`}
               ></img>
@@ -734,11 +739,10 @@ const JokeCard = props => {
                     gif_url: ''
                   })
                 }}
-                className={classes.removeGifButton}
               >
-                <Typography variant='subtitle1' className={classes.buttonText}>&times;</Typography>
+                <Typography variant='h5' className={classes.buttonText}>&times;</Typography>
               </Button>
-            </>
+            </Box>
           }
         </Box>
       }

@@ -157,13 +157,14 @@ const useStyles = makeStyles((theme) => ({
     width: 59,
   },
   gif: {
-    width: 300,
-    borderRadius: 8,
+    width:'85%',
+    borderRadius: 4
   },
-  removeGifButton: {
-    height: 25,
-    minWidth: 25,
-    borderRadius: '50%',
+  selectedGifBox: {
+    display: 'flex',
+    paddingRight: 8,
+    paddingBottom: 8,
+    overflow: 'hidden'
   },
   cardActions: {
     paddingTop: 0,
