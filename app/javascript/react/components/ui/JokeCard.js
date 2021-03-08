@@ -250,13 +250,14 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const updateComment = (id, body) => {
+  const updateComment = (id, comment) => {
     fetch(`/api/v1/comments/${id}`, {
       credentials: 'same-origin',
       method: 'PUT',
       body: JSON.stringify({
         joke_id: props.joke.id,
-        body: body
+        body: comment.body,
+        gif_url: comment.gif_url
       }),
       headers: {
         Accept: 'application/json',

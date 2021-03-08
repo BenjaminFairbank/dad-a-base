@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 
 import TextField from '@material-ui/core/TextField'
-import IconButton from '@material-ui/core/IconButton'
+// import IconButton from '@material-ui/core/IconButton'
 
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+// import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 
 import { makeStyles } from '@material-ui/core/styles'
 
 import { GiphyFetch } from "@giphy/js-fetch-api"
 import { Carousel } from "@giphy/react-components"
 
-import giphyBadge from '../../../../assets/images/Poweredby_100px_Badge.gif'
+// import giphyBadge from '../../../../assets/images/Poweredby_100px_Badge.gif'
 import poweredByGiphy from '../../../../assets/images/PoweredBy_640_Horizontal_Light-Backgrounds_With_Logo.gif'
 
 const useStyles = makeStyles((theme) => ({
@@ -32,35 +32,37 @@ const useStyles = makeStyles((theme) => ({
   poweredByGiphy: {
     margin: 'auto',
     maxWidth: 300,
-    paddingTop: 8,
+    paddingTop: 16,
   },
   giphyBadge: {
     height: 48
-  }
+  },
+  carouselWrapper: {
+    height: 222,
+  },
 }))
 
 const GiphySearch = props => {
   const classes = useStyles()
 
   const [searchFormData, setSearchFormData] = useState('')
-  const [searchEntry, setSearchEntry] = useState('')
+  // const [searchEntry, setSearchEntry] = useState('')
 
   const handleSearchFormChange = event => {
     setSearchFormData(event.currentTarget.value)
   }
   
-  const handleSearchSubmit = event => {
-    event.preventDefault()
-    if (searchFormData !== '') {
-      setSearchEntry(searchFormData)
-    }
-  }
+  // const handleSearchSubmit = event => {
+  //   event.preventDefault()
+  //   if (searchFormData !== '') {
+  //     setSearchEntry(searchFormData)
+  //   }
+  // }
 
   const giphyFetch = new GiphyFetch("W0ODXcTTd7kGkt0sFJz7KaAdqxzwB4ie")
 
   const CarouselDemo = ({ onGifClick }) => {
-    const fetchGifs = (offset) =>
-      giphyFetch.search(searchEntry, { offset, limit: 10 });
+    const fetchGifs = (offset) => giphyFetch.search(searchFormData, { offset, limit: 10 });
     return (
       <Carousel
         onGifClick={onGifClick}
@@ -73,47 +75,28 @@ const GiphySearch = props => {
 
   return (
     <>
-      <form className={classes.form} onSubmit={handleSearchSubmit}>
+      <div className={classes.form}>
         <TextField
-          label="Search Gifs"
-          placeholder="Search for Gifs"
+          label="Search for GIFs"
+          placeholder="Enter search terms"
           value={searchFormData}
           onChange={handleSearchFormChange}
           className={classes.textField}
         />
-        {searchFormData === '' &&
-          <IconButton
-            className={classes.searchButton}
-            disabled
-          >
-            <SearchRoundedIcon />
-          </IconButton>
-        }
-        {searchFormData !== '' &&
-          <IconButton
-            className={classes.searchButton}
-            type="submit"
-          >
-            <SearchRoundedIcon />
-          </IconButton>
-        }
-        <img
-          src={giphyBadge}
-          className={classes.giphyBadge}
-        ></img>
-      </form>
-      {searchEntry !==  '' &&
-        <CarouselDemo
-          onGifClick={(gif, event) => {
-            console.log("gif", gif)
-            event.preventDefault()
-            props.setFormData({
-              ...props.formData,
-              gif_url: gif.id
-            })
-            props.handleGifSearchClose()
-          }}
-        />
+      </div>
+      {searchFormData !==  '' &&
+        <div className={classes.carouselWrapper}>
+          <CarouselDemo
+            onGifClick={(gif, event) => {
+              event.preventDefault()
+              props.setFormData({
+                ...props.formData,
+                gif_url: gif.id
+              })
+              props.handleGifSearchClose()
+            }}
+          />
+        </div>
       }
       <div className={classes.imageWrapper}>
         <img
@@ -126,3 +109,25 @@ const GiphySearch = props => {
 }
 
 export default GiphySearch
+
+
+// {searchFormData === '' &&
+// <IconButton
+//   className={classes.searchButton}
+//   disabled
+// >
+//   <SearchRoundedIcon />
+// </IconButton>
+// }
+// {searchFormData !== '' &&
+// <IconButton
+//   className={classes.searchButton}
+//   type="submit"
+// >
+//   <SearchRoundedIcon />
+// </IconButton>
+// }
+// <img
+// src={giphyBadge}
+// className={classes.giphyBadge}
+// ></img>
