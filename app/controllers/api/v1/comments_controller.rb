@@ -45,6 +45,6 @@ class Api::V1::CommentsController < ApplicationController
   protected
 
   def comment_params
-    params.require(:comment).permit(:joke_id, :body)
+    params.require(:comment).permit(:joke_id, :body, :gif_url)
   end
 end

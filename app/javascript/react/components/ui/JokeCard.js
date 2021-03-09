@@ -31,12 +31,14 @@ import UpdateIcon from '@material-ui/icons/Update'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import CropSharpIcon from '@material-ui/icons/CropSharp'
+import GifRoundedIcon from '@material-ui/icons/GifRounded';
 
 import useStyles from '../../styles/jokeCardStyles'
 import { withStyles } from '@material-ui/core/styles'
 
 import CommentCard from './CommentCard'
 import ReactCropper from './ReactCropper'
+import GiphySearch from './GiphySearch'
 
 import ratingEvaluator from '../../functions/ratingEvaluator'
 import timestampConverter from '../../functions/timestampConverter'
@@ -62,12 +64,17 @@ const JokeCard = props => {
     image: ''
   }
   
+  const defaultCommentFormData = {
+    body: '',
+    gif_url: ''
+  }
+  
   const [hRHover, setHRHover] = useState(-1)
   const [hRValue, setHRValue] = useState(null)
   const [userRatingID, setUserRatingID] = useState(null)
   const [updatedRatings, setUpdatedRatings] = useState(null)
 
-  const [commentFormData, setCommentFormData] = useState('')
+  const [commentFormData, setCommentFormData] = useState(defaultCommentFormData)
   const [updatedComments, setUpdatedComments] = useState(null)
   const [expanded, setExpanded] = useState(false)
 
@@ -79,8 +86,18 @@ const JokeCard = props => {
   const [updating, setUpdating] = useState(false)
   const [open, setOpen] = useState(false)
 
+  const [gifModalOpen, setGifModalOpen] = useState(false)
+
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const handleGifSearchOpen = () => {
+    setGifModalOpen(true)
+    setTimeout(() => {
+      document.getElementById('GiphySearch').focus()
+    }, 10);
+  }
+  const handleGifSearchClose = () => setGifModalOpen(false)
 
   useEffect(() => {
     let userRated = false
@@ -201,13 +218,14 @@ const JokeCard = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const postComment = body => {
+  const postComment = comment => {
     fetch('/api/v1/comments', {
       credentials: 'same-origin',
       method: 'POST',
       body: JSON.stringify({
         joke_id: props.joke.id,
-        body: body
+        body: comment.body,
+        gif_url: comment.gif_url
       }),
       headers: {
         Accept: 'application/json',
@@ -225,21 +243,26 @@ const JokeCard = props => {
     })
     .then(response => response.json())
     .then(body => {
-      let updatedCommentsList = body
-      setUpdatedComments(updatedCommentsList)
-      setExpanded(true)
-      setCommentFormData('')
+      if (!body.error) {
+        let updatedCommentsList = body
+        setUpdatedComments(updatedCommentsList)
+        setExpanded(true)
+        setCommentFormData(defaultCommentFormData)
+      } else {
+        console.log(body.error)
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
-  const updateComment = (id, body) => {
+  const updateComment = (id, comment) => {
     fetch(`/api/v1/comments/${id}`, {
       credentials: 'same-origin',
       method: 'PUT',
       body: JSON.stringify({
         joke_id: props.joke.id,
-        body: body
+        body: comment.body,
+        gif_url: comment.gif_url
       }),
       headers: {
         Accept: 'application/json',
@@ -357,12 +380,15 @@ const JokeCard = props => {
   }
 
   const handleCommentFormChange = event => {
-    setCommentFormData(event.target.value)
+    setCommentFormData({
+      ...commentFormData,
+      [event.currentTarget.name]: event.currentTarget.value
+    })
   }
 
   const handleCommentFormSubmit = event => {
     event.preventDefault()
-    if (commentFormData !== '') { postComment(commentFormData) }
+    if (commentFormData.body !== '' || commentFormData.gif_url !== '' ) { postComment(commentFormData) }
   }
 
   const handleExpandCommentsClick = () => setExpanded(!expanded)
@@ -664,13 +690,22 @@ const JokeCard = props => {
             <CssTextField
               label="Leave a Comment"
               placeholder="Your comment"
-              value={commentFormData}
+              value={commentFormData.body}
+              name='body'
               onChange={handleCommentFormChange}
               className={classes.commentFormField}
               multiline
               rowsMax={4}
             />
-            {commentFormData !== '' && 
+            <IconButton
+              aria-label="Add a GIF to your comment"
+              title="Add a GIF to your comment"
+              className={classes.postCommentButton}
+              onClick={handleGifSearchOpen}
+            >
+              <GifRoundedIcon fontSize="large" />
+            </IconButton>
+            {(commentFormData.body !== '' || commentFormData.gif_url !== '') &&
               <IconButton
                 aria-label="Post Comment"
                 title="Post Comment"
@@ -680,7 +715,7 @@ const JokeCard = props => {
                 <PostAddIcon fontSize="large" />
               </IconButton>
             }
-            {commentFormData === '' && 
+            {commentFormData.body === '' && commentFormData.gif_url === '' &&
               <IconButton
                 aria-label="Post Comment"
                 title="Post Comment"
@@ -691,6 +726,24 @@ const JokeCard = props => {
               </IconButton>
             }
           </form>
+          {commentFormData.gif_url !== '' &&
+            <Box className={classes.selectedGifBox}>
+              <img 
+                className={classes.gif}
+                src={`https://media.giphy.com/media/${commentFormData.gif_url}/giphy.gif`}
+              ></img>
+              <Button
+                onClick={() => {
+                  setCommentFormData({
+                    ...commentFormData,
+                    gif_url: ''
+                  })
+                }}
+              >
+                <Typography variant='h5' className={classes.buttonText}>&times;</Typography>
+              </Button>
+            </Box>
+          }
         </Box>
       }
       <CardActions disableSpacing className={classes.cardActions}>
@@ -751,6 +804,28 @@ const JokeCard = props => {
               formData={updateJokeFormData}
               setFormData={setUpdateJokeFormData}
               handleClose={handleClose}
+            />
+          </Box>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={gifModalOpen}
+        onClose={handleGifSearchClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={gifModalOpen}>
+          <Box className={classes.paper}>
+            <GiphySearch
+              formData={commentFormData}
+              setFormData={setCommentFormData}
+              handleGifSearchClose={handleGifSearchClose}
             />
           </Box>
         </Fade>

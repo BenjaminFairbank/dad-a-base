@@ -156,6 +156,16 @@ const useStyles = makeStyles((theme) => ({
     height: 59,
     width: 59,
   },
+  gif: {
+    width:'85%',
+    borderRadius: 4
+  },
+  selectedGifBox: {
+    display: 'flex',
+    paddingRight: 8,
+    paddingBottom: 8,
+    overflow: 'hidden'
+  },
   cardActions: {
     paddingTop: 0,
     [theme.breakpoints.only('xs')]: {
