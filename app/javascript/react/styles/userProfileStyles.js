@@ -11,6 +11,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginBottom: 16,
   },
+  editButton: {
+    marginLeft: 16,
+  },
+  updatingBox: {
+    textAlign: 'center',
+    marginBottom: 16,
+  },
   profileCardContents: {
     [theme.breakpoints.up('sm')]: {
       display: 'flex'
@@ -67,6 +74,60 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-line',
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
+  },
+  editingCard: {
+    width: '100%',
+    borderRadius: 8,
+    padding: 16,
+    background: theme.palette.quaternary.main
+  },
+  editingForm: {
+    textAlign: 'center',
+  },
+  dropzoneCropperBox: {
+    marginTop: 16,
+    display: 'flex',
+  },
+  dropzone: {
+    display: 'inline-flex',
+    flex: 1,
+    textAlign: 'center',
+    borderStyle: 'dashed',
+    borderColor: theme.palette.primary.main,
+    borderRadius: 5,
+  },
+  dropzoneButton: {
+    '&:focus': {
+      outline: 'none',
+    },
+    width: '100%'
+  },
+  dropzoneText: {
+    color: theme.palette.secondary.main,
+    fontWeight: 'bold',
+    padding: '10px 0',
+  },
+  cropButton: {
+    height: 48,
+    width: 48,
+  },
+  submitUpdateButton: {
+    marginTop: 16,
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    outline: 'none',
+    border: '2px solid',
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[5],
+    borderRadius: 8,
+    padding: theme.spacing(2, 4, 3),
   },
 }))
 

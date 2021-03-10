@@ -55,7 +55,7 @@ const UserShow = props => {
 
   return (
     <Container maxWidth='md'>
-      {user.id && <UserProfile user={user} />}
+      {user.id && <UserProfile user={user} setUser={setUser} />}
       {formAccess}
       <JokesDisplay setJokes={setJokes} jokes={jokes} />
     </Container>
