@@ -35,6 +35,18 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+    if user == current_user
+      sign_out
+      user.destroy
+      render json: current_user
+    else
+      render json: {error: "You are UNAUTHORIZED to delete this user!"}
+    end
+  end
+
+
   def check_for_user
     if current_user
       render json: current_user
