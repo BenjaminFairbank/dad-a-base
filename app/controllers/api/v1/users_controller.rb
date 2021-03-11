@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
 
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :no_record_handler
 
@@ -19,6 +19,19 @@ class Api::V1::UsersController < ApplicationController
       render json: user
     else
       render json: {error: user.errors.full_messages.to_sentence}
+    end
+  end
+
+  def update
+    user = User.find(params[:id])
+    if user == current_user
+      if user.update(user_params)
+        render json: user
+      else
+        render json: {error: user.errors.full_messages.to_sentence}
+      end
+    else
+      render json: {error: "You are UNAUTHORIZED to edit this user!"}
     end
   end
 
