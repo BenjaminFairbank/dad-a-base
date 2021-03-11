@@ -44,7 +44,7 @@ const UserProfile = props => {
   const initialUserData = {
     user_name: props.user.user_name,
     email: props.user.email,
-    about_me: props.user.about_me,
+    about_me: props.user.about_me || '',
     profile_photo: ''
   }
 
@@ -114,6 +114,15 @@ const UserProfile = props => {
       setUpdating(false)
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
+  const changeInForm = () => {
+    return (
+      props.user.email !== updateUserFormData.email ||
+      props.user.user_name !== updateUserFormData.user_name ||
+      props.user.about_me !== updateUserFormData.about_me ||
+      updateUserFormData.profile_photo !== ''
+    )
   }
 
   const updateUserSubmitHandler = event => {
@@ -227,13 +236,22 @@ const UserProfile = props => {
                 </IconButton>
               }
             </Box>
-
-            <Button
-              type='submit'
-              className={classes.submitUpdateButton}
-            >
-              Update My Profile
-            </Button>
+            {changeInForm() &&
+              <Button
+                type='submit'
+                className={classes.submitUpdateButton}
+              >
+                Update My Profile
+              </Button>
+            }
+            {!changeInForm() &&
+              <Button
+                disabled
+                className={classes.submitUpdateButton}
+              >
+                Update My Profile
+              </Button>
+            }
           </form>
         </Card>
       }

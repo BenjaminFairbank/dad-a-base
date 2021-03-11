@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     textAlign: 'center',
     borderStyle: 'dashed',
-    borderColor: theme.palette.primary.main,
+    borderColor: theme.palette.quinary.main,
     borderRadius: 5,
   },
   dropzoneButton: {
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   dropzoneText: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
     fontWeight: 'bold',
     padding: '10px 0',
   },
@@ -113,6 +113,14 @@ const useStyles = makeStyles((theme) => ({
   },
   submitUpdateButton: {
     marginTop: 16,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
+    },
+    '&:focus': {
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
+    },
   },
   modal: {
     display: 'flex',
