@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
 
@@ -22,6 +23,7 @@ import { withStyles } from '@material-ui/core/styles'
 import useStyles from '../../styles/userProfileStyles'
 
 import { displayAlertMessage } from '../../modules/alertMessage'
+import { assignCurrentUser } from '../../modules/user'
 
 import ReactCropper from './ReactCropper'
 
@@ -51,6 +53,7 @@ const UserProfile = props => {
   const [editingMode, setEditingMode] = useState(false)
   const [updateUserFormData, setUpdateUserFormData] = useState(initialUserData)
   const [updating, setUpdating] = useState(false)
+  const [redirect, setRedirect] = useState(false)
 
   const [open, setOpen] = useState(false)
 
@@ -116,6 +119,36 @@ const UserProfile = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const deleteUser = (id) => {
+    fetch(`/api/v1/users/${id}`, {
+      credentials: 'same-origin',
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(userData => {
+      if (userData) {
+        props.displayAlertMessage(userData.error)
+      } else {
+        setRedirect(true)
+        props.assignCurrentUser(userData)
+      }
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
   const changeInForm = () => {
     return (
       props.user.email !== updateUserFormData.email ||
@@ -131,8 +164,15 @@ const UserProfile = props => {
     updateUser(props.user.id, updateUserFormData)
   }
 
+  const handleDeleteClick = () => {
+    if (confirm('Are you sure you want to delete your Dad-a-Base account?  This cannot be undone.  Click "OK" to permanetely delete your account and content.')) {
+      deleteUser(props.user.id)
+    }
+  }
+
   return (
     <Card className={classes.profileCard} elevation={3}>
+      {redirect && <Redirect to='/' />}
       <Typography
         variant='h6'
         className={classes.userName}
@@ -236,6 +276,12 @@ const UserProfile = props => {
                 </IconButton>
               }
             </Box>
+            <Button
+              onClick={handleDeleteClick}
+              className={classes.submitUpdateButton}
+            >
+              Delete my account
+            </Button>
             {changeInForm() &&
               <Button
                 type='submit'
