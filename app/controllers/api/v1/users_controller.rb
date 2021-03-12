@@ -46,6 +46,27 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def change_password
+    target_user = User.find(params[:id])
+    if target_user == current_user
+      user = User.find_for_authentication email: user_params[:email]
+      if user
+        if user.valid_password? user_params[:current_password]
+          user.password = user_params[:password]
+          user.password_confirmation = user_params[:password_confirmation]
+          if user.save
+            render json: {success: "Your new password has been changed successfully!"}
+          else
+            render json: {error: user.errors.full_messages.to_sentence}
+          end
+        else
+          render json: {error: "The current password is incorrect"}
+        end
+      end
+    else
+      render json: {error: "You are UNAUTHORIZED to delete this user!"}
+    end
+  end
 
   def check_for_user
     if current_user
@@ -77,7 +98,7 @@ class Api::V1::UsersController < ApplicationController
   protected
 
   def user_params
-    params.require(:user).permit(:email, :user_name, :password, :password_confirmation, :profile_photo, :about_me)
+    params.require(:user).permit(:email, :user_name, :current_password, :password, :password_confirmation, :profile_photo, :about_me)
   end
 
   def no_record_handler(exception)  
