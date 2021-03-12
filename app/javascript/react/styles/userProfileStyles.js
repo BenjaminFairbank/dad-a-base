@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     width: 48,
   },
   submitUpdateButton: {
-    marginTop: 16,
+    margin: '10px 8px 0 8px',
     '&:hover': {
       backgroundColor: theme.palette.secondary.main,
       color: theme.palette.primary.main,
