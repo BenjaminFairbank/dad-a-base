@@ -18,6 +18,8 @@ import TextField from '@material-ui/core/TextField'
 
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
 import CropSharpIcon from '@material-ui/icons/CropSharp'
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone'
+import VisibilityOffTwoToneIcon from '@material-ui/icons/VisibilityOffTwoTone'
 
 import { withStyles } from '@material-ui/core/styles'
 import useStyles from '../../styles/userProfileStyles'
@@ -50,15 +52,33 @@ const UserProfile = props => {
     profile_photo: ''
   }
 
+  const initialPasswordData = {
+    email: props.user.email,
+    current_password: '',
+    password: '',
+    password_confirmation: ''
+  }
+
   const [editingMode, setEditingMode] = useState(false)
   const [updateUserFormData, setUpdateUserFormData] = useState(initialUserData)
+  const [updatePasswordFormData, setUpdatePasswordFormData] = useState(initialPasswordData)
+
   const [updating, setUpdating] = useState(false)
   const [redirect, setRedirect] = useState(false)
+
+  const [currentPasswordVisibility, setCurrentPasswordVisibility] = useState(false)
+  const [passwordVisibility, setpasswordVisibility] = useState(false)
+  const [passwordConfirmationVisibility, setpasswordConfirmationVisibility] = useState(false)
 
   const [open, setOpen] = useState(false)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  const [openPW, setOpenPW] = useState(false)
+
+  const handleOpenPW = () => setOpenPW(true)
+  const handleClosePW = () => { setOpenPW(false); setUpdatePasswordFormData(initialPasswordData) }
 
   const handleEditClick = () => {
     setEditingMode(!editingMode)
@@ -68,6 +88,13 @@ const UserProfile = props => {
   const handleUserFormChange = event => {
     setUpdateUserFormData({
       ...updateUserFormData,
+      [event.currentTarget.name]: event.target.value
+    })
+  }
+
+  const handlePasswordFormChange = event => {
+    setUpdatePasswordFormData({
+      ...updatePasswordFormData,
       [event.currentTarget.name]: event.target.value
     })
   }
@@ -149,6 +176,38 @@ const UserProfile = props => {
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
 
+  const updatePassword = (id, passwordData) => {
+    fetch(`/api/v1/users/change_password/${id}`, {
+      credentials: 'same-origin',
+      method: 'PATCH',
+      body: JSON.stringify({user: passwordData}),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response
+      } else {
+        let errorMessage = `${response.status} (${response.statusText})`,
+          error = new Error(errorMessage)
+        throw error
+      }
+    })
+    .then(response => response.json())
+    .then(body => {
+      if (body.success) {
+        props.displayAlertMessage(body.success)
+        handleClosePW()
+      } else {
+        props.displayAlertMessage(body.error)
+      }
+      setUpdating(false)
+    })
+    .catch(error => console.error(`Error in fetch: ${error.message}`))
+  }
+
   const changeInForm = () => {
     return (
       props.user.email !== updateUserFormData.email ||
@@ -170,8 +229,23 @@ const UserProfile = props => {
     }
   }
 
-  const handleCancelClick = () => {
-    setEditingMode(false)
+  const handleCancelClick = () => setEditingMode(false)
+
+  const passwordChangeValidForSubmission = () => {
+      return (
+      updatePasswordFormData.password === updatePasswordFormData.password_confirmation &&
+      updatePasswordFormData.current_password.length >= 6 &&
+      updatePasswordFormData.password.length >= 6 &&
+      updatePasswordFormData.password_confirmation.length >= 6 &&
+      updatePasswordFormData.password !== updatePasswordFormData.current_password &&
+      updatePasswordFormData.password_confirmation !== updatePasswordFormData.current_password
+    )
+  }
+
+  const passwordChangeSubmitHandler = event => {
+    event.preventDefault()
+    setUpdating(true)
+    updatePassword(props.user.id, updatePasswordFormData)
   }
 
   return (
@@ -189,7 +263,7 @@ const UserProfile = props => {
         }
       </Typography>
       {updating && <Box className={classes.updatingBox}><CircularProgress color="secondary" /></Box>}
-      {!editingMode &&
+      {(!editingMode || !props.currentUser) &&
         <Box className={classes.profileCardContents}>
           {props.user.profile_photo && props.user.profile_photo.url &&
             <Box className={classes.containerBox}>
@@ -208,7 +282,7 @@ const UserProfile = props => {
           }
         </Box>
       }
-      {editingMode &&
+      {editingMode && props.currentUser &&
         <Card className={classes.editingCard}>
           <form className={classes.editingForm} onSubmit={updateUserSubmitHandler}>
 
@@ -292,6 +366,12 @@ const UserProfile = props => {
             >
               Delete my account
             </Button>
+            <Button
+              onClick={handleOpenPW}
+              className={classes.submitUpdateButton}
+            >
+              Change My Password
+            </Button>
             {changeInForm() &&
               <Button
                 type='submit'
@@ -334,13 +414,121 @@ const UserProfile = props => {
           </Box>
         </Fade>
       </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={openPW}
+        onClose={handleClosePW}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openPW}>
+          <Box className={classes.paperPW}>
+            <Typography variant='h4' className={classes.warning}>
+              Warning!
+            </Typography>
+            <Typography variant='body2' className={classes.text}>
+              At the moment, this login portal does NOT utilize encrpytion.
+              For your own protection, DO NOT use an email-password
+              combination that may protect your sensitive data elsewhere.
+              Feel free to use unconfirmable credentials as this application will not email you.
+            </Typography>
+            <form onSubmit={passwordChangeSubmitHandler}>
+              <Box className={classes.passwordBox}>
+                <CssTextField
+                  className={classes.passwordField}
+                  label="Current password"
+                  type={currentPasswordVisibility ? "text" : "password"}
+                  name="current_password"
+                  onChange={handlePasswordFormChange}
+                  value={updatePasswordFormData.current_password}
+                  placeholder='(Your current password)'
+                />
+                <IconButton
+                  className={classes.passwordVisButton}
+                  onClick={()=>{setCurrentPasswordVisibility(!currentPasswordVisibility)}}
+                >
+                  {currentPasswordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+                  {!currentPasswordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+                </IconButton>
+              </Box>
+              <Box className={classes.passwordBox}>
+                <CssTextField
+                  className={classes.passwordField}
+                  label="New password"
+                  type={passwordVisibility ? "text" : "password"}
+                  name="password"
+                  onChange={handlePasswordFormChange}
+                  value={updatePasswordFormData.password}
+                  placeholder='(Minimum of 6 characters)'
+                />
+                <IconButton
+                  className={classes.passwordVisButton}
+                  onClick={()=>{setpasswordVisibility(!passwordVisibility)}}
+                >
+                  {passwordVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+                  {!passwordVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+                </IconButton>
+              </Box>
+              <Box className={classes.passwordBox}>
+                <CssTextField
+                  className={classes.passwordField}
+                  label="Password confirmation"
+                  type={passwordConfirmationVisibility ? "text" : "password"}
+                  name="password_confirmation"
+                  onChange={handlePasswordFormChange}
+                  value={updatePasswordFormData.password_confirmation}
+                  placeholder='(Must match new password)'
+                />
+                <IconButton
+                  className={classes.passwordVisButton}
+                  onClick={()=>{setpasswordConfirmationVisibility(!passwordConfirmationVisibility)}}
+                >
+                  {passwordConfirmationVisibility && <VisibilityOffTwoToneIcon className={classes.icon} />}
+                  {!passwordConfirmationVisibility && <VisibilityTwoToneIcon className={classes.icon} />}
+                </IconButton>
+              </Box>
+              <Typography variant='body1' className={classes.alert}>
+                {props.alertMessage}
+              </Typography>
+              <Button
+                onClick={handleClosePW}
+                className={classes.submitUpdateButton}
+              >
+                Cancel
+              </Button>
+              {passwordChangeValidForSubmission() &&
+                <Button
+                  type="submit"
+                  className={classes.submitUpdateButton}
+                >
+                  Change
+                </Button>
+              }
+              {!passwordChangeValidForSubmission() &&
+                <Button
+                  disabled
+                  className={classes.submitUpdateButton}
+                >
+                  Change
+                </Button>
+              }
+            </form>
+          </Box>
+        </Fade>
+      </Modal>
     </Card>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    alertMessage: state.alertMessage.message
   }
 }
 

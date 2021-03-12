@@ -12,7 +12,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "/users/check_for_user", to: "/api/v1/users#check_for_user"
       post "/users/sign_in_user", to: "/api/v1/users#sign_in_user"
-      delete "users/sign_out_user", to: "/api/v1/users#sign_out_user"
+      patch "/users/change_password/:id", to: "/api/v1/users#change_password"
+      delete "/users/sign_out_user", to: "/api/v1/users#sign_out_user"
       resources :users, only: [:show, :create, :update, :destroy]
       resources :jokes, only: [:index, :create, :update, :destroy]
       resources :comments, only: [:create, :update, :destroy]
