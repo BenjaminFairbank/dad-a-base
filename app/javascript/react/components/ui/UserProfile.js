@@ -170,6 +170,10 @@ const UserProfile = props => {
     }
   }
 
+  const handleCancelClick = () => {
+    setEditingMode(false)
+  }
+
   return (
     <Card className={classes.profileCard} elevation={3}>
       {redirect && <Redirect to='/' />}
@@ -178,9 +182,9 @@ const UserProfile = props => {
         className={classes.userName}
       >
         {props.user.user_name}
-        {props.user.id === props.currentUser.id &&
-          <IconButton className={classes.editButton} onClick={handleEditClick}>
-            <EditOutlinedIcon size="large"/>
+        {props.currentUser && props.user.id === props.currentUser.id && !editingMode &&
+          <IconButton className={classes.editButton} onClick={handleEditClick} size="small">
+            <EditOutlinedIcon />
           </IconButton>
         }
       </Typography>
@@ -276,6 +280,12 @@ const UserProfile = props => {
                 </IconButton>
               }
             </Box>
+            <Button
+              onClick={handleCancelClick}
+              className={classes.submitUpdateButton}
+            >
+              Cancel
+            </Button>
             <Button
               onClick={handleDeleteClick}
               className={classes.submitUpdateButton}
