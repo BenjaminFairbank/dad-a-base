@@ -44,6 +44,7 @@ import ratingEvaluator from '../../functions/ratingEvaluator'
 import timestampConverter from '../../functions/timestampConverter'
 
 import { displayAlertMessage } from '../../modules/alertMessage'
+import { closeAlertMessage } from '../../modules/alertMessage'
 
 const CssTextField = withStyles((theme) => ({
   root: {
@@ -249,7 +250,7 @@ const JokeCard = props => {
         setExpanded(true)
         setCommentFormData(defaultCommentFormData)
       } else {
-        console.log(body.error)
+        props.displayAlertMessage(body.error)
       }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
@@ -346,7 +347,7 @@ const JokeCard = props => {
       } else {
         setNewFileUploaded(false)
         setUpdating(false)
-        props.displayAlertMessage('')
+        props.closeAlertMessage()
         props.setJokes(jokes)
       }
     })
@@ -842,7 +843,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message)),
+    closeAlertMessage: () => dispatch(closeAlertMessage())
   }
 }
 

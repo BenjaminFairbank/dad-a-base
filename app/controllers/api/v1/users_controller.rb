@@ -55,6 +55,8 @@ class Api::V1::UsersController < ApplicationController
           user.password = user_params[:password]
           user.password_confirmation = user_params[:password_confirmation]
           if user.save
+            sign_out
+            sign_in :user, user
             render json: {success: "Your new password has been changed successfully!"}
           else
             render json: {error: user.errors.full_messages.to_sentence}
