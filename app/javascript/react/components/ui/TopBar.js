@@ -18,6 +18,7 @@ import WhatshotIcon from '@material-ui/icons/Whatshot'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
+import { closeAlertMessage } from '../../modules/alertMessage'
 
 import useStyles from '../../styles/topBarStyles'
 
@@ -60,6 +61,7 @@ const TopBar = (props) => {
     .then(userData => {
       props.assignCurrentUser(userData)
       props.displayAlertMessage('You are no longer signed in.')
+      setTimeout(() => { props.closeAlertMessage() }, 5000);
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
   }
@@ -138,7 +140,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleHotTheme: () => dispatch(toggleHotTheme()),
     assignCurrentUser: (userData) => dispatch(assignCurrentUser(userData)),
-    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message)),
+    closeAlertMessage: () => dispatch(closeAlertMessage())
   }
 }
 

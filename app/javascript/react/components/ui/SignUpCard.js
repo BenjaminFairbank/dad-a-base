@@ -21,6 +21,7 @@ import CropSharpIcon from '@material-ui/icons/CropSharp'
 
 import { assignCurrentUser } from '../../modules/user'
 import { displayAlertMessage } from '../../modules/alertMessage'
+import { closeAlertMessage } from '../../modules/alertMessage'
 
 import ReactCropper from './ReactCropper'
 
@@ -106,6 +107,7 @@ const SignUpCard = props => {
       } else {
         props.assignCurrentUser(userData)
         props.displayAlertMessage('Welcome to The Dad-a-base!')
+        setTimeout(() => { props.closeAlertMessage() }, 5000);
       }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`))
@@ -268,7 +270,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     assignCurrentUser: (userData) => dispatch(assignCurrentUser(userData)),
-    displayAlertMessage: (message) => dispatch(displayAlertMessage(message))
+    displayAlertMessage: (message) => dispatch(displayAlertMessage(message)),
+    closeAlertMessage: (message) => dispatch(closeAlertMessage(message))
   }
 }
 

@@ -432,7 +432,7 @@ const UserProfile = props => {
               Warning!
             </Typography>
             <Typography variant='body2' className={classes.text}>
-              At the moment, this login portal does NOT utilize encrpytion.
+              At the moment, this portal does NOT utilize encrpytion.
               For your own protection, DO NOT use an email-password
               combination that may protect your sensitive data elsewhere.
               Feel free to use unconfirmable credentials as this application will not email you.
