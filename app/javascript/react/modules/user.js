@@ -1,4 +1,5 @@
 import { displayAlertMessage } from './alertMessage.js'
+import { closeAlertMessage } from './alertMessage.js'
 
 const initialState = {
   currentUser: null,
@@ -80,6 +81,7 @@ const checkForUser = () => {
       } else {
         dispatch(currentUserRequestFailure())
         dispatch(displayAlertMessage(userData.error))
+        setTimeout(() => { dispatch(closeAlertMessage()) }, 5000);
       }
     })
   }
