@@ -15,7 +15,7 @@ The Dad-a-base is visitable at: http://thedadabase.herokuapp.com/
 
 ### Set Up
 
-Complete the following steps to create an instance of YardSale on your local machine.
+Complete the following steps to create an instance of The Dad-a-base on your local machine.
 
 Open your terminal and execute the following command to clone the GitHub repository.
 Make sure you execute this command from the directory that you wish to keep this project.
