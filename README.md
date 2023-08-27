@@ -25,7 +25,7 @@ If you do not have git configured on your machine you may refer to this guide: h
 
 Once you have downloaded the repository to your local machine, navigate into the project directory.
 
-  `$ cd yardsale`
+  `$ cd dad-a-base`
 
 Download required ruby gems by executing:
 
